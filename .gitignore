@@ -1,0 +1,6 @@
+.DS_Store
+node_modules
+*.log*
+dist*
+server/data.dmg
+server/data.json

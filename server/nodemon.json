@@ -1,0 +1,6 @@
+{
+  "ext": "js",
+  "env": {
+    "NODE_ENV": "development"
+  }
+}

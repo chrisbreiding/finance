@@ -1,0 +1,10 @@
+{
+  "name": "super-saver",
+  "private": true,
+  "devDependencies": {
+    "babel-eslint": "^7.2.3",
+    "eslint": "^3.19.0",
+    "eslint-plugin-react": "^7.0.1",
+    "standard": "^10.0.2"
+  }
+}
