@@ -1,50 +1,61 @@
+import { computed, observable } from 'mobx'
+import { observer } from 'mobx-react'
 import React, { Component } from 'react'
 import { render } from 'react-dom'
-import { format } from 'currency-formatter'
 import moment from 'moment'
 
-import ipc from './lib/ipc'
+import api from './lib/api'
+import { format$ } from './lib/util'
+import state from './lib/state'
 
+import Goals from './components/goals'
+
+const saveData = () => {
+  api.saveData(state.serialize())
+}
+
+const refresh = () => {
+  api.refreshBalances().then(state.updateData)
+}
+
+const addGoal = () => {
+  state.addGoal()
+  saveData()
+}
+
+@observer
 class App extends Component {
-  state = {
-    checkingBalance: 0,
-    savingsBalance: 0,
-    lastUpdated: null,
-    lastUpdatedFormatted: '---',
+  @observable _lastUpdatedTrigger = true
+  @computed get lastUpdatedFormatted () {
+    this._lastUpdatedTrigger // hack to get this to update
+    return state.lastUpdated ? moment(state.lastUpdated).fromNow() : '---'
   }
 
   componentDidMount () {
-    ipc('balances').then(this._updateData)
+    api.fetchData().then(state.updateData)
 
     setInterval(() => {
-      const { lastUpdated } = this.state
-
-      this.setState({
-        lastUpdatedFormatted: lastUpdated ? moment(lastUpdated).fromNow() : '---',
-      })
-    }, 5000)
+      // hack to trigger update of lastUpdatedFormatted
+      this._lastUpdatedTrigger = !this._lastUpdatedTrigger
+    }, 10000)
   }
 
   render () {
     return (
       <div>
-        <button onClick={this._refresh}>Refresh</button>
-        <p>Last updated: {this.state.lastUpdatedFormatted}</p>
-        <p>Checking: {format(this.state.checkingBalance, { code: 'USD' })}</p>
-        <p>Savings: {format(this.state.savingsBalance, { code: 'USD' })}</p>
+        <button onClick={refresh}>Refresh</button>
+        <p>Last updated: {this.lastUpdatedFormatted}</p>
+        <p>Checking: {format$(state.checkingBalance)}</p>
+        <p>Savings: {format$(state.savingsBalance)}</p>
+        <p>Income: {format$(state.expensesAmount)} + {format$(state.incomeAllocatedAmount)} / {format$(state.incomeAmount)}</p>
+        <Goals
+          goals={state.goals}
+          onAdd={addGoal}
+          onUpdate={saveData}
+          onSave={saveData}
+        />
       </div>
     )
-  }
-
-  _refresh = () => {
-    ipc('refresh').then(this._updateData)
-  }
-
-  _updateData = (data) => {
-    this.setState({
-      ...data,
-      lastUpdatedFormatted: data.lastUpdated ? moment(data.lastUpdated).fromNow() : '---',
-    })
   }
 }
 

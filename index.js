@@ -17,30 +17,34 @@ app.on('window-all-closed', () => {
   }
 })
 
-ipc.on('balances', (respond) => {
-  db.fetchBalances()
-  .then((data) => {
-    respond(null, data)
-  })
-  .catch((error) => {
-    util.logError('Error fetching balances:')
-    util.logError(error.stack)
-    respond(error.stack)
-  })
+const sendResponse = (respond) => (data) => {
+  respond(null, data)
+}
+
+const sendError = (respond, label) => (error) => {
+  util.logError(label)
+  util.logError(error.stack)
+  respond(error)
+}
+
+ipc.on('fetch:data', (respond) => {
+  db.fetchData()
+  .then(sendResponse(respond))
+  .catch(sendError(respond, 'Error fetching balances:'))
 })
 
-ipc.on('refresh', (respond) => {
+ipc.on('save:data', (respond, data) => {
+  db.saveData(data)
+  .then(sendResponse(respond))
+  .catch(sendError(respond, 'Error fetching balances:'))
+})
+
+ipc.on('refresh:balances', (respond) => {
   scrape.getBalances()
   .timeout(10000)
   .then((balances) => {
     return db.saveBalances(balances)
   })
-  .then((data) => {
-    respond(null, data)
-  })
-  .catch((error) => {
-    util.logError('Error refreshing balances:')
-    util.logError(error.stack)
-    respond(error.stack)
-  })
+  .then(sendResponse(respond))
+  .catch(sendError(respond, 'Error refreshing balances:'))
 })

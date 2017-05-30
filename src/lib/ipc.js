@@ -1,3 +1,4 @@
+import _ from 'lodash'
 import Promise from 'bluebird'
 
 const ipcRenderer = window.ipcRenderer
@@ -5,7 +6,7 @@ const ipcRenderer = window.ipcRenderer
 const ipc = (eventName, data) => {
   return new Promise((resolve, reject) => {
     ipcRenderer.once(`${eventName}:response`, (sender, error, response) => {
-      error ? reject(error) : resolve(response)
+      error ? reject(_.extend(new Error(''), error)) : resolve(response)
     })
     ipcRenderer.send(`${eventName}:request`, data)
   })
