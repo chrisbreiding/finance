@@ -1,5 +1,5 @@
 {
-  "name": "super-saver",
+  "name": "finance",
   "private": true,
   "scripts": {
     "start": "nodemon --exec 'electron .'",
