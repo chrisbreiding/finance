@@ -12,7 +12,11 @@ class State {
   @observable expensesAmount = 0
   @observable goals = []
 
-  @computed get incomeAllocatedAmount () {
+  @computed get savingsAllocatedAmount () {
+    return _.sum(_.map(this.goals, 'savedAmount'))
+  }
+
+  @computed get goalsAmount () {
     return _.sum(_.map(this.goals, 'plannedAmount'))
   }
 

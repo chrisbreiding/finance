@@ -1,0 +1,147 @@
+body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,button,textarea,p,blockquote,th,td{margin:0;padding:0;}table{border-collapse:collapse;border-spacing:0;}fieldset,img,a img{border:none;}address,caption,cite,code,dfn,em,strong,th,var,optgroup{font-style:inherit;font-weight:inherit;}del,ins{text-decoration:none;}li{list-style:none;}caption,th{text-align:left;}h1,h2,h3,h4,h5,h6{font-size:100%;font-weight:normal;}q:before,q:after{content:'';}abbr,acronym{border:0;font-variant:normal;}sup{vertical-align:baseline;}sub{vertical-align:baseline;}legend{color:#000;}
+
+$fa-font-path: 'fonts';
+@import '../node_modules/font-awesome/scss/font-awesome';
+
+$primary-color: #5c7fb8;
+$secondary-color: #74914F;
+
+$success-color: #74914F;
+$warning-color: #cd9c52;
+$error-color: #A74444;
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+}
+
+body {
+  color: #333;
+}
+
+body,
+input,
+textarea {
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+}
+
+h2 {
+  font-size: 1.2em;
+  margin-bottom: 1em;
+  margin-top: 1em;
+}
+
+h3 {
+  margin-bottom: 1em;
+}
+
+p {
+  margin: 0.6em 0;
+}
+
+button {
+  border: none;
+  background: $primary-color;
+  border-radius: 3px;
+  color: #fff;
+  cursor: pointer;
+  font-size: 0.8em;
+  outline: none;
+  padding: 0.5em 0.8em;
+
+  &[disabled] {
+    cursor: default;
+    opacity: 0.6;
+  }
+
+  i {
+    margin-right: 0.4em;
+  }
+}
+
+.container {
+  margin: 20px auto;
+  width: 600px;
+}
+
+.refresh {
+  label {
+    color: #999;
+    font-size: 0.8em;
+    margin-left: 0.6em;
+  }
+}
+
+.bar {
+  display: flex;
+
+  > main {
+    background: #ebebeb;
+    display: flex;
+    flex-grow: 2;
+  }
+
+  .bar-part {
+    flex-shrink: 0;
+    padding: 0.2em 0.5em;
+    position: relative;
+    text-align: right;
+    transition: all 0.25s ease-in-out;
+
+    label {
+      border-right: solid 1px #ebebeb;
+      color: #999;
+      font-size: 0.8em;
+      padding-bottom: 0.2em;
+      padding-right: 0.2em;
+      position: absolute;
+      right: 0;
+      bottom: 100%;
+    }
+
+    span {
+      font-size: 0.8em;
+    }
+  }
+
+  .total {
+    flex-shrink: 0;
+    text-align: right;
+    width: 5.8em;
+  }
+}
+
+.savings {
+  .allocated {
+    background: #bfbfbf;
+  }
+}
+
+.income {
+  .expenses {
+    background: #bfbfbf;
+  }
+
+  .goals {
+    background: #bbdff5;
+  }
+}
+
+.goals {
+  li {
+    margin: 1em 0;
+  }
+
+  .saved {
+    background: green;
+  }
+
+  .this-month {
+    background: lightgreen;
+  }
+}

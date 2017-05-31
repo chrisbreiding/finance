@@ -1,30 +1,23 @@
 import { observer } from 'mobx-react'
 import React from 'react'
 
+import { Bar, BarPart } from './bar'
+
 const Goal = observer((props) => (
   <li>
-    <input
-      value={props.label}
-      onChange={props.onUpdate('label')}
-    />
-    :{' '}
-    <input
-      type='number'
-      value={props.savedAmount}
-      onChange={props.onUpdate('savedAmount')}
-    />
-    {' '}+{' '}
-    <input
-      type='number'
-      value={props.plannedAmount}
-      onChange={props.onUpdate('plannedAmount')}
-    />
-    {' '}/{' '}
-    <input
-      type='number'
-      value={props.totalAmount}
-      onChange={props.onUpdate('totalAmount')}
-    />
+    <h3>{props.label}</h3>
+    <Bar total={props.totalAmount}>
+      <BarPart
+        label='Saved'
+        percent={props.savedAmount / props.totalAmount * 100}
+        value={props.savedAmount}
+      />
+      <BarPart
+        label='This Month'
+        percent={props.plannedAmount / props.totalAmount * 100}
+        value={props.plannedAmount}
+      />
+    </Bar>
   </li>
 ))
 
@@ -52,7 +45,9 @@ const Goals = observer(({ goals, onAdd, onSave }) => (
         />
       ))}
     </ul>
-    <button onClick={onAdd}>Add Goal</button>
+    <button onClick={onAdd}>
+      <i className='fa fa-plus' /> Add Goal
+    </button>
   </div>
 ))
 
