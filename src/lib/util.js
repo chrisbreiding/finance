@@ -2,7 +2,7 @@ import _ from 'lodash'
 import { format } from 'currency-formatter'
 
 function format$ (amount) {
-  return format(amount, { code: 'USD' })
+  return format(amount, { code: 'USD' }).replace(/\.\d+$/, '')
 }
 
 function newId (itemsWithIds) {

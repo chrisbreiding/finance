@@ -5,7 +5,6 @@ import { render } from 'react-dom'
 import moment from 'moment'
 
 import api from './lib/api'
-import { format$ } from './lib/util'
 import state from './lib/state'
 
 import Goals from './components/goals'
@@ -54,19 +53,31 @@ class Refresh extends Component {
 
   _refresh = () => {
     this.isRefreshing = true
-    api.refreshBalances().then((data) => {
+    api.refreshBalances()
+    .then((data) => {
       state.updateData(data)
+    })
+    .catch(() => {}) // ignore failure to refresh
+    .finally(() => {
       this.isRefreshing = false
     })
   }
 }
+
+const Checking = observer(() => (
+  <section className='checking'>
+    <h2>Checking</h2>
+    <Bar total={state.checkingBalance} />
+  </section>
+))
 
 const Savings = observer(() => (
   <section className='savings'>
     <h2>Savings</h2>
     <Bar total={state.savingsBalance}>
       <BarPart
-        label='Allocated'
+        label='saved'
+        type='savings'
         percent={state.savingsAllocatedAmount / state.savingsBalance * 100}
         value={state.savingsAllocatedAmount}
       />
@@ -85,17 +96,19 @@ const Income = observer(() => {
       <h2>Income</h2>
       <Bar total={income}>
         <BarPart
-          label='Expenses'
+          label='budgeted'
+          type='expense'
           percent={expensesPercent}
           value={state.expensesAmount}
         />
         <BarPart
-          label='Goals'
+          label='this month'
+          type='planned'
           percent={goalsPercent}
           value={state.goalsAmount}
         />
         <BarPart
-          label='Left'
+          label='left'
           percent={leftoverPercent}
           value={income - state.expensesAmount - state.goalsAmount}
         />
@@ -114,7 +127,7 @@ class App extends Component {
     return (
       <div className='container'>
         <Refresh />
-        <p>Checking: {format$(state.checkingBalance)}</p>
+        <Checking />
         <Savings />
         <Income />
         <Goals

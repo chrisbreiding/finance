@@ -37,7 +37,7 @@ h2 {
 }
 
 h3 {
-  margin-bottom: 1em;
+  margin-bottom: 1.2em;
 }
 
 p {
@@ -65,8 +65,9 @@ button {
 }
 
 .container {
-  margin: 20px auto;
-  width: 600px;
+  margin: 0 auto;
+  padding: 1.5em 7em;
+  width: 50em;
 }
 
 .refresh {
@@ -79,56 +80,69 @@ button {
 
 .bar {
   display: flex;
+  margin: 1.3em 0;
 
   > main {
     background: #ebebeb;
     display: flex;
+    height: 1.2em;
     flex-grow: 2;
   }
 
   .bar-part {
     flex-shrink: 0;
-    padding: 0.2em 0.5em;
     position: relative;
     text-align: right;
     transition: all 0.25s ease-in-out;
 
-    label {
-      border-right: solid 1px #ebebeb;
-      color: #999;
-      font-size: 0.8em;
-      padding-bottom: 0.2em;
-      padding-right: 0.2em;
-      position: absolute;
-      right: 0;
-      bottom: 100%;
+    &.savings {
+      background: $secondary-color;
     }
 
-    span {
+    &.planned {
+      background: lighten($secondary-color, 30%);
+    }
+
+    &.expense {
+      background: #bfbfbf;
+    }
+
+    label {
+      border-right: solid 1px #bfbfbf;
+      color: #999;
+      display: block;
       font-size: 0.8em;
+      padding-right: 0.4em;
+      position: absolute;
+      right: 0;
+      white-space: nowrap;
+
+      span {
+        color: #333;
+      }
+    }
+
+    &.even label {
+      bottom: 0;
+      padding-bottom: 1.7em;
+    }
+
+    &.odd label {
+      padding-top: 1.7em;
+      top: 0;
     }
   }
 
   .total {
     flex-shrink: 0;
     text-align: right;
-    width: 5.8em;
+    width: 4em;
   }
 }
 
-.savings {
-  .allocated {
-    background: #bfbfbf;
-  }
-}
-
-.income {
-  .expenses {
-    background: #bfbfbf;
-  }
-
-  .goals {
-    background: #bbdff5;
+.checking {
+  .bar main {
+    background-image: repeating-linear-gradient(135deg, transparent, transparent 1em, rgba(0, 0, 0, 0.1) 1em, rgba(0, 0, 0, 0.1) 2em);
   }
 }
 
@@ -137,11 +151,7 @@ button {
     margin: 1em 0;
   }
 
-  .saved {
-    background: green;
-  }
-
-  .this-month {
-    background: lightgreen;
+  button {
+    margin-top: 1em;
   }
 }

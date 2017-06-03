@@ -8,12 +8,14 @@ const Goal = observer((props) => (
     <h3>{props.label}</h3>
     <Bar total={props.totalAmount}>
       <BarPart
-        label='Saved'
+        label='saved'
+        type='savings'
         percent={props.savedAmount / props.totalAmount * 100}
         value={props.savedAmount}
       />
       <BarPart
-        label='This Month'
+        label='this month'
+        type='planned'
         percent={props.plannedAmount / props.totalAmount * 100}
         value={props.plannedAmount}
       />

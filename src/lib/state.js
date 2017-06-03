@@ -31,10 +31,10 @@ class State {
   addGoal = () => {
     this.goals.push(new Goal({
       id: newId(this.goals),
-      label: '',
+      label: 'Untitled',
       savedAmount: 0,
-      plannedAmount: 0,
-      totalAmount: 0,
+      plannedAmount: 50,
+      totalAmount: 100,
     }))
   }
 
