@@ -13,10 +13,12 @@ function percentToAmount (total, percent) {
   return toTwoDecimals(total * (percent / 100))
 }
 
-// rounds to the nearest 10 or the max amount if barMax is less than 5000
-// rounds to the nearest 50 or the max amount if barMax is more than 5000
 function rounded (amount, max, barMax) {
-  const roundToNearest = barMax >= 5000 ? 50 : 10
+  const roundToNearest = (
+    barMax > 20000 ? 100 :
+    barMax > 5000 ? 50 :
+    10
+  )
   const roundedAmount = Math.round(amount / roundToNearest) * roundToNearest
   return roundedAmount > max ? max : roundedAmount
 }

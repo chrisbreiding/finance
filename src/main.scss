@@ -126,13 +126,17 @@ button {
     }
 
     .drag-handle {
-      background: #bfbfbf;
+      background: #9dab91;
       cursor: grab;
       position: absolute;
       right: 0;
-      width: 2px;
+      width: 3px;
       height: 2.5em;
       z-index: 1;
+
+      &:hover {
+        background: #4d5447;
+      }
     }
 
     &.even {
