@@ -6,6 +6,7 @@ import moment from 'moment'
 
 import api from './lib/api'
 import state from './lib/state'
+import util from './lib/util'
 
 import Goals from './components/goals'
 import { Bar, BarPart } from './components/bar'
@@ -78,8 +79,9 @@ const Savings = observer(() => (
       <BarPart
         label='saved'
         type='savings'
-        percent={state.savingsAllocatedAmount / state.savingsBalance * 100}
-        value={state.savingsAllocatedAmount}
+        draggable={false}
+        percent={state.allocatedSavingsAmount / state.savingsBalance * 100}
+        value={state.allocatedSavingsAmount}
       />
     </Bar>
   </section>
@@ -87,9 +89,10 @@ const Savings = observer(() => (
 
 const Income = observer(() => {
   const income = state.incomeAmount
-  const expensesPercent = Math.floor(state.expensesAmount / income * 100)
-  const goalsPercent = Math.floor(state.goalsAmount / income * 100)
+  const expensesPercent = state.expensesAmount / income * 100
+  const goalsPercent = state.goalsAmount / income * 100
   const leftoverPercent = 100 - expensesPercent - goalsPercent
+  const maxExpensesAmount = income - state.goalsAmount
 
   return (
     <section className='income'>
@@ -99,18 +102,28 @@ const Income = observer(() => {
           label='budgeted'
           type='expense'
           percent={expensesPercent}
-          value={state.expensesAmount}
+          value={util.rounded(state.expensesAmount, maxExpensesAmount, income)}
+          onUpdatePercent={(percent) => {
+            const amount = util.percentToAmount(income, percent)
+            state.setExpensesAmount(amount > maxExpensesAmount ? maxExpensesAmount : amount)
+          }}
+          onFinishUpdatingPercent={() => {
+            state.setExpensesAmount(util.rounded(state.expensesAmount, maxExpensesAmount))
+            saveData()
+          }}
         />
         <BarPart
           label='this month'
           type='planned'
+          draggable={false}
           percent={goalsPercent}
           value={state.goalsAmount}
         />
         <BarPart
           label='left'
+          draggable={false}
           percent={leftoverPercent}
-          value={income - state.expensesAmount - state.goalsAmount}
+          value={state.availableIncome}
         />
       </Bar>
     </section>
@@ -125,13 +138,15 @@ class App extends Component {
 
   render () {
     return (
-      <div className='container'>
+      <div className={`container ${state.isGrabbing ? 'is-grabbing' : ''}`}>
         <Refresh />
         <Checking />
         <Savings />
         <Income />
         <Goals
           goals={state.goals}
+          unallocatedSavingsAmount={state.unallocatedSavingsAmount}
+          availableIncome={state.availableIncome}
           onAdd={addGoal}
           onUpdate={saveData}
           onSave={saveData}

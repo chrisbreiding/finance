@@ -1,4 +1,5 @@
-import { observable } from 'mobx'
+import { action, observable } from 'mobx'
+import util from './util'
 
 class Goal {
   @observable id
@@ -13,6 +14,18 @@ class Goal {
     this.savedAmount = props.savedAmount
     this.plannedAmount = props.plannedAmount
     this.totalAmount = props.totalAmount
+  }
+
+  @action setSavedAmount = (amount) => {
+    this.savedAmount = util.toTwoDecimals(amount)
+  }
+
+  @action setPlannedAmount = (amount) => {
+    this.plannedAmount = util.toTwoDecimals(amount)
+  }
+
+  @action setTotalAmount = (amount) => {
+    this.totalAmount = util.toTwoDecimals(amount)
   }
 
   serialize () {

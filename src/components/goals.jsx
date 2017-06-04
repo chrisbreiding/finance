@@ -1,53 +1,75 @@
 import { observer } from 'mobx-react'
 import React from 'react'
 
+import util from '../lib/util'
 import { Bar, BarPart } from './bar'
 
-const Goal = observer((props) => (
-  <li>
-    <h3>{props.label}</h3>
-    <Bar total={props.totalAmount}>
-      <BarPart
-        label='saved'
-        type='savings'
-        percent={props.savedAmount / props.totalAmount * 100}
-        value={props.savedAmount}
-      />
-      <BarPart
-        label='this month'
-        type='planned'
-        percent={props.plannedAmount / props.totalAmount * 100}
-        value={props.plannedAmount}
-      />
-    </Bar>
-  </li>
-))
+const Goal = observer((props) => {
+  const {
+    label,
+    plannedAmount,
+    savedAmount,
+    setSavedAmount,
+    totalAmount,
+    setPlannedAmount,
+  } = props.goal
+  const maxSavedAmount = Math.min(props.unallocatedSavingsAmount + savedAmount, totalAmount - plannedAmount)
+  const maxPlannedAmount = Math.min(props.availableIncome + plannedAmount, totalAmount - savedAmount)
 
-const updateGoal = (goal, save) => (propName) => (e) => {
-  if (propName === 'label') {
-    goal[propName] = e.target.value
-  } else {
-    const numberValue = Number(e.target.value)
-    goal[propName] = isNaN(numberValue) ? 0 : numberValue
-  }
+  return (
+    <li>
+      <h3>{label}</h3>
+      <Bar total={totalAmount}>
+        <BarPart
+          label='saved'
+          type='savings'
+          percent={savedAmount / totalAmount * 100}
+          value={util.rounded(savedAmount, maxSavedAmount, totalAmount)}
+          onUpdatePercent={(percent) => {
+            const amount = util.percentToAmount(totalAmount, percent)
+            setSavedAmount(amount > maxSavedAmount ? maxSavedAmount : amount)
+          }}
+          onFinishUpdatingPercent={() => {
+            setSavedAmount(util.rounded(savedAmount, maxSavedAmount, totalAmount))
+            props.onSave()
+          }}
+        />
+        <BarPart
+          label='this month'
+          type='planned'
+          prevPercents={savedAmount / totalAmount * 100}
+          percent={plannedAmount / totalAmount * 100}
+          value={util.rounded(plannedAmount, maxPlannedAmount, totalAmount)}
+          onUpdatePercent={(percent) => {
+            const amount = util.percentToAmount(totalAmount, percent)
+            setPlannedAmount(amount > maxPlannedAmount ? maxPlannedAmount : amount)
+          }}
+          onFinishUpdatingPercent={() => {
+            setPlannedAmount(util.rounded(plannedAmount, maxPlannedAmount, totalAmount))
+            props.onSave()
+          }}
+        />
+      </Bar>
+    </li>
+  )
+})
 
-  save()
-}
-
-const Goals = observer(({ goals, onAdd, onSave }) => (
+const Goals = observer((props) => (
   <div className='goals'>
     <h2>Goals</h2>
-    {!goals.length && <p>No goals yet</p>}
+    {!props.goals.length && <p>No goals yet</p>}
     <ul>
-      {goals.map((goal) => (
+      {props.goals.map((goal) => (
         <Goal
           key={goal.id}
-          {...goal}
-          onUpdate={updateGoal(goal, onSave)}
+          goal={goal}
+          unallocatedSavingsAmount={props.unallocatedSavingsAmount}
+          availableIncome={props.availableIncome}
+          onSave={props.onSave}
         />
       ))}
     </ul>
-    <button onClick={onAdd}>
+    <button onClick={props.onAdd}>
       <i className='fa fa-plus' /> Add Goal
     </button>
   </div>

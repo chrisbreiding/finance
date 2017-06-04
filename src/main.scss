@@ -68,6 +68,10 @@ button {
   margin: 0 auto;
   padding: 1.5em 7em;
   width: 50em;
+
+  &.is-grabbing {
+    cursor: grabbing;
+  }
 }
 
 .refresh {
@@ -85,15 +89,14 @@ button {
   > main {
     background: #ebebeb;
     display: flex;
-    height: 1.2em;
     flex-grow: 2;
+    height: 1.2em;
   }
 
   .bar-part {
     flex-shrink: 0;
     position: relative;
     text-align: right;
-    transition: all 0.25s ease-in-out;
 
     &.savings {
       background: $secondary-color;
@@ -122,14 +125,30 @@ button {
       }
     }
 
-    &.even label {
-      bottom: 0;
-      padding-bottom: 1.7em;
+    .drag-handle {
+      background: #bfbfbf;
+      cursor: grab;
+      position: absolute;
+      right: 0;
+      width: 2px;
+      height: 2.5em;
+      z-index: 1;
     }
 
-    &.odd label {
-      padding-top: 1.7em;
-      top: 0;
+    &.even {
+      label,
+      .drag-handle {
+        bottom: 0;
+        padding-bottom: 1.7em;
+      }
+    }
+
+    &.odd {
+      label,
+      .drag-handle {
+        padding-top: 1.7em;
+        top: 0;
+      }
     }
   }
 
