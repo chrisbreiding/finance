@@ -43,13 +43,14 @@ class State {
   }
 
   @action addGoal = () => {
-    this.goals.push(new Goal({
-      id: util.newId(this.goals),
-      label: 'Untitled',
-      savedAmount: 0,
-      plannedAmount: 50,
-      totalAmount: 100,
-    }))
+    this.goals.push(new Goal({ id: util.newId(this.goals) }))
+  }
+
+  @action deleteGoal = (goal) => {
+    const index = _.findIndex(this.goals, { id: goal.id })
+    if (index > -1) {
+      this.goals.splice(index, 1)
+    }
   }
 
   serialize () {

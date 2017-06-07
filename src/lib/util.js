@@ -13,7 +13,9 @@ function percentToAmount (total, percent) {
   return toTwoDecimals(total * (percent / 100))
 }
 
-function rounded (amount, max, barMax) {
+function rounded (amount, max = Infinity, barMax = 0) {
+  if (amount < 0) return 0
+
   const roundToNearest = (
     barMax > 20000 ? 100 :
     barMax > 5000 ? 50 :

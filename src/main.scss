@@ -10,6 +10,8 @@ $success-color: #74914F;
 $warning-color: #cd9c52;
 $error-color: #A74444;
 
+$light-color: #fff;
+
 * {
   box-sizing: border-box;
 }
@@ -36,15 +38,20 @@ h2 {
   margin-top: 1em;
 }
 
-h3 {
-  margin-bottom: 1.2em;
-}
-
 p {
   margin: 0.6em 0;
 }
 
-button {
+input,
+textarea {
+  border: solid 1px #bfbfbf;
+  border-radius: 3px;
+  font-size: 1em;
+  padding: 0.2em 0.4em;
+}
+
+button,
+.button {
   border: none;
   background: $primary-color;
   border-radius: 3px;
@@ -53,14 +60,113 @@ button {
   font-size: 0.8em;
   outline: none;
   padding: 0.5em 0.8em;
+  text-decoration: none;
 
-  &[disabled] {
-    cursor: default;
-    opacity: 0.6;
+  &:hover {
+    background: darken($primary-color, 20%);
+  }
+
+  &[disabled],
+  &[disabled]:hover {
+    cursor: default !important;
+    opacity: 0.6 !important;
   }
 
   i {
     margin-right: 0.4em;
+  }
+}
+
+.inverse {
+  background: none;
+  color: #bfbfbf;
+
+  &:hover {
+    color: $primary-color;
+  }
+}
+
+form {
+  .group {
+    align-items: center;
+    display: flex;
+    margin: 0.5em 0;
+  }
+
+  label {
+    color: #666;
+    flex-shrink: 0;
+    margin-right: 0.5em;
+    text-align: right;
+    width: 5.5em;
+  }
+
+  input {
+    flex-shrink: 0;
+    width: 10em;
+  }
+
+  .limits {
+    color: #999;
+    display: flex;
+    flex-direction: column;
+    font-size: 0.7em;
+    margin-left: 0.3em;
+
+    span {
+      white-space: nowrap;
+    }
+  }
+
+  .controls {
+    border-top: solid 1px #c7c7c7;
+    justify-content: space-between;
+    margin-top: 1em;
+    padding-top: 1em;
+  }
+
+  .save {
+    background: $success-color;
+
+    &:hover {
+      background: darken($success-color, 20%);
+    }
+  }
+
+  .delete {
+    background: $error-color;
+
+    &:hover {
+      background: darken($error-color, 20%);
+    }
+  }
+}
+
+.modal {
+  align-items: center;
+  background: rgba(0, 0, 0, 0.8);
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  left: 0;
+  opacity: 0.01;
+  overflow: hidden;
+  position: fixed;
+  right: 0;
+  top: 0;
+  transition: all 0.5s ease;
+  width: auto;
+  z-index: -1;
+
+  .has-entered & {
+    opacity: 1;
+    z-index: 100;
+  }
+
+  .modal-container {
+    background: $light-color;
+    flex-basis: 0;
+    padding: 1em 1.5em;
   }
 }
 
@@ -82,6 +188,8 @@ button {
   }
 }
 
+$bar-height: 1.2em;
+
 .bar {
   display: flex;
   margin: 1.3em 0;
@@ -90,7 +198,7 @@ button {
     background: #ebebeb;
     display: flex;
     flex-grow: 2;
-    height: 1.2em;
+    height: $bar-height;
   }
 
   .bar-part {
@@ -131,7 +239,7 @@ button {
       position: absolute;
       right: 0;
       width: 3px;
-      height: 2.5em;
+      height: $bar-height + 1.3em;
       z-index: 1;
 
       &:hover {
@@ -143,14 +251,14 @@ button {
       label,
       .drag-handle {
         bottom: 0;
-        padding-bottom: 1.7em;
+        padding-bottom: $bar-height + 0.5em;
       }
     }
 
     &.odd {
       label,
       .drag-handle {
-        padding-top: 1.7em;
+        padding-top: $bar-height + 0.5em;
         top: 0;
       }
     }
@@ -159,7 +267,15 @@ button {
   .total {
     flex-shrink: 0;
     text-align: right;
-    width: 4em;
+    width: 4.4em;
+
+    input {
+      display: block;
+      font-size: 0.8em;
+      margin-left: 0.4em;
+      outline: none;
+      width: 100%;
+    }
   }
 }
 
@@ -169,12 +285,47 @@ button {
   }
 }
 
-.goals {
-  li {
-    margin: 1em 0;
+.add-goal {
+  margin-top: 1em;
+}
+
+.goal {
+  margin: 2.2em 0;
+
+  h3 {
+    button {
+      @extend .inverse;
+      padding: 0 0.8em;
+    }
   }
 
-  button {
-    margin-top: 1em;
+  .bar {
+    margin-top: 1.8em;
+  }
+
+  p {
+    color: #777;
+    font-size: 0.8em;
+  }
+}
+
+.edit-goal {
+  .modal-container {
+    position: relative;
+    padding-top: 1.2em;
+    padding-bottom: 0.5em;
+  }
+
+  .close {
+    @extend .inverse;
+    font-size: 1em;
+    padding: 0.5em;
+    position: absolute;
+    right: 0;
+    top: 0;
+
+    i {
+      margin-right: 0;
+    }
   }
 }

@@ -31,6 +31,6 @@
     "eslint-plugin-react": "^7.0.1",
     "nodemon": "^1.11.0",
     "standard": "^10.0.2",
-    "zunder": "^4.0.4"
+    "zunder": "^4.1.1"
   }
 }

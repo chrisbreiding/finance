@@ -20,6 +20,11 @@ const addGoal = () => {
   saveData()
 }
 
+const deleteGoal = (goal) => {
+  state.deleteGoal(goal)
+  saveData()
+}
+
 @observer
 class Refresh extends Component {
   @observable isRefreshing = false
@@ -148,6 +153,7 @@ class App extends Component {
           unallocatedSavingsAmount={state.unallocatedSavingsAmount}
           availableIncome={state.availableIncome}
           onAdd={addGoal}
+          onDelete={deleteGoal}
           onUpdate={saveData}
           onSave={saveData}
         />
