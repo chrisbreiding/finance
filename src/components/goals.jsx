@@ -2,98 +2,9 @@ import { action, observable } from 'mobx'
 import { observer } from 'mobx-react'
 import React, { Component } from 'react'
 
-import { format$, rounded, percentToAmount } from '../lib/util'
+import { rounded, percentToAmount } from '../lib/util'
 import { Bar, BarPart } from './bar'
-import Modal from './modal'
-
-const EditGoal = observer(({ goal, maxSavedAmount, maxPlannedAmount, isEditing, onClose, onSave, onDelete }) => (
-  <Modal className='edit-goal' isShowing={isEditing}>
-    <button className='close' onClick={onClose}>
-      <i className='fa fa-remove' />
-    </button>
-
-    <form onSubmit={onSave}>
-      <div className='group'>
-        <label>Label</label>
-        <input
-          value={goal.label}
-          onChange={(e) => {
-            goal.setProps({ label: e.target.value })
-          }}
-        />
-      </div>
-      <div className='group'>
-        <label>Description</label>
-        <input
-          value={goal.description}
-          onChange={(e) => {
-            goal.setProps({ description: e.target.value })
-          }}
-        />
-      </div>
-      <div className='group'>
-        <label>Saved</label>
-        <input
-          type='number'
-          value={goal.savedAmount}
-          step='50'
-          onChange={(e) => {
-            const amount = Number(e.target.value)
-            goal.setProps({
-              savedAmount: amount > maxSavedAmount ? maxSavedAmount : amount,
-            })
-          }}
-        />
-        <div className='limits'>
-          <span className='value'>Min: {format$(0)}</span>
-          <span className='value'>Max: {format$(maxSavedAmount)}</span>
-        </div>
-      </div>
-      <div className='group'>
-        <label>This Month</label>
-        <input
-          type='number'
-          value={goal.plannedAmount}
-          step='50'
-          onChange={(e) => {
-            const amount = Number(e.target.value)
-            goal.setProps({
-              plannedAmount: amount > maxPlannedAmount ? maxPlannedAmount : amount,
-            })
-          }}
-        />
-        <div className='limits'>
-          <span className='value'>Min: {format$(0)}</span>
-          <span className='value'>Max: {format$(maxPlannedAmount)}</span>
-        </div>
-      </div>
-      <div className='group'>
-        <label>Total</label>
-        <input
-          type='number'
-          value={goal.totalAmount}
-          onChange={(e) => {
-            const amount = Number(e.target.value)
-            goal.setProps({
-              totalAmount: amount < goal.minTotalAmount ? goal.minTotalAmount : amount,
-            })
-          }}
-        />
-        <div className='limits'>
-          <span className='value'>Min: {format$(goal.minTotalAmount)}</span>
-        </div>
-      </div>
-      <div className='group controls'>
-        <a className='button delete' onClick={onDelete} href='#'>
-          <i className='fa fa-ban' /> Delete
-        </a>
-        <button className='save' type='submit'>
-          <i className='fa fa-check' /> Save
-        </button>
-      </div>
-    </form>
-  </Modal>
-))
+import EditGoal from './edit-goal'
 
 @observer
 class Goal extends Component {
@@ -169,14 +80,13 @@ class Goal extends Component {
     this.isEditing = isEditing
   }
 
-  @action _save = (e) => {
-    e.preventDefault()
+  @action _save = (props) => {
     this._edit(false)()
+    this.props.goal.setProps(props)
     this.props.onSave()
   }
 
-  @action _delete = (e) => {
-    e.preventDefault()
+  @action _delete = () => {
     this.props.onDelete(this.props.goal)
   }
 }

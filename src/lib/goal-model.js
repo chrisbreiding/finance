@@ -6,7 +6,7 @@ class Goal {
   @observable label = 'Untitled'
   @observable description = ''
   @observable savedAmount = 0
-  @observable plannedAmount = 50
+  @observable plannedAmount = 0
   @observable totalAmount = 100
 
   constructor (props) {

@@ -1,6 +1,13 @@
 import _ from 'lodash'
 import { format } from 'currency-formatter'
 
+function ensureNumber (numberString) {
+  if (typeof numberString === 'number') return numberString
+
+  const maybeNumber = Number(numberString)
+  return isNaN(maybeNumber) ? 0 : maybeNumber
+}
+
 function format$ (amount) {
   return format(amount, { code: 'USD' }).replace(/\.\d+$/, '')
 }
@@ -30,6 +37,7 @@ function toTwoDecimals (amount) {
 }
 
 export default {
+  ensureNumber,
   format$,
   newId,
   percentToAmount,
