@@ -83,7 +83,7 @@ const Savings = observer(() => (
     <Bar total={state.savingsBalance}>
       <BarPart
         id='savings'
-        label='saved'
+        label='allocated'
         type='savings'
         draggable={false}
         percent={state.allocatedSavingsAmount / state.savingsBalance * 100}
