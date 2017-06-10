@@ -11,7 +11,7 @@ const EditGoal = observer(({ goal, maxSavedAmount, maxPlannedAmount, isEditing, 
 
     onSave({
       label: label.value,
-      description: description.value,
+      description: (description.value || '').replace('\n', ' '),
       savedAmount: ensureNumber(savedAmount.value),
       plannedAmount: ensureNumber(plannedAmount.value),
       totalAmount: ensureNumber(totalAmount.value),
@@ -39,7 +39,7 @@ const EditGoal = observer(({ goal, maxSavedAmount, maxPlannedAmount, isEditing, 
         </div>
         <div className='group'>
           <label>Description</label>
-          <input
+          <textarea
             ref={(node) => description = node}
             defaultValue={goal.description}
           />

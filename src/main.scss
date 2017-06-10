@@ -102,9 +102,10 @@ form {
     width: 5.5em;
   }
 
-  input {
+  input,
+  textarea {
     flex-shrink: 0;
-    width: 10em;
+    width: 14em;
   }
 
   .limits {
