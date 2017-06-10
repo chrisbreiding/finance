@@ -29,7 +29,10 @@ export class BarPart extends Component {
 
     return (
       <div
-        className={cs('bar-part', props.type, { 'is-dragging': this.isDragging })}
+        className={cs('bar-part', props.type, {
+          'is-dragging': this.isDragging,
+          'is-zero': props.percent === 0,
+        })}
         style={{ width: `${props.percent}%` }}
       >
         <Tooltip title={label} visible={showTooltip} updateCue={props.percent}>

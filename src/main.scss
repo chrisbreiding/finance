@@ -242,6 +242,10 @@ $bar-height: 0.6em;
       }
     }
 
+    &.planned.is-zero .drag-handle {
+      right: -5px;
+    }
+
     &:hover .drag-handle,
     &.is-dragging .drag-handle {
       background: #9dab91;
