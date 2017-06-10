@@ -18,12 +18,12 @@ class Goal {
   }
 
   @action setProps = (props = {}) => {
-    if (props.id) this.id = props.id
-    if (props.label) this.label = props.label
-    if (props.description) this.description = props.description
-    if (props.savedAmount) this.savedAmount = util.toTwoDecimals(props.savedAmount)
-    if (props.plannedAmount) this.plannedAmount = util.toTwoDecimals(props.plannedAmount)
-    if (props.totalAmount) this.totalAmount = util.toTwoDecimals(props.totalAmount)
+    if (props.id != null) this.id = props.id
+    if (props.label != null) this.label = props.label
+    if (props.description != null) this.description = props.description
+    if (props.savedAmount != null) this.savedAmount = util.toTwoDecimals(props.savedAmount)
+    if (props.plannedAmount != null) this.plannedAmount = util.toTwoDecimals(props.plannedAmount)
+    if (props.totalAmount != null) this.totalAmount = util.toTwoDecimals(props.totalAmount)
   }
 
   serialize () {
