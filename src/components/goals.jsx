@@ -26,6 +26,7 @@ class Goal extends Component {
         {goal.description && <p>{goal.description}</p>}
         <Bar total={goal.totalAmount}>
           <BarPart
+            id={`goal-${goal.id}-saved`}
             label='saved'
             type='savings'
             percent={goal.savedAmount / goal.totalAmount * 100}
@@ -44,6 +45,7 @@ class Goal extends Component {
             }}
           />
           <BarPart
+            id={`goal-${goal.id}-planned`}
             label='this month'
             type='planned'
             prevPercents={goal.savedAmount / goal.totalAmount * 100}

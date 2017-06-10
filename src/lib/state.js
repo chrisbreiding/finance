@@ -5,13 +5,17 @@ import Goal from './goal-model'
 import util from './util'
 
 class State {
-  @observable isGrabbing = false
+  @observable draggingId = null
   @observable checkingBalance = 0
   @observable savingsBalance = 0
   @observable lastUpdated = null
   @observable incomeAmount = 0
   @observable expensesAmount = 0
   @observable goals = []
+
+  @computed get isGrabbing () {
+    return !!this.draggingId
+  }
 
   @computed get allocatedSavingsAmount () {
     return _.sum(_.map(this.goals, 'savedAmount'))

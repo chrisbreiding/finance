@@ -1,33 +1,67 @@
-import { observable } from 'mobx'
+import cs from 'classnames'
+import { action, observable } from 'mobx'
 import { observer } from 'mobx-react'
 import React, { Children, Component } from 'react'
+import Tooltip from '@cypress/react-tooltip'
 
 import DragHandle from './drag-handle'
 import { format$ } from '../lib/util'
 import state from '../lib/state'
 
-export const BarPart = observer((props) => (
-  <div
-    className={`bar-part ${props.type || ''} ${props.isEven ? 'even' : 'odd'}`}
-    style={{ width: `${props.percent}%` }}
-  >
-    <label><span>{format$(props.value)}</span> {props.label}</label>
-    {props.draggable &&
-      <DragHandle
-        min={props.parent.x + (props.prevPercents / 100) * props.parent.width}
-        max={props.parent.x + props.parent.width}
-        onStart={() => { state.isGrabbing = true }}
-        onDrag={(x) => {
-          props.onUpdatePercent((x - props.parent.x) / props.parent.width * 100 - props.prevPercents)
-        }}
-        onEnd={() => {
-          state.isGrabbing = false
-          props.onFinishUpdatingPercent()
-        }}
-      />
-    }
-  </div>
-))
+@observer
+export class BarPart extends Component {
+  @observable isHovering = false
+  @observable isDragging = false
+
+  render () {
+    const props = this.props
+
+    const showTooltip = (
+      (this.isHovering || this.isDragging) &&
+      (!state.draggingId || state.draggingId === props.id)
+    )
+
+    const label = (
+      <label>
+        {format$(props.value)} <span>{props.label}</span>
+      </label>
+    )
+
+    return (
+      <div
+        className={cs('bar-part', props.type, { 'is-dragging': this.isDragging })}
+        style={{ width: `${props.percent}%` }}
+      >
+        <Tooltip title={label} visible={showTooltip} updateCue={props.percent}>
+          <div
+            className='tooltip-target'
+            onMouseOver={() => this.isHovering = true}
+            onMouseOut={() => this.isHovering = false}
+          >
+            {props.draggable &&
+              <DragHandle
+                min={props.parent.x + (props.prevPercents / 100) * props.parent.width}
+                max={props.parent.x + props.parent.width}
+                onStart={() => {
+                  state.draggingId = props.id
+                  this.isDragging = true
+                }}
+                onDrag={(x) => {
+                  props.onUpdatePercent((x - props.parent.x) / props.parent.width * 100 - props.prevPercents)
+                }}
+                onEnd={() => {
+                  state.draggingId = null
+                  this.isDragging = false
+                  props.onFinishUpdatingPercent()
+                }}
+              />
+            }
+          </div>
+        </Tooltip>
+      </div>
+    )
+  }
+}
 
 BarPart.defaultProps = {
   draggable: true,
@@ -36,8 +70,7 @@ BarPart.defaultProps = {
 
 @observer
 export class Bar extends Component {
-  @observable parentWidth = 1
-  @observable parentX = 0
+  @observable parent = { width: 1, x: 0 }
 
   componentDidMount () {
     this._updateParentProps()
@@ -48,23 +81,17 @@ export class Bar extends Component {
     this._updateParentProps()
   }
 
-  _updateParentProps = () => {
-    this.parentWidth = this.refs.main.clientWidth
-    this.parentX = this.refs.main.offsetLeft
+  @action _updateParentProps = () => {
+    this.parent.width = this.refs.main.clientWidth
+    this.parent.x = this.refs.main.offsetLeft
   }
 
   render () {
     return (
       <div className='bar'>
         <main ref='main'>
-          {Children.map(this.props.children, (child, index) => (
-            React.cloneElement(child, {
-              isEven: index % 2 === 0,
-              parent: {
-                width: this.parentWidth,
-                x: this.parentX,
-              },
-            })
+          {Children.map(this.props.children, (child) => (
+            React.cloneElement(child, { parent: this.parent })
           ))}
         </main>
         <div className='total'>{format$(this.props.total)}</div>

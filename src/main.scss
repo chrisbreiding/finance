@@ -3,6 +3,8 @@ body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input
 $fa-font-path: 'fonts';
 @import '../node_modules/font-awesome/scss/font-awesome';
 
+@import '../node_modules/@cypress/react-tooltip/dist/tooltip.scss';
+
 $primary-color: #5c7fb8;
 $secondary-color: #74914F;
 
@@ -34,8 +36,7 @@ textarea {
 
 h2 {
   font-size: 1.2em;
-  margin-bottom: 1em;
-  margin-top: 1em;
+  margin: 0.6em 0;
 }
 
 p {
@@ -188,11 +189,12 @@ form {
   }
 }
 
-$bar-height: 1.2em;
+$bar-height: 0.6em;
 
 .bar {
+  align-items: flex-end;
   display: flex;
-  margin: 1.3em 0;
+  margin: 0.2em 0 0.4em;
 
   > main {
     background: #ebebeb;
@@ -215,31 +217,24 @@ $bar-height: 1.2em;
     }
 
     &.expense {
-      background: #bfbfbf;
+      background: #858c83;
     }
 
-    label {
-      border-right: solid 1px #bfbfbf;
-      color: #999;
-      display: block;
-      font-size: 0.8em;
-      padding-right: 0.4em;
+    .tooltip-target {
+      bottom: 0;
+      left: 0;
       position: absolute;
       right: 0;
-      white-space: nowrap;
-
-      span {
-        color: #333;
-      }
+      top: 0;
     }
 
     .drag-handle {
-      background: #9dab91;
+      top: 0;
       cursor: grab;
       position: absolute;
       right: 0;
-      width: 3px;
-      height: $bar-height + 1.3em;
+      width: 5px;
+      height: $bar-height;
       z-index: 1;
 
       &:hover {
@@ -247,20 +242,11 @@ $bar-height: 1.2em;
       }
     }
 
-    &.even {
-      label,
-      .drag-handle {
-        bottom: 0;
-        padding-bottom: $bar-height + 0.5em;
-      }
-    }
-
-    &.odd {
-      label,
-      .drag-handle {
-        padding-top: $bar-height + 0.5em;
-        top: 0;
-      }
+    &:hover .drag-handle,
+    &.is-dragging .drag-handle {
+      background: #9dab91;
+      height: $bar-height + 0.6em;
+      top: -0.3em;
     }
   }
 
@@ -279,6 +265,11 @@ $bar-height: 1.2em;
   }
 }
 
+.tooltip label span {
+  color: #d3d3d3;
+  margin-left: 0.2em;
+}
+
 .checking {
   .bar main {
     background-image: repeating-linear-gradient(135deg, transparent, transparent 1em, rgba(0, 0, 0, 0.1) 1em, rgba(0, 0, 0, 0.1) 2em);
@@ -290,17 +281,13 @@ $bar-height: 1.2em;
 }
 
 .goal {
-  margin: 2.2em 0;
+  margin: 0.8em 0;
 
   h3 {
     button {
       @extend .inverse;
       padding: 0 0.8em;
     }
-  }
-
-  .bar {
-    margin-top: 1.8em;
   }
 
   p {

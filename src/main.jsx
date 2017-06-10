@@ -82,6 +82,7 @@ const Savings = observer(() => (
     <h2>Savings</h2>
     <Bar total={state.savingsBalance}>
       <BarPart
+        id='savings'
         label='saved'
         type='savings'
         draggable={false}
@@ -104,6 +105,7 @@ const Income = observer(() => {
       <h2>Income</h2>
       <Bar total={income}>
         <BarPart
+          id='income-budgeted'
           label='budgeted'
           type='expense'
           percent={expensesPercent}
@@ -118,6 +120,7 @@ const Income = observer(() => {
           }}
         />
         <BarPart
+          id='income-planned'
           label='this month'
           type='planned'
           draggable={false}
@@ -125,6 +128,7 @@ const Income = observer(() => {
           value={state.goalsAmount}
         />
         <BarPart
+          id='income-left'
           label='left'
           draggable={false}
           percent={leftoverPercent}
