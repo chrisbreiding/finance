@@ -17,13 +17,15 @@ class Goal extends Component {
 
     return (
       <li className='goal'>
-        <h3>
-          {goal.label}
-          <button onClick={this._edit(true)}>
-            <i className='fa fa-edit' />
-          </button>
-        </h3>
-        {goal.description && <p>{goal.description}</p>}
+        <header>
+          <h3>
+            {goal.label}
+            <button onClick={this._edit(true)}>
+              <i className='fa fa-edit' />
+            </button>
+          </h3>
+          {goal.description && <p>{goal.description}</p>}
+        </header>
         <Bar total={goal.totalAmount}>
           <BarPart
             id={`goal-${goal.id}-saved`}
