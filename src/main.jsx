@@ -115,7 +115,7 @@ const Income = observer(() => {
             state.setExpensesAmount(amount > maxExpensesAmount ? maxExpensesAmount : amount)
           }}
           onFinishUpdatingPercent={() => {
-            state.setExpensesAmount(util.rounded(state.expensesAmount, maxExpensesAmount))
+            state.setExpensesAmount(util.rounded(state.expensesAmount, maxExpensesAmount, income))
             saveData()
           }}
         />
