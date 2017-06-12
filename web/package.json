@@ -2,7 +2,8 @@
   "name": "finance-web",
   "private": true,
   "scripts": {
-    "start": "zunder watch"
+    "start": "zunder watch",
+    "deploy": "zunder deploy"
   },
   "dependencies": {
     "@cypress/react-tooltip": "^0.2.4",
