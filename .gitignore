@@ -3,5 +3,7 @@ node_modules
 *.log*
 app-dist
 app-dist-prod
-lib/data.dmg
-lib/data.json
+dist
+dist-prod
+desktop/lib/data.dmg
+desktop/lib/data.json

@@ -5,14 +5,15 @@ $fa-font-path: 'fonts';
 
 @import '../node_modules/@cypress/react-tooltip/dist/tooltip.scss';
 
-$primary-color: #5c7fb8;
-$secondary-color: #74914F;
+$primary-color: #74914F;
+$secondary-color: #5c7fb8;
 
 $success-color: #74914F;
 $warning-color: #cd9c52;
 $error-color: #A74444;
 
 $light-color: #fff;
+$dark-color: #333;
 
 * {
   box-sizing: border-box;
@@ -54,7 +55,7 @@ textarea {
 button,
 .button {
   border: none;
-  background: $primary-color;
+  background: $secondary-color;
   border-radius: 3px;
   color: #fff;
   cursor: pointer;
@@ -64,7 +65,7 @@ button,
   text-decoration: none;
 
   &:hover {
-    background: darken($primary-color, 20%);
+    background: darken($secondary-color, 20%);
   }
 
   &[disabled],
@@ -83,7 +84,7 @@ button,
   color: #bfbfbf;
 
   &:hover {
-    color: $primary-color;
+    color: $secondary-color;
   }
 }
 
@@ -144,18 +145,22 @@ form {
   }
 }
 
-.modal {
-  align-items: center;
-  background: rgba(0, 0, 0, 0.8);
+@mixin full-screen {
   bottom: 0;
-  display: flex;
-  justify-content: center;
   left: 0;
-  opacity: 0.01;
-  overflow: hidden;
   position: fixed;
   right: 0;
   top: 0;
+}
+
+.modal {
+  @include full-screen;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  opacity: 0.01;
+  overflow: hidden;
   transition: all 0.5s ease;
   width: auto;
   z-index: -1;
@@ -172,6 +177,83 @@ form {
   }
 }
 
+
+.loader {
+  @include full-screen;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+
+  i {
+    font-size: 1.4em;
+    margin-right: 0.5em;
+  }
+}
+
+@mixin spinner-color($color) {
+  border-top: 0.2em solid rgba($color, 0.2);
+  border-right: 0.2em solid rgba($color, 0.2);
+  border-bottom: 0.2em solid rgba($color, 0.2);
+  border-left: 0.2em solid rgba($color, 0.8);
+}
+
+/* Credit: https://projects.lukehaas.me/css-loaders/ */
+.spinner,
+.spinner:after {
+  border-radius: 50%;
+  display: block;
+  margin-right: 1em;
+  width: 1.2em;
+  height: 1.2em;
+}
+
+.spinner {
+  font-size: 10px;
+  position: relative;
+  text-indent: -9999em;
+  @include spinner-color($dark-color);
+  transform: translateZ(0);
+  animation: spin 1.5s infinite linear;
+}
+
+.theme-dark .spinner {
+  @include spinner-color($light-color);
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.auth {
+  @include full-screen;
+  background: #f8f8f8;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+
+  form {
+    width: 20em;
+  }
+
+  h2 {
+    background: $primary-color;
+    color: #fff;
+    margin: 0;
+    padding: 0.3em 0.6em;
+  }
+
+  input {
+    border-radius: 0;
+    padding: 0.6em;
+    width: 100%;
+  }
+}
+
 .container {
   margin: 0 auto;
   padding: 1.5em;
@@ -183,6 +265,18 @@ form {
 }
 
 .refresh {
+  min-height: 2em;
+
+  button, label {
+    display: none; 
+  }
+
+  &.is-connected {
+    button, label {
+      display: inline-block;
+    }
+  }
+
   label {
     color: #999;
     font-size: 0.8em;
@@ -210,11 +304,11 @@ $bar-height: 0.6em;
     text-align: right;
 
     &.savings {
-      background: $secondary-color;
+      background: $primary-color;
     }
 
     &.planned {
-      background: lighten($secondary-color, 30%);
+      background: lighten($primary-color, 30%);
     }
 
     &.expense {

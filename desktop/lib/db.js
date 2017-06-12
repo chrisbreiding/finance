@@ -38,20 +38,10 @@ module.exports = {
     })
   },
 
-  fetchData () {
-    return read().then((data) => {
-      return _.omit(data, 'username', 'password')
-    })
-  },
-
   saveBalances (balances) {
     const data = _.extend({}, balances, {
       lastUpdated: new Date().toISOString(),
     })
     return mergeAndSave(data).return(data)
-  },
-
-  saveData (data) {
-    return mergeAndSave(data)
   },
 }

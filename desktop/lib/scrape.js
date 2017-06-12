@@ -1,11 +1,14 @@
 'use strict'
 
-const { BrowserWindow, ipcMain } = require('electron')
+const { app, BrowserWindow, ipcMain } = require('electron')
 const contextMenu = require('electron-context-menu')
 const path = require('path')
 const Promise = require('bluebird')
 
 const db = require('./db')
+
+// prevent default behavior of quitting when windows are all closed
+app.on('window-all-closed', () => {})
 
 module.exports = {
   getBalances () {
