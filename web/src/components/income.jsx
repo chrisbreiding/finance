@@ -5,7 +5,7 @@ import { Bar, BarPart } from './bar'
 import util from '../lib/util'
 import state from '../lib/state'
 
-const Income = observer(() => {
+const Income = observer(({ onSave }) => {
   const income = state.incomeAmount
   const expensesPercent = state.expensesAmount / income * 100
   const goalsPercent = state.goalsAmount / income * 100
@@ -28,7 +28,7 @@ const Income = observer(() => {
           }}
           onFinishUpdatingPercent={() => {
             state.setExpensesAmount(util.rounded(state.expensesAmount, maxExpensesAmount, income))
-            this.props.onSave()
+            onSave()
           }}
         />
         <BarPart
