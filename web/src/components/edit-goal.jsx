@@ -4,12 +4,15 @@ import React from 'react'
 import { ensureNumber, format$ } from '../lib/util'
 import Modal from './modal'
 
-const EditGoal = observer(({ goal, maxSavedAmount, maxPlannedAmount, isEditing, onClose, onSave, onDelete }) => {
+const EditGoal = observer((props) => {
   let label, description, savedAmount, plannedAmount, totalAmount // eslint-disable-line one-var
+
+  const { goal } = props
+
   const saveGoal = (e) => {
     e.preventDefault()
 
-    onSave({
+    props.onSave({
       label: label.value,
       description: (description.value || '').replace('\n', ' '),
       savedAmount: ensureNumber(savedAmount.value),
@@ -20,12 +23,12 @@ const EditGoal = observer(({ goal, maxSavedAmount, maxPlannedAmount, isEditing, 
 
   const deleteGoal = (e) => {
     e.preventDefault()
-    onDelete()
+    props.onDelete()
   }
 
   return (
-    <Modal className='edit-goal' isShowing={isEditing}>
-      <button className='close' onClick={onClose}>
+    <Modal className='editor edit-goal' isShowing={props.isEditing}>
+      <button className='close' onClick={props.onClose}>
         <i className='fa fa-remove' />
       </button>
 
@@ -53,7 +56,7 @@ const EditGoal = observer(({ goal, maxSavedAmount, maxPlannedAmount, isEditing, 
           />
           <div className='limits'>
             <span className='value'>Min: {format$(0)}</span>
-            <span className='value'>Max: {format$(maxSavedAmount)}</span>
+            <span className='value'>Max: {format$(props.maxSavedAmount)}</span>
           </div>
         </div>
         <div className='group'>
@@ -65,7 +68,7 @@ const EditGoal = observer(({ goal, maxSavedAmount, maxPlannedAmount, isEditing, 
           />
           <div className='limits'>
             <span className='value'>Min: {format$(0)}</span>
-            <span className='value'>Max: {format$(maxPlannedAmount)}</span>
+            <span className='value'>Max: {format$(props.maxPlannedAmount)}</span>
           </div>
         </div>
         <div className='group'>

@@ -84,8 +84,32 @@ button,
   color: #bfbfbf;
 
   &:hover {
+    background: none;
     color: $secondary-color;
   }
+}
+
+h2, h3 {
+  position: relative;
+  white-space: nowrap;
+
+  button {
+    @extend .inverse;
+    display: none;
+    font-size: 13px;
+    padding: 0.1em;
+    position: absolute;
+    right: 100%;
+    top: 0;
+  }
+
+  &:hover button {
+    display: block;
+  }
+}
+
+h2 button {
+  top: 3px;
 }
 
 form {
@@ -268,7 +292,7 @@ form {
   min-height: 2em;
 
   button, label {
-    display: none; 
+    display: none;
   }
 
   &.is-connected {
@@ -387,24 +411,6 @@ $bar-height: 0.6em;
     display: flex;
   }
 
-  h3 {
-    position: relative;
-    white-space: nowrap;
-
-    button {
-      @extend .inverse;
-      display: none;
-      padding: 0.1em;
-      position: absolute;
-      right: 100%;
-      top: 0;
-    }
-
-    &:hover button {
-      display: block;
-    }
-  }
-
   p {
     color: #777;
     font-size: 0.8em;
@@ -416,7 +422,7 @@ $bar-height: 0.6em;
   }
 }
 
-.edit-goal {
+.editor {
   .modal-container {
     position: relative;
     padding-top: 1.2em;
@@ -434,5 +440,11 @@ $bar-height: 0.6em;
     i {
       margin-right: 0;
     }
+  }
+}
+
+.edit-income {
+  .controls {
+    justify-content: flex-end;
   }
 }
