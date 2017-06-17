@@ -1,19 +1,21 @@
 body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,button,textarea,p,blockquote,th,td{margin:0;padding:0;}table{border-collapse:collapse;border-spacing:0;}fieldset,img,a img{border:none;}address,caption,cite,code,dfn,em,strong,th,var,optgroup{font-style:inherit;font-weight:inherit;}del,ins{text-decoration:none;}li{list-style:none;}caption,th{text-align:left;}h1,h2,h3,h4,h5,h6{font-size:100%;font-weight:normal;}q:before,q:after{content:'';}abbr,acronym{border:0;font-variant:normal;}sup{vertical-align:baseline;}sub{vertical-align:baseline;}legend{color:#000;}
 
-$fa-font-path: 'fonts';
-@import '../node_modules/font-awesome/scss/font-awesome';
+$primary-color: #6ee663;
+$secondary-color: #5efcff;
+$tertiary-color: #f053ff;
 
-@import '../node_modules/@cypress/react-tooltip/dist/tooltip.scss';
-
-$primary-color: #74914F;
-$secondary-color: #5c7fb8;
-
-$success-color: #74914F;
-$warning-color: #cd9c52;
-$error-color: #A74444;
+$warning-color: #ffbf3f;
+$error-color: #ff4a4a;
 
 $light-color: #fff;
 $dark-color: #333;
+
+$fa-font-path: 'fonts';
+@import '../node_modules/font-awesome/scss/font-awesome';
+
+$cy-tooltip-background-color: darken($tertiary-color, 20%);
+$cy-tooltip-border-color: darken($tertiary-color, 20%);
+@import '../node_modules/@cypress/react-tooltip/dist/tooltip.scss';
 
 * {
   box-sizing: border-box;
@@ -47,7 +49,7 @@ textarea {
 
 h2 {
   font-size: 1.2em;
-  margin: 0.6em 0;
+  margin: 1em 0 0.2em;
 }
 
 p {
@@ -65,7 +67,7 @@ textarea {
 button,
 .button {
   border: none;
-  background: $primary-color;
+  background: $tertiary-color;
   border-radius: 3px;
   color: #fff;
   cursor: pointer;
@@ -75,7 +77,7 @@ button,
   text-decoration: none;
 
   &:hover {
-    background: darken($primary-color, 20%);
+    background: darken($tertiary-color, 20%);
   }
 
   &[disabled],
@@ -95,7 +97,7 @@ button,
 
   &:hover {
     background: none;
-    color: $secondary-color;
+    color: $tertiary-color;
   }
 }
 
@@ -160,14 +162,6 @@ form {
     justify-content: space-between;
     margin-top: 1em;
     padding-top: 1em;
-  }
-
-  .save {
-    background: $success-color;
-
-    &:hover {
-      background: darken($success-color, 20%);
-    }
   }
 
   .delete {
@@ -336,14 +330,32 @@ $bar-height: 0.6em;
 
     &.savings {
       background: $primary-color;
+
+      &:hover .drag-handle,
+      &.is-dragging .drag-handle,
+      .drag-handle:hover {
+        background: darken($primary-color, 20%);
+      }
     }
 
     &.planned {
-      background: lighten($primary-color, 30%);
+      background: $secondary-color;
+
+      &:hover .drag-handle,
+      &.is-dragging .drag-handle,
+      .drag-handle:hover {
+        background: darken($secondary-color, 20%);
+      }
     }
 
     &.expense {
-      background: #858c83;
+      background: $warning-color;
+
+      &:hover .drag-handle,
+      &.is-dragging .drag-handle,
+      .drag-handle:hover {
+        background: darken($warning-color, 20%);
+      }
     }
 
     .tooltip-target {
@@ -362,10 +374,6 @@ $bar-height: 0.6em;
       width: 5px;
       height: $bar-height;
       z-index: 1;
-
-      &:hover {
-        background: #4d5447;
-      }
     }
 
     &.planned.is-zero .drag-handle {
@@ -374,7 +382,6 @@ $bar-height: 0.6em;
 
     &:hover .drag-handle,
     &.is-dragging .drag-handle {
-      background: #9dab91;
       height: $bar-height + 0.6em;
       top: -0.3em;
     }
@@ -396,17 +403,24 @@ $bar-height: 0.6em;
 }
 
 .tooltip label span {
-  color: #d3d3d3;
+  color: #edc3f1;
   margin-left: 0.2em;
 }
 
-.checking {
-  .bar main {
-    background-image: repeating-linear-gradient(135deg, transparent, transparent 1em, rgba(0, 0, 0, 0.1) 1em, rgba(0, 0, 0, 0.1) 2em);
-  }
+.checking .bar main,
+.savings .bar-part.savings,
+.income .bar-part.planned,
+.bar-part.left {
+  background-image: repeating-linear-gradient(135deg, transparent, transparent 1em, rgba(0, 0, 0, 0.1) 1em, rgba(0, 0, 0, 0.1) 2em);
 }
 
 .add-goal {
+  background: $primary-color;
+
+  &:hover {
+    background: darken($primary-color, 20%);
+  }
+
   margin-top: 1em;
 }
 

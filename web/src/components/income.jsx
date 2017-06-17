@@ -107,6 +107,7 @@ class Income extends Component {
           <BarPart
             id='income-left'
             label='left'
+            type='left'
             draggable={false}
             percent={leftoverPercent}
             value={state.availableIncome}
