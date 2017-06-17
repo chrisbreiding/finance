@@ -9,6 +9,11 @@ const app = express()
 // cors
 app.use((req, res, next) => {
   const origin = req.get('Origin')
+
+  if (!origin) {
+    return next()
+  }
+
   if (allowedDomains.test(origin)) {
     res.setHeader('Access-Control-Allow-Origin', origin)
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type')
