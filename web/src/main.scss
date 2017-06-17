@@ -27,6 +27,16 @@ body {
 
 body {
   color: #333;
+  display: flex;
+}
+
+// achieves vertical centering of all content
+// while still being able scroll if there's overflow
+.app {
+  margin: auto;
+  min-width: 32em;
+  max-width: 50em;
+  width: 100%;
 }
 
 body,
@@ -55,7 +65,7 @@ textarea {
 button,
 .button {
   border: none;
-  background: $secondary-color;
+  background: $primary-color;
   border-radius: 3px;
   color: #fff;
   cursor: pointer;
@@ -65,7 +75,7 @@ button,
   text-decoration: none;
 
   &:hover {
-    background: darken($secondary-color, 20%);
+    background: darken($primary-color, 20%);
   }
 
   &[disabled],
@@ -201,7 +211,6 @@ form {
   }
 }
 
-
 .loader {
   @include full-screen;
   align-items: center;
@@ -279,9 +288,7 @@ form {
 }
 
 .container {
-  margin: 0 auto;
   padding: 1.5em;
-  width: 36em;
 
   &.is-grabbing {
     cursor: grabbing;
