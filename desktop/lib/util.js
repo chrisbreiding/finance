@@ -1,10 +1,9 @@
 'use strict'
 
-const _ = require('lodash')
 const chalk = require('chalk')
 
 function toColor (color, args) {
-  return _.map(args, (arg) => _.isString(arg) ? chalk[color](arg) : arg)
+  return args.map((arg) => typeof arg === 'string' ? chalk[color](arg) : arg)
 }
 
 function log (...args) {

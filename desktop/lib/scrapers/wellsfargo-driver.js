@@ -5,13 +5,13 @@ window.addEventListener('load', () => {
   const $ = window.$ = require('jquery')
 
   function login () {
-    ipcRenderer.on('credentials', (event, { username, password }) => {
+    ipcRenderer.on('wellsfargo:credentials', (event, { username, password }) => {
       $('#userid').val(username)
       $('#password').val(password)
       $('#frmSignon').submit()
     })
 
-    ipcRenderer.send('get:credentials')
+    ipcRenderer.send('get:wellsfargo:credentials')
   }
 
   function getBalance (accountName) {
@@ -26,7 +26,7 @@ window.addEventListener('load', () => {
   }
 
   function sendBalances () {
-    ipcRenderer.send('balances', {
+    ipcRenderer.send('wellsfargo:balances', {
       checkingBalance: getBalance('CUSTOM MANAGEMENT(RM)'),
       savingsBalance: getBalance('W2S'),
     })

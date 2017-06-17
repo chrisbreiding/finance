@@ -1,7 +1,6 @@
 const express = require('express')
 
-const db = require('./db')
-const scrape = require('./scrape')
+const scraper = require('./scrapers')
 const util = require('./util')
 
 const allowedDomains = /^(https?:\/\/finance\.crbapps\.com|http:\/\/localhost:800\d)/
@@ -25,11 +24,8 @@ app.get('/ping', (req, res) => {
 
 app.post('/refresh', (req, res) => {
   util.logInfo('Refreshing balances')
-  scrape.getBalances()
+  scraper.getWellsFargoBalances()
  .timeout(10000)
- .then((balances) => {
-   return db.saveBalances(balances)
- })
  .then((balances) => {
    util.logInfo('Succeeded scraping balances')
    res.status(200).send(balances)
