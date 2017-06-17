@@ -49,7 +49,7 @@ textarea {
 
 h2 {
   font-size: 1.2em;
-  margin: 1em 0 0.2em;
+  margin: 0.2em 0;
 }
 
 p {
@@ -290,8 +290,6 @@ form {
 }
 
 .refresh {
-  min-height: 2em;
-
   button, label {
     display: none;
   }
@@ -407,11 +405,17 @@ $bar-height: 0.6em;
   margin-left: 0.2em;
 }
 
+section.checking,
+section.savings,
+section.income {
+  margin-bottom: 1em;
+}
+
 .checking .bar main,
 .savings .bar-part.savings,
 .income .bar-part.planned,
 .bar-part.left {
-  background-image: repeating-linear-gradient(135deg, transparent, transparent 1em, rgba(0, 0, 0, 0.1) 1em, rgba(0, 0, 0, 0.1) 2em);
+  background-image: repeating-linear-gradient(120deg, transparent, transparent 1em, rgba(0, 0, 0, 0.1) 1em, rgba(0, 0, 0, 0.1) 2em);
 }
 
 .add-goal {
