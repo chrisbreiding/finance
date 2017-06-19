@@ -39,6 +39,11 @@ const refreshBalances = () => {
     mode: 'cors',
   })
   .then((response) => response.json())
+  .then((balances) => {
+    return _.extend(balances, {
+      lastUpdated: new Date().toISOString(),
+    })
+  })
 }
 
 export default {

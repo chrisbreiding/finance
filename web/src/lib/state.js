@@ -59,8 +59,11 @@ class State {
 
   serialize () {
     return {
+      checkingBalance: this.checkingBalance,
+      savingsBalance: this.savingsBalance,
       incomeAmount: this.incomeAmount,
       expensesAmount: this.expensesAmount,
+      lastUpdated: this.lastUpdated,
       goals: this.goals.map((goal) => goal.serialize()),
     }
   }

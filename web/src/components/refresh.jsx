@@ -56,6 +56,7 @@ class Refresh extends Component {
     api.refreshBalances()
     .then((data) => {
       state.updateData(data)
+      this.props.onSave()
     })
     .catch((err) => {
       // eslint-disable-next-line no-console

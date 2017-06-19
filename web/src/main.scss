@@ -82,6 +82,7 @@ button,
 
   &[disabled],
   &[disabled]:hover {
+    background: $tertiary-color !important;
     cursor: default !important;
     opacity: 0.6 !important;
   }

@@ -42,7 +42,7 @@ class App extends Component {
 
     return (
       <div className={`container ${state.isGrabbing ? 'is-grabbing' : ''}`}>
-        <Refresh />
+        <Refresh onSave={saveData} />
         <Checking />
         <Savings />
         <Income onSave={saveData} />
