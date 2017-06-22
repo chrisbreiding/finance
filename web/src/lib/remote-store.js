@@ -24,37 +24,22 @@ class RemoteStore {
     return firebase.auth().signInAnonymously()
   }
 
-  fetch (keyOrArray) {
-    return this._ensureData().then(() => {
-      if (_.isArray(keyOrArray)) {
-        return _.map(keyOrArray, (key) => this._data[key])
-      } else if ((keyOrArray == null)) {
-        return this._data
-      } else {
-        return this._data[keyOrArray]
-      }
+  poll (cb) {
+    this._ref().child('/').on('value', (snapshot) => {
+      const data = snapshot.val() || {}
+      this._data = this._data || {}
+      _.extend(this._data, data)
+      cb(data)
     })
   }
 
-  save (keyOrObject, value) {
-    return this._ensureData().then(() => {
-      if (_.isPlainObject(keyOrObject)) {
-        _.each(keyOrObject, (value, key) => {
-          return this._data[key] = value
-        }
-        )
-      } else {
-        this._data[keyOrObject] = value
-      }
-      return this._save().then(() => value)
-    })
-  }
-
-  remove (key) {
-    return this._ensureData().then(() => {
-      delete this._data[key]
+  save (data) {
+    return this._ensureData()
+    .then(() => {
+      _.extend(this._data, data)
       return this._save()
     })
+    .return(data)
   }
 
   _ref () {

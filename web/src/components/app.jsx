@@ -31,7 +31,7 @@ class App extends Component {
   @observable isLoading = true
 
   componentDidMount () {
-    api.fetchData().then(action((data) => {
+    api.pollData(action((data) => {
       state.updateData(data)
       this.isLoading = false
     }))

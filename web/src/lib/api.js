@@ -17,8 +17,8 @@ const authenticate = (apiKey = localStorage.apiKey) => {
   })
 }
 
-const fetchData = () => {
-  return remoteStore.fetch()
+const pollData = (cb) => {
+  remoteStore.poll(cb)
 }
 
 const saveData = _.debounce((data) => {
@@ -48,7 +48,7 @@ const refreshBalances = () => {
 
 export default {
   authenticate,
-  fetchData,
+  pollData,
   saveData,
   pingDesktop,
   refreshBalances,
