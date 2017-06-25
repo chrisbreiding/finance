@@ -11,11 +11,13 @@ const log = (header, data) => {
   console.log(data)
   console.log()
 }
+//
+// rp.post('http://localhost:4193/refresh')
+// .then((balances) => {
+//   log('Success', balances)
+// })
+// .catch((err) => {
+//   log('Error', err)
+// })
 
-rp.post('http://localhost:4193/refresh')
-.then((balances) => {
-  log('Success', balances)
-})
-.catch((err) => {
-  log('Error', err)
-})
+rp.post('http://localhost:4193/test')

@@ -5,6 +5,7 @@ const util = require('./util')
 
 const allowedDomains = /^(https?:\/\/finance\.crbapps\.com|http:\/\/localhost:800\d)/
 const app = express()
+const TIMEOUT = 30000
 
 // cors
 app.use((req, res, next) => {
@@ -30,13 +31,13 @@ app.get('/ping', (req, res) => {
 app.post('/refresh', (req, res) => {
   util.logInfo('Refreshing balances')
   scraper.getWellsFargoBalances()
- .timeout(10000)
+ .timeout(TIMEOUT)
  .then((balances) => {
    util.logInfo('Succeeded scraping balances')
    res.status(200).send(balances)
  })
  .catch((err) => {
-   util.logInfo('Failed scraping balances:', err.stack || err)
+   util.logError('Failed scraping balances:', err.stack || err)
    res.status(500).send(err)
  })
 })

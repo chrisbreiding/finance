@@ -2,11 +2,18 @@
 
 const { app } = require('electron')
 
+const getAmexBillingInfo = require('./amex-scraper')
+const getCitiBillingInfo = require('./citi-scraper')
+const getDiscoverBillingInfo = require('./discover-scraper')
 const getWellsFargoBalances = require('./wellsfargo-scraper')
 
 // prevent default behavior of quitting when windows are all closed
 app.on('window-all-closed', () => {})
 
 module.exports = {
+  getAmexBillingInfo,
+  getCitiMcBillingInfo: getCitiBillingInfo.bind(null, 'mc'),
+  getCitiVisaBillingInfo: getCitiBillingInfo.bind(null, 'visa'),
+  getDiscoverBillingInfo,
   getWellsFargoBalances,
 }

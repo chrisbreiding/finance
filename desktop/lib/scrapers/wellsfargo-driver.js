@@ -26,7 +26,7 @@ window.addEventListener('load', () => {
   }
 
   function sendBalances () {
-    ipcRenderer.send('wellsfargo:balances', {
+    ipcRenderer.send('wellsfargo:balances', null, {
       checkingBalance: getBalance('CUSTOM MANAGEMENT(RM)'),
       savingsBalance: getBalance('W2S'),
     })

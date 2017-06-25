@@ -2,7 +2,8 @@
   "name": "finance-desktop",
   "private": true,
   "scripts": {
-    "start": "nodemon --exec 'electron .'"
+    "start": "NODE_ENV=production electron .",
+    "watch": "nodemon --exec 'electron .'"
   },
   "dependencies": {
     "bluebird": "3.5.0",
@@ -10,7 +11,8 @@
     "electron-context-menu": "^0.9.1",
     "express": "^4.15.3",
     "fs-extra": "3.0.1",
-    "jquery": "^3.2.1"
+    "jquery": "^3.2.1",
+    "moment": "^2.18.1"
   },
   "devDependencies": {
     "babel-eslint": "^7.2.3",
