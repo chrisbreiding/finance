@@ -416,8 +416,7 @@ section.income {
 
 .checking .bar main,
 .savings .bar-part.savings,
-.income .bar-part.planned,
-.bar-part.left {
+.income .bar-part.planned {
   background-image: repeating-linear-gradient(120deg, transparent, transparent 1em, rgba(0, 0, 0, 0.1) 1em, rgba(0, 0, 0, 0.1) 2em);
 }
 

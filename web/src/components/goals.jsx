@@ -66,6 +66,14 @@ class Goal extends Component {
               this.props.onSave()
             }}
           />
+          <BarPart
+            id={`goal-${goal.id}-left`}
+            label='left'
+            type='left'
+            draggable={false}
+            percent={goal.amountLeft / goal.totalAmount * 100}
+            value={goal.amountLeft}
+          />
         </Bar>
         <EditGoal
           goal={goal}

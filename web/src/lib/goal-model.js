@@ -17,6 +17,10 @@ class Goal {
     return this.savedAmount + this.plannedAmount
   }
 
+  @computed get amountLeft () {
+    return this.totalAmount - this.savedAmount - this.plannedAmount
+  }
+
   @action setProps = (props = {}) => {
     if (props.id != null) this.id = props.id
     if (props.label != null) this.label = props.label
