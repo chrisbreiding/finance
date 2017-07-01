@@ -16,28 +16,17 @@ window.addEventListener('load', () => {
 
   window.login = login
 
-  // Date format: 06/22/2017
-
-  // Last statement balance
-  // $('.statement-balance').text()
-  // $('.last-statement-bal-date').text()
-
-  // $('.min-payment-due').text()
-
-  // Next payment due: $('.payment-due-date').text()
-  // $('.last-payment-amount').text()
-  // $('.last-payment-date').text()
-
   function isAfterBillPaid () {
     return Number($('.min-payment-due').text()) === 0
   }
 
   function getAmount () {
-    return 'TBD'
+    const amountText = $('.statement-balance').text()
+    return Number(amountText.replace(/[\$ ,]+/g, ''))
   }
 
   function getDate () {
-    return 'TBD'
+    return $('.payment-due-date').text()
   }
 
   function sendBillingInfo () {
@@ -49,7 +38,13 @@ window.addEventListener('load', () => {
     ipcRenderer.send('discover:billing', null, data)
   }
 
-  const isLogin = !!$('#login-form-content').length
+  const shouldIgnore = /signin/.test(window.location.href)
+
+  if (shouldIgnore) {
+    return
+  }
+
+  const isLogin = !!$('.content-login-wrapper #login-form-content').length
 
   if (isLogin) {
     login()
