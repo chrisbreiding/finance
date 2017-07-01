@@ -1,6 +1,6 @@
 'use strict'
 
-// const moment = require('moment')
+const moment = require('moment')
 const scraper = require('./scraper')
 
 module.exports = () => {
@@ -10,9 +10,9 @@ module.exports = () => {
     suffix: 'billing',
   })
   .then((billingInfo) => {
-    // if (billingInfo) {
-    //   billingInfo.date = moment(billingInfo.date, 'MMM. D, YYYY')
-    // }
+    if (billingInfo) {
+      billingInfo.date = moment(billingInfo.date, 'MMMM D')
+    }
     return billingInfo
   })
 }

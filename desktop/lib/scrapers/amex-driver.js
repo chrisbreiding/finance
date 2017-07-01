@@ -20,15 +20,12 @@ window.addEventListener('load', () => {
   }
 
   function getAmount () {
-    return 'TBD'
-    // const amountText = $('.cA-spf-creditCardAccountPanel:first .cA-spf-secondBalanceElementValue span').text()
-    // return Number(amountText.replace(/[\$ ,]+/g, ''))
+    const amountText = $('.balance-container .summary-info span:contains("$"):first').text()
+    return Number(amountText.replace(/[\$ ,]+/g, ''))
   }
 
   function getDate () {
-    return new Date().toISOString()
-    // const dueDateText = $('.cA-spf-creditCardAccountPanel:first span:contains("Minimum Amount") b').text()
-    // return dueDateText.replace(/Due\s+/, '')
+    return $('.payments-container .data-value:first').text()
   }
 
   function sendBillingInfo () {
