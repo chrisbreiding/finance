@@ -29,7 +29,7 @@ window.addEventListener('load', () => {
   }
 
   function sendBillingInfo () {
-    driver.ensureElement(() => $('.payments-container .header-container'))
+    driver.ensure(() => $('.payments-container .header-container').length)
     .then(() => {
       const data = isAfterBillPaid() ? null : {
         amount: getAmount(),

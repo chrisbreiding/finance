@@ -5,18 +5,16 @@ const GET_EL_TIMEOUT = 10000
 module.exports = {
   // resolve $el if found, otherwise try again in 100ms
   // until GET_EL_TIMEOUT is reached
-  ensureElement (getEl) {
+  ensure (check) {
     return new Promise((resolve) => {
-      function get () {
-        const $el = getEl()
-        console.log('-- try:', $el.length)
-        if ($el.length) {
-          resolve($el)
+      function test () {
+        if (check()) {
+          resolve()
         } else {
-          setTimeout(get, 100)
+          setTimeout(test, 100)
         }
       }
-      get()
+      test()
     })
     .timeout(GET_EL_TIMEOUT)
   },
