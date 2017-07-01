@@ -5,6 +5,10 @@ const Promise = require('bluebird')
 
 const isDev = process.env.NODE_ENV === 'development'
 
+ipcMain.on('log', (event, ...messages) => {
+  console.log(...messages) // eslint-disable-line no-console
+})
+
 module.exports = {
   bus: ipcMain,
 
