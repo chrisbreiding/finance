@@ -3,6 +3,7 @@
 const { app } = require('electron')
 
 const getAmexBillingInfo = require('./amex-scraper')
+const getAquaBillingInfo = require('./aqua-scraper')
 const getCitiBillingInfo = require('./citi-scraper')
 const getDiscoverBillingInfo = require('./discover-scraper')
 const getPecoBillingInfo = require('./peco-scraper')
@@ -13,6 +14,7 @@ app.on('window-all-closed', () => {})
 
 module.exports = {
   getAmexBillingInfo,
+  getAquaBillingInfo,
   getCitiMcBillingInfo: getCitiBillingInfo.bind(null, 'mc'),
   getCitiVisaBillingInfo: getCitiBillingInfo.bind(null, 'visa'),
   getDiscoverBillingInfo,
