@@ -2,6 +2,8 @@
 
 const chalk = require('chalk')
 
+const isDev = process.env.NODE_ENV === 'development'
+
 function toColor (color, args) {
   return args.map((arg) => typeof arg === 'string' ? chalk[color](arg) : arg)
 }
@@ -19,6 +21,7 @@ function logError (...args) {
 }
 
 module.exports = {
+  isDev,
   log,
   logInfo,
   logError,

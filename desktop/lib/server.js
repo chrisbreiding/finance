@@ -1,11 +1,15 @@
 const express = require('express')
+const moment = require('moment')
 
+const remoteStore = require('./remote-store')
 const scraper = require('./scrapers')
 const util = require('./util')
 
 const allowedDomains = /^(https?:\/\/finance\.crbapps\.com|http:\/\/localhost:800\d)/
 const app = express()
 const TIMEOUT = 30000
+
+const remoteStoreReady = remoteStore.start()
 
 // cors
 app.use((req, res, next) => {
@@ -29,12 +33,21 @@ app.get('/ping', (req, res) => {
 })
 
 app.post('/refresh', (req, res) => {
+  util.logInfo('-----', moment().format('MM/DD/YY hh:mm:ssA'), '-----')
   util.logInfo('Refreshing balances')
   scraper.getWellsFargoBalances()
  .timeout(TIMEOUT)
  .then((balances) => {
-   util.logInfo('Succeeded scraping balances')
-   res.status(200).send(balances)
+   util.logInfo('Succeeded scraping balances:', balances)
+   return remoteStoreReady.then(() => {
+     return remoteStore.save(Object.assign(balances, {
+       lastUpdated: new Date().toISOString(),
+     }))
+   })
+ })
+ .then(() => {
+   util.logInfo('Succeeded saving balances')
+   res.sendStatus(204)
  })
  .catch((err) => {
    util.logError('Failed scraping balances:', err.stack || err)

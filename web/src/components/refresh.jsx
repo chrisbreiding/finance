@@ -54,10 +54,6 @@ class Refresh extends Component {
   _refresh = () => {
     this.isRefreshing = true
     api.refreshBalances()
-    .then((data) => {
-      state.updateData(data)
-      this.props.onSave()
-    })
     .catch((err) => {
       // eslint-disable-next-line no-console
       console.error('Failed to refresh balances:', err.stack || err)

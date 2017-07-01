@@ -2,8 +2,7 @@ const { BrowserWindow, ipcMain } = require('electron')
 const contextMenu = require('electron-context-menu')
 const path = require('path')
 const Promise = require('bluebird')
-
-const isDev = process.env.NODE_ENV === 'development'
+const { isDev } = require('../util')
 
 ipcMain.on('log', (event, ...messages) => {
   console.log(...messages) // eslint-disable-line no-console
