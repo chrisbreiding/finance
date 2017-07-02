@@ -55,6 +55,7 @@ app.post('/refresh', (req, res) => {
  })
 })
 
-app.listen(4193, () => {
-  util.logInfo('Listening on 4193...')
+const port = util.isDev ? 4194 : 4193
+app.listen(port, () => {
+  util.logInfo(`Listening on ${port}...`)
 })
