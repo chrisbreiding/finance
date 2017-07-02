@@ -11,7 +11,7 @@ module.exports = () => {
   })
   .then((billingInfo) => {
     if (billingInfo) {
-      billingInfo.date = moment(billingInfo.date, 'MM/DD/YYYY')
+      billingInfo.date = moment(billingInfo.date, 'MM/DD/YYYY').date(17)
     }
     return billingInfo
   })

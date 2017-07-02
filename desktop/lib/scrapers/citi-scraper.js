@@ -11,7 +11,8 @@ module.exports = (type) => {
   })
   .then((billingInfo) => {
     if (billingInfo) {
-      billingInfo.date = moment(billingInfo.date, 'MMM. D, YYYY')
+      const date = type === 'mc' ? 21 : 22
+      billingInfo.date = moment(billingInfo.date, 'MMM. D, YYYY').date(date)
     }
     return billingInfo
   })
