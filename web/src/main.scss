@@ -285,7 +285,8 @@ form {
 .container {
   padding: 1.5em;
 
-  &.is-grabbing {
+  &.is-grabbing,
+  &.is-sorting {
     cursor: grabbing;
   }
 }

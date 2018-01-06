@@ -1,6 +1,9 @@
+import _ from 'lodash'
+import cs from 'classnames'
 import { action, observable } from 'mobx'
 import { observer } from 'mobx-react'
 import React, { Component } from 'react'
+import { arrayMove } from 'react-sortable-hoc'
 
 import api from '../lib/api'
 import state from '../lib/state'
@@ -26,6 +29,23 @@ const deleteGoal = (goal) => {
   saveData()
 }
 
+const onSortStart = () => {
+  state.setSorting(true)
+}
+
+const onSortEnd = ({ oldIndex, newIndex }) => {
+  state.setSorting(false)
+  if (oldIndex === newIndex) return
+
+  const ids = _.map(state.goals, 'id')
+  const sortedIds = arrayMove(ids, oldIndex, newIndex)
+
+  _.each(sortedIds, (id, order) => {
+    state.getGoalById(id).setProps({ order })
+  })
+  saveData()
+}
+
 @observer
 class App extends Component {
   @observable isLoading = true
@@ -41,7 +61,10 @@ class App extends Component {
     if (this.isLoading) return <Loader>Loading...</Loader>
 
     return (
-      <div className={`container ${state.isGrabbing ? 'is-grabbing' : ''}`}>
+      <div className={cs('container', {
+        'is-grabbing': state.isGrabbing,
+        'is-sorting': state.isSorting,
+      })}>
         <Refresh onSave={saveData} />
         <Checking />
         <Savings />
@@ -52,6 +75,8 @@ class App extends Component {
           availableIncome={state.availableIncome}
           onAdd={addGoal}
           onDelete={deleteGoal}
+          onSortStart={onSortStart}
+          onSortEnd={onSortEnd}
           onSave={saveData}
         />
       </div>

@@ -11,18 +11,23 @@ class State {
   @observable lastUpdated = null
   @observable incomeAmount = 0
   @observable expensesAmount = 0
-  @observable goals = []
+  @observable _goals = observable.map()
+  @observable isSorting = false
 
   @computed get isGrabbing () {
     return !!this.draggingId
   }
 
   @computed get allocatedSavingsAmount () {
-    return _.sum(_.map(this.goals, 'savedAmount'))
+    return _.sum(_.map(this._goals.values(), 'savedAmount'))
   }
 
   @computed get unallocatedSavingsAmount () {
     return this.savingsBalance - this.allocatedSavingsAmount
+  }
+
+  @computed get goals () {
+    return _.sortBy(this._goals.values(), 'order')
   }
 
   @computed get goalsAmount () {
@@ -31,6 +36,10 @@ class State {
 
   @computed get availableIncome () {
     return this.incomeAmount - this.expensesAmount - this.goalsAmount
+  }
+
+  getGoalById (id) {
+    return this._goals.get(id)
   }
 
   @action setExpensesAmount (amount) {
@@ -42,19 +51,24 @@ class State {
     _.extend(this, _.pick(data, props))
 
     if (data.goals) {
-      this.goals = data.goals.map((goal) => new Goal(goal))
+      _.map(data.goals, (goal) => {
+        this._goals.set(goal.id, new Goal(goal))
+      })
     }
   }
 
   @action addGoal = () => {
-    this.goals.push(new Goal({ id: util.newId(this.goals) }))
+    const id = util.newId(this.goals)
+    const order = util.newOrder(this.goals)
+    this._goals.set(id, new Goal({ id, order }))
   }
 
   @action deleteGoal = (goal) => {
-    const index = _.findIndex(this.goals, { id: goal.id })
-    if (index > -1) {
-      this.goals.splice(index, 1)
-    }
+    this._goals.delete(goal.id)
+  }
+
+  @action setSorting (isSorting) {
+    this.isSorting = isSorting
   }
 
   serialize () {
@@ -64,7 +78,7 @@ class State {
       incomeAmount: this.incomeAmount,
       expensesAmount: this.expensesAmount,
       lastUpdated: this.lastUpdated,
-      goals: this.goals.map((goal) => goal.serialize()),
+      goals: _.map(this._goals.values(), (goal) => goal.serialize()),
     }
   }
 }

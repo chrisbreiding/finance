@@ -16,6 +16,10 @@ function newId (itemsWithIds) {
   return (_(itemsWithIds).map('id').sort().last() || 0) + 1
 }
 
+function newOrder (itemsWithOrders) {
+  return (_(itemsWithOrders).map('order').sort().last() || 0) + 1
+}
+
 function percentToAmount (total, percent) {
   return toTwoDecimals(total * (percent / 100))
 }
@@ -40,6 +44,7 @@ export default {
   ensureNumber,
   format$,
   newId,
+  newOrder,
   percentToAmount,
   rounded,
   toTwoDecimals,

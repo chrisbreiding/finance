@@ -8,6 +8,7 @@ class Goal {
   @observable savedAmount = 0
   @observable plannedAmount = 0
   @observable totalAmount = 100
+  @observable order = 0
 
   constructor (props) {
     this.setProps(props)
@@ -28,6 +29,7 @@ class Goal {
     if (props.savedAmount != null) this.savedAmount = util.toTwoDecimals(props.savedAmount)
     if (props.plannedAmount != null) this.plannedAmount = util.toTwoDecimals(props.plannedAmount)
     if (props.totalAmount != null) this.totalAmount = util.toTwoDecimals(props.totalAmount)
+    this.order = props.order || 0
   }
 
   serialize () {
@@ -38,6 +40,7 @@ class Goal {
       savedAmount: this.savedAmount,
       plannedAmount: this.plannedAmount,
       totalAmount: this.totalAmount,
+      order: this.order,
     }
   }
 }

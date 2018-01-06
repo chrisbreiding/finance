@@ -1,6 +1,7 @@
 import { action, observable } from 'mobx'
 import { observer } from 'mobx-react'
 import React, { Component } from 'react'
+import { SortableContainer, SortableElement } from 'react-sortable-hoc'
 
 import { rounded, percentToAmount } from '../lib/util'
 import { Bar, BarPart } from './bar'
@@ -103,14 +104,17 @@ class Goal extends Component {
   }
 }
 
+const SortableGoal = SortableElement(Goal)
+
 const Goals = observer((props) => (
   <div className='goals'>
     <h2>Goals</h2>
     {!props.goals.length && <p>No goals yet</p>}
     <ul>
-      {props.goals.map((goal) => (
-        <Goal
+      {props.goals.map((goal, index) => (
+        <SortableGoal
           key={goal.id}
+          index={index}
           goal={goal}
           unallocatedSavingsAmount={props.unallocatedSavingsAmount}
           availableIncome={props.availableIncome}
@@ -125,4 +129,15 @@ const Goals = observer((props) => (
   </div>
 ))
 
-export default Goals
+const SortableGoals = SortableContainer(Goals)
+
+const SortableGoalsContainer = (props) => (
+  <SortableGoals
+    {...props}
+    helperClass='sorting-helper'
+    onSortStart={props.onSortStart}
+    onSortEnd={props.onSortEnd}
+  />
+)
+
+export default SortableGoalsContainer

@@ -17,6 +17,7 @@ export class BarPart extends Component {
     const props = this.props
 
     const showTooltip = (
+      !state.isSorting &&
       (this.isHovering || this.isDragging) &&
       (!state.draggingId || state.draggingId === props.id)
     )
