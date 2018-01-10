@@ -29,7 +29,7 @@ class Goal {
     if (props.savedAmount != null) this.savedAmount = util.toTwoDecimals(props.savedAmount)
     if (props.plannedAmount != null) this.plannedAmount = util.toTwoDecimals(props.plannedAmount)
     if (props.totalAmount != null) this.totalAmount = util.toTwoDecimals(props.totalAmount)
-    this.order = props.order || 0
+    if (props.order != null) this.order = props.order
   }
 
   serialize () {
