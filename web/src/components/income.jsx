@@ -76,9 +76,11 @@ class Income extends Component {
       <section className='income'>
         <h2>
           Income
-          <button onClick={this._edit(true)}>
-            <i className='fa fa-edit' />
-          </button>
+          <div className='controls'>
+            <button onClick={this._edit(true)}>
+              <i className='fa fa-edit' />
+            </button>
+          </div>
         </h2>
         <Bar total={incomeAmount}>
           <BarPart

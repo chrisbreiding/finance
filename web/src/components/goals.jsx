@@ -1,11 +1,18 @@
 import { action, observable } from 'mobx'
 import { observer } from 'mobx-react'
 import React, { Component } from 'react'
-import { SortableContainer, SortableElement } from 'react-sortable-hoc'
+import { SortableContainer, SortableElement, SortableHandle } from 'react-sortable-hoc'
 
 import { rounded, percentToAmount } from '../lib/util'
 import { Bar, BarPart } from './bar'
 import EditGoal from './edit-goal'
+
+const SortHandle = SortableHandle(() => (
+  <span className='sort-handle'>
+    <i className='fa fa-ellipsis-v'></i>
+    <i className='fa fa-ellipsis-v'></i>
+  </span>
+))
 
 @observer
 class Goal extends Component {
@@ -21,9 +28,12 @@ class Goal extends Component {
         <header>
           <h3>
             {goal.label}
-            <button onClick={this._edit(true)}>
-              <i className='fa fa-edit' />
-            </button>
+            <div className='controls'>
+              <button onClick={this._edit(true)}>
+                <i className='fa fa-edit' />
+              </button>
+              <SortHandle />
+            </div>
           </h3>
           {goal.description && <p>{goal.description}</p>}
         </header>
@@ -135,6 +145,7 @@ const SortableGoalsContainer = (props) => (
   <SortableGoals
     {...props}
     helperClass='sorting-helper'
+    useDragHandle={true}
     onSortStart={props.onSortStart}
     onSortEnd={props.onSortEnd}
   />

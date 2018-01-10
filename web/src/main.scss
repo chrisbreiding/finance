@@ -106,18 +106,41 @@ h2, h3 {
   position: relative;
   white-space: nowrap;
 
-  button {
-    @extend .inverse;
+  .controls {
     display: none;
-    font-size: 13px;
-    padding: 0.1em;
+    flex-direction: column;
     position: absolute;
     right: 100%;
     top: 0;
   }
 
-  &:hover button {
-    display: block;
+  button {
+    @extend .inverse;
+    font-size: 13px;
+    padding: 0.1em;
+  }
+
+  .sort-handle {
+    @extend .inverse;
+    cursor: grab;
+    margin-top: 3px;
+
+    i {
+      margin-left: 3px;
+    }
+  }
+}
+
+.income,
+.goal {
+  &:hover .controls {
+    display: flex;
+  }
+}
+
+.income {
+  .controls {
+    top: 3px;
   }
 }
 
@@ -431,11 +454,19 @@ section.income {
   margin-top: 1em;
 }
 
+.is-sorting .goal .controls {
+  display: none;
+}
+
 .goal {
   margin: 0.8em 0;
 
   header {
     align-items: center;
+    display: flex;
+  }
+
+  &.sorting-helper .controls {
     display: flex;
   }
 
