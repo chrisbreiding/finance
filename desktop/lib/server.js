@@ -1,6 +1,7 @@
 const express = require('express')
 const moment = require('moment')
 
+const ipc = require('./ipc')
 const remoteStore = require('./remote-store')
 const scraper = require('./scrapers')
 const util = require('./util')
@@ -9,7 +10,7 @@ const allowedDomains = /^(https?:\/\/finance\.crbapps\.com|http:\/\/localhost:80
 const app = express()
 const TIMEOUT = 30000
 
-const remoteStoreReady = remoteStore.start()
+let remoteStoreReady
 
 // cors
 app.use((req, res, next) => {
@@ -33,12 +34,11 @@ app.get('/ping', (req, res) => {
 })
 
 app.post('/refresh', (req, res) => {
-  util.logInfo('-----', moment().format('MM/DD/YY hh:mm:ssA'), '-----')
-  util.logInfo('Refreshing balances')
-  scraper.getWellsFargoBalances()
+  ipc.sendTitle(`Refreshing balances - ${moment().format('MM/DD/YY hh:mm:ssa')}`)
+  return scraper.getBankBalances()
  .timeout(TIMEOUT)
  .then((balances) => {
-   util.logInfo('Succeeded scraping balances:', balances)
+   ipc.sendInfo('Totals', util.formatBalances(balances))
    return remoteStoreReady.then(() => {
      return remoteStore.save(Object.assign(balances, {
        lastUpdated: new Date().toISOString(),
@@ -46,16 +46,26 @@ app.post('/refresh', (req, res) => {
    })
  })
  .then(() => {
-   util.logInfo('Succeeded saving balances')
+   ipc.sendInfo('Succeeded saving balances')
    res.sendStatus(204)
+   return null
  })
  .catch((err) => {
-   util.logError('Failed scraping balances:', err.stack || err)
+   ipc.sendError('Failed scraping balances', err)
    res.status(500).send(err)
+   return null
  })
 })
 
-const port = util.isDev ? 4194 : 4193
-app.listen(port, () => {
-  util.logInfo(`Listening on ${port}...`)
-})
+const start = () => {
+  remoteStoreReady = remoteStore.start()
+
+  const port = util.isDev ? 4194 : 4193
+  app.listen(port, () => {
+    ipc.sendInfo(`Server listening on ${port}...`)
+  })
+}
+
+module.exports = {
+  start,
+}

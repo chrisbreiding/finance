@@ -1,9 +1,16 @@
 'use strict'
 
+const _ = require('lodash')
 const chalk = require('chalk')
+const Config = require('electron-config')
+const homedir = require('homedir')()
+
+const appName = require('../package').productName
 
 const isDev = process.env.NODE_ENV === 'development'
 const isDebug = !!process.env.DEBUG
+
+const config = new Config()
 
 function toColor (color, args) {
   return args.map((arg) => typeof arg === 'string' ? chalk[color](arg) : arg)
@@ -21,10 +28,52 @@ function logError (...args) {
   console.error(...toColor('red', args)) // eslint-disable-line no-console
 }
 
+function formatBalances ({ savingsBalance, checkingBalance }) {
+  return {
+    'Savings': savingsBalance,
+    'Checking': checkingBalance,
+  }
+}
+
+function sumMoney (amount1, amount2) {
+  return (amount1 * 100 + amount2 * 100) / 100
+}
+
+function getWindowSettings () {
+  return config.get('window') || {
+    width: 600,
+    height: (isDev ? 700 : 400),
+  }
+}
+
+function updateWindowSettings (newSettings) {
+  config.set('window', _.extend(getWindowSettings(), newSettings))
+}
+
+function getDataFile () {
+  return config.get('dataFile')
+}
+
+function setDataFile (path) {
+  config.set('dataFile', path)
+}
+
+const tildeify = (path) => {
+  return path.replace(homedir, '~')
+}
+
 module.exports = {
+  appName,
   isDev,
   isDebug,
   log,
   logInfo,
   logError,
+  formatBalances,
+  sumMoney,
+  getWindowSettings,
+  updateWindowSettings,
+  getDataFile,
+  setDataFile,
+  tildeify,
 }

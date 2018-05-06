@@ -1,18 +1,22 @@
 'use strict'
 
-const path = require('path')
 const Promise = require('bluebird')
 const fs = Promise.promisifyAll(require('fs-extra'))
 
+const ipc = require('./ipc')
 const util = require('./util')
 
-const dbPath = path.join(__dirname, 'data.json')
-
 function read () {
+  const dbPath = util.getDataFile()
+
+  if (!dbPath) {
+    ipc.sendError('Error getting data', 'No data file path set')
+    return
+  }
+
   return fs.readJsonAsync(dbPath)
-  .catch((error) => {
-    util.logError('Error reading data.json')
-    throw error
+  .catch((err) => {
+    ipc.sendErr(`Error reading data file (${util.tildeify(dbPath)})`, err)
   })
 }
 

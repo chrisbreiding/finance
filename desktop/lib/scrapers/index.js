@@ -1,23 +1,32 @@
 'use strict'
 
 const { app } = require('electron')
+const Promise = require('bluebird')
 
-const getAmexBillingInfo = require('./amex-scraper')
-const getAquaBillingInfo = require('./aqua-scraper')
-const getCitiBillingInfo = require('./citi-scraper')
-const getDiscoverBillingInfo = require('./discover-scraper')
-const getPecoBillingInfo = require('./peco-scraper')
+const getAlliantBallances = require('./alliant-scraper')
 const getWellsFargoBalances = require('./wellsfargo-scraper')
+const ipc = require('../ipc')
+const util = require('../util')
 
-// prevent default behavior of quitting when windows are all closed
-app.on('window-all-closed', () => {})
+const getBankBalances = () => {
+  return Promise.all([getAlliantBallances(), getWellsFargoBalances()])
+  .spread((alliant, wellsFargo) => {
+    ipc.sendInfo('Alliant balances', util.formatBalances(alliant))
+    ipc.sendInfo('Wells Fargo balances', util.formatBalances(wellsFargo))
+    return {
+      checkingBalance: util.sumMoney(alliant.checkingBalance, wellsFargo.checkingBalance),
+      savingsBalance: util.sumMoney(alliant.savingsBalance, wellsFargo.savingsBalance),
+    }
+  })
+}
 
 module.exports = {
-  getAmexBillingInfo,
-  getAquaBillingInfo,
-  getCitiMcBillingInfo: getCitiBillingInfo.bind(null, 'mc'),
-  getCitiVisaBillingInfo: getCitiBillingInfo.bind(null, 'visa'),
-  getDiscoverBillingInfo,
-  getPecoBillingInfo,
-  getWellsFargoBalances,
+  getBankBalances,
+
+  getAmexBillingInfo: require('./amex-scraper'),
+  getAquaBillingInfo: require('./aqua-scraper'),
+  getCitiMcBillingInfo: require('./citi-scraper').bind(null, 'mc'),
+  getCitiVisaBillingInfo: require('./citi-scraper').bind(null, 'visa'),
+  getDiscoverBillingInfo: require('./discover-scraper'),
+  getPecoBillingInfo: require('./peco-scraper'),
 }
