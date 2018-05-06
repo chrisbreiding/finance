@@ -45,6 +45,23 @@ module.exports = {
           role: 'minimize',
         },
       ],
+    }, {
+      label: 'Developer Tools',
+      submenu: [
+        {
+          label: 'Reload',
+          accelerator: 'CmdOrCtrl+R',
+          click (item, focusedWindow) {
+            focusedWindow && focusedWindow.reload()
+          },
+        }, {
+          label: 'Toggle Developer Tools',
+          accelerator: os.platform() === 'darwin' ? 'Alt+Command+I' : 'Ctrl+Shift+I',
+          click (item, focusedWindow) {
+            focusedWindow && focusedWindow.toggleDevTools()
+          },
+        },
+      ],
     }]
 
     if (os.platform() === 'darwin') {
@@ -70,27 +87,6 @@ module.exports = {
             type: 'separator',
           }, {
             role: 'quit',
-          },
-        ],
-      })
-    }
-
-    if (util.isDev) {
-      template.push({
-        label: 'Developer Tools',
-        submenu: [
-          {
-            label: 'Reload',
-            accelerator: 'CmdOrCtrl+R',
-            click (item, focusedWindow) {
-              focusedWindow && focusedWindow.reload()
-            },
-          }, {
-            label: 'Toggle Developer Tools',
-            accelerator: os.platform() === 'darwin' ? 'Alt+Command+I' : 'Ctrl+Shift+I',
-            click (item, focusedWindow) {
-              focusedWindow && focusedWindow.toggleDevTools()
-            },
           },
         ],
       })
