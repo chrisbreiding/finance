@@ -49,6 +49,8 @@ window.addEventListener('load', () => {
   const isLogin = !!$('#ctl00_pagePlaceholder_txt_username').length
   const isSecurityQuestion = !!$('#ctl00_pagePlaceholder_ucSecurityQuestion_txtAnswer').length
 
+  debugger
+
   if (isLogin) {
     login()
   } else if (isSecurityQuestion) {

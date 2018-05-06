@@ -34,6 +34,8 @@ window.addEventListener('load', () => {
 
   const isLogin = !!$('#frmSignon').length
 
+  debugger
+
   if (isLogin) {
     login()
   } else {

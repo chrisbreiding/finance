@@ -7,7 +7,7 @@ const ipc = require('./ipc')
 const util = require('./util')
 
 function read () {
-  const dbPath = util.getDataFile()
+  const dbPath = util.getSetting('dataFile')
 
   if (!dbPath) {
     ipc.sendError('Error getting data', 'No data file path set')

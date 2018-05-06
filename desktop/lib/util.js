@@ -8,9 +8,12 @@ const homedir = require('homedir')()
 const appName = require('../package').productName
 
 const isDev = process.env.NODE_ENV === 'development'
-const isDebug = !!process.env.DEBUG
 
 const config = new Config()
+
+function isDebug () {
+  return !!process.env.DEBUG || !!getSetting('debug')
+}
 
 function toColor (color, args) {
   return args.map((arg) => typeof arg === 'string' ? chalk[color](arg) : arg)
@@ -50,12 +53,12 @@ function updateWindowSettings (newSettings) {
   config.set('window', _.extend(getWindowSettings(), newSettings))
 }
 
-function getDataFile () {
-  return config.get('dataFile')
+function getSetting (key) {
+  return config.get(key)
 }
 
-function setDataFile (path) {
-  config.set('dataFile', path)
+function setSetting (key, value) {
+  config.set(key, value)
 }
 
 const tildeify = (path) => {
@@ -73,7 +76,7 @@ module.exports = {
   sumMoney,
   getWindowSettings,
   updateWindowSettings,
-  getDataFile,
-  setDataFile,
+  getSetting,
+  setSetting,
   tildeify,
 }

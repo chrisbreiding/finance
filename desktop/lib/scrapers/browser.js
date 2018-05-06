@@ -20,7 +20,7 @@ module.exports = {
 
   window ({ preload }) {
     const win = new BrowserWindow({
-      show: isDebug,
+      show: isDebug(),
       width: 1024,
       height: 700,
       webPreferences: {
@@ -29,7 +29,7 @@ module.exports = {
       },
     })
 
-    if (isDebug) {
+    if (isDebug()) {
       win.webContents.openDevTools()
     }
 
