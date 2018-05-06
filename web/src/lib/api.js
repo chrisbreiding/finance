@@ -3,8 +3,7 @@ import Promise from 'bluebird'
 
 import remoteStore from './remote-store'
 
-const port = localStorage.port || 4193
-const desktopBaseUrl = `http://localhost:${port}`
+const desktopBaseUrl = localStorage.baseUrl || 'http://base-mac.local:4193'
 
 const authenticate = (apiKey = localStorage.apiKey) => {
   if (!apiKey) return Promise.reject(new Error(''))
