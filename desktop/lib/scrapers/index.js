@@ -1,6 +1,5 @@
 'use strict'
 
-const { app } = require('electron')
 const Promise = require('bluebird')
 
 const getAlliantBallances = require('./alliant-scraper')
@@ -14,8 +13,12 @@ const getBankBalances = () => {
     ipc.sendInfo('Alliant balances', util.formatBalances(alliant))
     ipc.sendInfo('Wells Fargo balances', util.formatBalances(wellsFargo))
     return {
-      checkingBalance: util.sumMoney(alliant.checkingBalance, wellsFargo.checkingBalance),
-      savingsBalance: util.sumMoney(alliant.savingsBalance, wellsFargo.savingsBalance),
+      checkingBalance: alliant.checkingBalance,
+      savingsBalance: util.sumMoney(
+        alliant.savingsBalance,
+        wellsFargo.checkingBalance,
+        wellsFargo.savingsBalance
+      ),
     }
   })
 }

@@ -38,8 +38,9 @@ function formatBalances ({ savingsBalance, checkingBalance }) {
   }
 }
 
-function sumMoney (amount1, amount2) {
-  return (amount1 * 100 + amount2 * 100) / 100
+function sumMoney (...amounts) {
+  const summables = _.map(amounts, (amount) => amount * 100)
+  return _.sum(summables) / 100
 }
 
 function getWindowSettings () {
