@@ -4,9 +4,11 @@ const _ = require('lodash')
 const chalk = require('chalk')
 const Config = require('electron-config')
 const homedir = require('homedir')()
+const moment = require('moment')
 
 const appName = require('../package').productName
 
+const timeout = 30000 // 30 seconds
 const isDev = process.env.NODE_ENV === 'development'
 
 const config = new Config()
@@ -66,8 +68,39 @@ const tildeify = (path) => {
   return path.replace(homedir, '~')
 }
 
+const durationToPhrase = (ms) => {
+  const duration = moment.duration(ms)
+  if (ms < 60000) {
+    return `${duration.seconds()}s`
+  } else {
+    const minutes = duration.asMinutes()
+    const seconds = _.isInteger(minutes) ? '' : `${duration.subtract(minutes, 'm').seconds()}s`
+    return `${minutes}m ${seconds}`
+  }
+}
+
+const timedOutError = (message) => {
+  const error = new Error(message)
+  error.timedOut = true
+  return error
+}
+
+let alerts = 0
+
+const addAlert = () => {
+  alerts++
+}
+
+const removeAlert = () => {
+  alerts--
+  if (alerts < 0) alerts = 0
+}
+
+const getAlerts = () => alerts
+
 module.exports = {
   appName,
+  timeout,
   isDev,
   isDebug,
   log,
@@ -80,4 +113,10 @@ module.exports = {
   getSetting,
   setSetting,
   tildeify,
+  durationToPhrase,
+  timedOutError,
+
+  addAlert,
+  removeAlert,
+  getAlerts,
 }

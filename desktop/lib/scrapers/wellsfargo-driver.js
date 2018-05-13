@@ -33,12 +33,15 @@ window.addEventListener('load', () => {
   }
 
   const isLogin = !!$('#frmSignon').length
+  const isBalances = !!$('.account-tile-header .account-name').length
 
   debugger
 
   if (isLogin) {
     login()
-  } else {
+  } else if (isBalances) {
     sendBalances()
+  } else {
+    ipcRenderer.send('wellsfargo:unexpected:page')
   }
 })

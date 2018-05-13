@@ -315,22 +315,30 @@ form {
 }
 
 .refresh {
+  display: none;
   margin-bottom: 1em;
 
-  button, label {
-    display: none;
+  &.is-connected {
+    display: block;
   }
 
-  &.is-connected {
-    button, label {
-      display: inline-block;
-    }
+  button, label, .alert {
+    display: inline-block;
   }
 
   label {
     color: #999;
     font-size: 0.8em;
     margin-left: 0.6em;
+  }
+
+  .alert {
+    background: #b80000;
+    border-radius: 3px;
+    color: white;
+    font-size: 0.8em;
+    margin-left: 0.6em;
+    padding: 0.5em 0.8em;
   }
 }
 

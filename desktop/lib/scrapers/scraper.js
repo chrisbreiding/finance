@@ -2,10 +2,16 @@ const Promise = require('bluebird')
 
 const browser = require('./browser')
 const db = require('../db')
+const util = require('../util')
+
 
 module.exports = {
   scrape ({ prefix, suffix, url }) {
     return new Promise((resolve, reject) => {
+      const timeoutId = setTimeout(() => {
+        reject(util.timedOutError(`Getting ${prefix} ${suffix} timed out after ${util.durationToPhrase(util.timeout)}`))
+      }, util.timeout)
+
       browser.bus.on(`get:${prefix}:credentials`, (event) => {
         db.fetchCredentials(prefix).then((credentials) => {
           event.sender.send(`${prefix}:credentials`, credentials)
@@ -24,6 +30,12 @@ module.exports = {
       })
 
       const win = browser.window({ preload: `${prefix}-driver.js` })
+
+      browser.bus.on(`${prefix}:unexpected:page`, () => {
+        clearTimeout(timeoutId)
+        util.addAlert()
+        win.show()
+      })
 
       win.loadURL(url)
     })

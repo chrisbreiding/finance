@@ -21,6 +21,19 @@ const pollData = (cb) => {
   remoteStore.poll(cb)
 }
 
+const pollAlerts = (cb) => {
+  const intervalId = setInterval(() => {
+    request(`${desktopBaseUrl}/alerts`)
+      .then((response) => response.json())
+      .catch(() => ({ alerts: 0 }))
+      .then(({ alerts }) => cb(alerts))
+  }, 1000)
+
+  return () => {
+    clearInterval(intervalId)
+  }
+}
+
 const saveData = _.debounce((data) => {
   return remoteStore.save(data)
 }, 500)
@@ -43,6 +56,7 @@ const refreshBalances = () => {
 export default {
   authenticate,
   pollData,
+  pollAlerts,
   saveData,
   pingDesktop,
   refreshBalances,

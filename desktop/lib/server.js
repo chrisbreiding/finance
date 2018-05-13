@@ -8,7 +8,6 @@ const util = require('./util')
 
 const allowedDomains = /^(https?:\/\/finance\.crbapps\.com|http:\/\/localhost:800\d)/
 const app = express()
-const TIMEOUT = 30000
 
 let remoteStoreReady
 
@@ -33,10 +32,13 @@ app.get('/ping', (req, res) => {
   res.sendStatus(200)
 })
 
+app.get('/alerts', (req, res) => {
+  res.json({ alerts: util.getAlerts() })
+})
+
 app.post('/refresh', (req, res) => {
   ipc.sendTitle(`Refreshing balances - ${moment().format('MM/DD/YY hh:mm:ssa')}`)
   return scraper.getBankBalances()
- .timeout(TIMEOUT)
  .then((balances) => {
    ipc.sendInfo('Totals', util.formatBalances(balances))
    return remoteStoreReady.then(() => {

@@ -48,6 +48,7 @@ window.addEventListener('load', () => {
 
   const isLogin = !!$('#ctl00_pagePlaceholder_txt_username').length
   const isSecurityQuestion = !!$('#ctl00_pagePlaceholder_ucSecurityQuestion_txtAnswer').length
+  const isBalances = !!$('#ctl00_ctl00_pagePlaceholder_sectionContent_tblAccountSummary').length
 
   debugger
 
@@ -55,7 +56,9 @@ window.addEventListener('load', () => {
     login()
   } else if (isSecurityQuestion) {
     answerSecurityQuestion()
-  } else {
+  } else if (isBalances) {
     sendBalances()
+  } else {
+    ipcRenderer.send('alliant:unexpected:page')
   }
 })
