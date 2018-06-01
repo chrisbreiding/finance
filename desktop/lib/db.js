@@ -16,7 +16,7 @@ function read () {
 
   return fs.readJsonAsync(dbPath)
   .catch((err) => {
-    ipc.sendErr(`Error reading data file (${util.tildeify(dbPath)})`, err)
+    ipc.sendError(`Error reading data file (${util.tildeify(dbPath)})`, err)
   })
 }
 

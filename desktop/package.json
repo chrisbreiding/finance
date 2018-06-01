@@ -34,7 +34,8 @@
     "homedir": "^0.6.0",
     "jquery": "^3.2.1",
     "lodash": "^4.17.10",
-    "moment": "^2.18.1"
+    "moment": "^2.18.1",
+    "morgan": "^1.9.0"
   },
   "devDependencies": {
     "babel-eslint": "^7.2.3",
