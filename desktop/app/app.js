@@ -59,6 +59,10 @@ ipcRenderer.on('title', (__, title) => {
   add(el('h2', title))
 })
 
+ipcRenderer.on('debug', (__, message) => {
+  console.log(message) // eslint-disable-line no-console
+})
+
 ipcRenderer.on('info', (__, message, details) => {
   add(el('div', message))
   if (details) {
