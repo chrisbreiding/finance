@@ -4,7 +4,6 @@ const browser = require('./browser')
 const db = require('../db')
 const util = require('../util')
 
-
 module.exports = {
   scrape ({ prefix, suffix, url }) {
     return new Promise((resolve, reject) => {
@@ -20,6 +19,7 @@ module.exports = {
 
       browser.bus.once(`${prefix}:${suffix}`, (event, err, data) => {
         browser.bus.removeAllListeners(`get:${prefix}:credentials`)
+        browser.bus.removeAllListeners(`${prefix}:unexpected:page`)
         browser.close(win).then(() => {
           if (err) {
             reject(Object.assign(new Error(), err))
