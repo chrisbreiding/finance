@@ -47,24 +47,24 @@ app.get('/alerts', (req, res) => {
 app.post('/refresh', (req, res) => {
   ipc.sendTitle(`Refreshing balances - ${moment().format('MM/DD/YY hh:mm:ssa')}`)
   return scraper.getBankBalances()
- .then((balances) => {
-   ipc.sendInfo('Totals', util.formatBalances(balances))
-   return remoteStoreReady.then(() => {
-     return remoteStore.save(Object.assign(balances, {
-       lastUpdated: new Date().toISOString(),
-     }))
-   })
- })
- .then(() => {
-   ipc.sendInfo('Succeeded saving balances')
-   res.sendStatus(204)
-   return null
- })
- .catch((err) => {
-   ipc.sendError('Failed scraping balances', err)
-   res.status(500).send(err)
-   return null
- })
+  .then((balances) => {
+    ipc.sendInfo('Balances', util.formatBalances(balances))
+    return remoteStoreReady.then(() => {
+      return remoteStore.save(Object.assign(balances, {
+        lastUpdated: new Date().toISOString(),
+      }))
+    })
+  })
+  .then(() => {
+    ipc.sendInfo('Succeeded saving balances')
+    res.sendStatus(204)
+    return null
+  })
+  .catch((err) => {
+    ipc.sendError('Failed scraping balances', err)
+    res.status(500).send(err)
+    return null
+  })
 })
 
 const options = {
