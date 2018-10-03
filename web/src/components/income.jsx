@@ -11,6 +11,7 @@ import Modal from './modal'
 const EditIncome = observer((props) => {
   let expensesAmount
   let incomeAmount
+  let savingsTransferAmount
 
   const saveGoal = (e) => {
     e.preventDefault()
@@ -18,6 +19,7 @@ const EditIncome = observer((props) => {
     props.onSave({
       expensesAmount: ensureNumber(expensesAmount.value),
       incomeAmount: ensureNumber(incomeAmount.value),
+      savingsTransferAmount: ensureNumber(savingsTransferAmount.value),
     })
   }
 
@@ -38,6 +40,18 @@ const EditIncome = observer((props) => {
           <div className='limits'>
             <span className='value'>Min: {format$(0)}</span>
             <span className='value'>Max: {format$(props.maxExpensesAmount)}</span>
+          </div>
+        </div>
+        <div className='group'>
+          <label>Savings Transfer</label>
+          <input
+            ref={(node) => savingsTransferAmount = node}
+            type='number'
+            defaultValue={props.savingsTransferAmount}
+          />
+          <div className='limits'>
+            <span className='value'>Min: {format$(0)}</span>
+            <span className='value'>Max: {format$(props.maxSavingsTransferAmount)}</span>
           </div>
         </div>
         <div className='group'>
@@ -66,11 +80,20 @@ class Income extends Component {
   @observable isEditing = false
 
   render () {
-    const incomeAmount = state.incomeAmount
-    const expensesPercent = state.expensesAmount / incomeAmount * 100
-    const goalsPercent = state.goalsAmount / incomeAmount * 100
+    const {
+      availableIncome,
+      expensesAmount,
+      goalsAmount,
+      incomeAmount,
+      savingsTransferAmount,
+    } = state
+
+    const expensesPercent = expensesAmount / incomeAmount * 100
+    const savingsTransferPercent = savingsTransferAmount / incomeAmount * 100
+    const goalsPercent = goalsAmount / incomeAmount * 100
     const leftoverPercent = 100 - expensesPercent - goalsPercent
-    const maxExpensesAmount = incomeAmount - state.goalsAmount
+    const maxExpensesAmount = incomeAmount - savingsTransferAmount - goalsAmount
+    const maxSavingsTransferAmount = incomeAmount - expensesAmount - goalsAmount
 
     return (
       <section className='income'>
@@ -88,13 +111,30 @@ class Income extends Component {
             label='budgeted'
             type='expense'
             percent={expensesPercent}
-            value={rounded(state.expensesAmount, maxExpensesAmount, incomeAmount)}
+            value={rounded(expensesAmount, maxExpensesAmount, incomeAmount)}
             onUpdatePercent={(percent) => {
               const amount = percentToAmount(incomeAmount, percent)
               state.setExpensesAmount(amount > maxExpensesAmount ? maxExpensesAmount : amount)
             }}
             onFinishUpdatingPercent={() => {
-              state.setExpensesAmount(rounded(state.expensesAmount, maxExpensesAmount, incomeAmount))
+              state.setExpensesAmount(rounded(expensesAmount, maxExpensesAmount, incomeAmount))
+              this.props.onSave()
+            }}
+          />
+          <BarPart
+            id='income-savings-transfer'
+            label='savings transfer'
+            type='savings'
+            percent={savingsTransferPercent}
+            value={rounded(savingsTransferAmount, maxSavingsTransferAmount, incomeAmount)}
+            onUpdatePercent={(percent) => {
+              // percent is from the far left of bar, including expenses,
+              // so we need to subtract that
+              const amount = percentToAmount(incomeAmount, percent - expensesPercent)
+              state.setSavingsTransferAmount(amount > maxSavingsTransferAmount ? maxSavingsTransferAmount : amount)
+            }}
+            onFinishUpdatingPercent={() => {
+              state.setSavingsTransferAmount(rounded(savingsTransferAmount, maxSavingsTransferAmount, incomeAmount))
               this.props.onSave()
             }}
           />
@@ -104,7 +144,7 @@ class Income extends Component {
             type='planned'
             draggable={false}
             percent={goalsPercent}
-            value={state.goalsAmount}
+            value={goalsAmount}
           />
           <BarPart
             id='income-left'
@@ -112,15 +152,17 @@ class Income extends Component {
             type='left'
             draggable={false}
             percent={leftoverPercent}
-            value={state.availableIncome}
+            value={availableIncome}
           />
         </Bar>
         <EditIncome
           isEditing={this.isEditing}
           incomeAmount={incomeAmount}
-          minIncomeAmount={state.expensesAmount + state.goalsAmount}
-          expensesAmount={state.expensesAmount}
+          minIncomeAmount={expensesAmount + savingsTransferAmount + goalsAmount}
+          expensesAmount={expensesAmount}
           maxExpensesAmount={maxExpensesAmount}
+          savingsTransferAmount={savingsTransferAmount}
+          maxSavingsTransferAmount={maxSavingsTransferAmount}
           onClose={this._edit(false)}
           onSave={this._save}
         />

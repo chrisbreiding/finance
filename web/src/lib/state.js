@@ -11,6 +11,7 @@ class State {
   @observable lastUpdated = null
   @observable incomeAmount = 0
   @observable expensesAmount = 0
+  @observable savingsTransferAmount = 0
   @observable _goals = observable.map()
   @observable isSorting = false
 
@@ -35,7 +36,7 @@ class State {
   }
 
   @computed get availableIncome () {
-    return this.incomeAmount - this.expensesAmount - this.goalsAmount
+    return this.incomeAmount - this.expensesAmount - this.savingsTransferAmount - this.goalsAmount
   }
 
   getGoalById (id) {
@@ -46,8 +47,12 @@ class State {
     this.expensesAmount = util.toTwoDecimals(amount)
   }
 
+  @action setSavingsTransferAmount (amount) {
+    this.savingsTransferAmount = util.toTwoDecimals(amount)
+  }
+
   @action updateData = (data) => {
-    const props = 'checkingBalance savingsBalance lastUpdated incomeAmount expensesAmount'.split(' ')
+    const props = 'checkingBalance savingsBalance lastUpdated incomeAmount expensesAmount savingsTransferAmount'.split(' ')
     _.extend(this, _.pick(data, props))
 
     if (data.goals) {
@@ -77,6 +82,7 @@ class State {
       savingsBalance: this.savingsBalance,
       incomeAmount: this.incomeAmount,
       expensesAmount: this.expensesAmount,
+      savingsTransferAmount: this.savingsTransferAmount,
       lastUpdated: this.lastUpdated,
       goals: _.map(this._goals.values(), (goal) => goal.serialize()),
     }
