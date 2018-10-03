@@ -91,7 +91,7 @@ class Income extends Component {
     const expensesPercent = expensesAmount / incomeAmount * 100
     const savingsTransferPercent = savingsTransferAmount / incomeAmount * 100
     const goalsPercent = goalsAmount / incomeAmount * 100
-    const leftoverPercent = 100 - expensesPercent - goalsPercent
+    const leftoverPercent = 100 - expensesPercent - savingsTransferPercent - goalsPercent
     const maxExpensesAmount = incomeAmount - savingsTransferAmount - goalsAmount
     const maxSavingsTransferAmount = incomeAmount - expensesAmount - goalsAmount
 
