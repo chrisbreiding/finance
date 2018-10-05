@@ -158,6 +158,7 @@ form {
   label {
     color: #666;
     flex-shrink: 0;
+    line-height: 1.4;
     margin-right: 0.5em;
     text-align: right;
     width: 5.5em;
@@ -371,6 +372,10 @@ $bar-height: 0.6em;
       }
     }
 
+    &.savings-transfer {
+      background: darken($warning-color, 20%);
+    }
+
     &.planned {
       background: $secondary-color;
 
@@ -511,6 +516,10 @@ section.income {
 }
 
 .edit-income {
+  form label {
+    width: 7.5em;
+  }
+  
   .controls {
     justify-content: flex-end;
   }

@@ -31,7 +31,7 @@ const EditIncome = observer((props) => {
 
       <form onSubmit={saveGoal} noValidate>
         <div className='group'>
-          <label>Budgeted</label>
+          <label>Expenses</label>
           <input
             ref={(node) => expensesAmount = node}
             type='number'
@@ -51,7 +51,6 @@ const EditIncome = observer((props) => {
           />
           <div className='limits'>
             <span className='value'>Min: {format$(0)}</span>
-            <span className='value'>Max: {format$(props.maxSavingsTransferAmount)}</span>
           </div>
         </div>
         <div className='group'>
@@ -88,12 +87,12 @@ class Income extends Component {
       savingsTransferAmount,
     } = state
 
-    const expensesPercent = expensesAmount / incomeAmount * 100
-    const savingsTransferPercent = savingsTransferAmount / incomeAmount * 100
-    const goalsPercent = goalsAmount / incomeAmount * 100
+    const totalIncomeAmount = savingsTransferAmount + incomeAmount
+    const expensesPercent = expensesAmount / totalIncomeAmount * 100
+    const savingsTransferPercent = savingsTransferAmount / totalIncomeAmount * 100
+    const goalsPercent = goalsAmount / totalIncomeAmount * 100
     const leftoverPercent = 100 - expensesPercent - savingsTransferPercent - goalsPercent
-    const maxExpensesAmount = incomeAmount - savingsTransferAmount - goalsAmount
-    const maxSavingsTransferAmount = incomeAmount - expensesAmount - goalsAmount
+    const maxExpensesAmount = incomeAmount - goalsAmount
 
     return (
       <section className='income'>
@@ -105,15 +104,15 @@ class Income extends Component {
             </button>
           </div>
         </h2>
-        <Bar total={incomeAmount}>
+        <Bar total={totalIncomeAmount}>
           <BarPart
-            id='income-budgeted'
-            label='budgeted'
+            id='income-expenses'
+            label='expenses'
             type='expense'
             percent={expensesPercent}
             value={rounded(expensesAmount, maxExpensesAmount, incomeAmount)}
             onUpdatePercent={(percent) => {
-              const amount = percentToAmount(incomeAmount, percent)
+              const amount = percentToAmount(totalIncomeAmount, percent)
               state.setExpensesAmount(amount > maxExpensesAmount ? maxExpensesAmount : amount)
             }}
             onFinishUpdatingPercent={() => {
@@ -124,19 +123,10 @@ class Income extends Component {
           <BarPart
             id='income-savings-transfer'
             label='savings transfer'
-            type='savings'
+            type='savings-transfer'
+            draggable={false}
             percent={savingsTransferPercent}
-            value={rounded(savingsTransferAmount, maxSavingsTransferAmount, incomeAmount)}
-            onUpdatePercent={(percent) => {
-              // percent is from the far left of bar, including expenses,
-              // so we need to subtract that
-              const amount = percentToAmount(incomeAmount, percent - expensesPercent)
-              state.setSavingsTransferAmount(amount > maxSavingsTransferAmount ? maxSavingsTransferAmount : amount)
-            }}
-            onFinishUpdatingPercent={() => {
-              state.setSavingsTransferAmount(rounded(savingsTransferAmount, maxSavingsTransferAmount, incomeAmount))
-              this.props.onSave()
-            }}
+            value={savingsTransferAmount}
           />
           <BarPart
             id='income-planned'
@@ -158,11 +148,10 @@ class Income extends Component {
         <EditIncome
           isEditing={this.isEditing}
           incomeAmount={incomeAmount}
-          minIncomeAmount={expensesAmount + savingsTransferAmount + goalsAmount}
+          minIncomeAmount={expensesAmount + goalsAmount}
           expensesAmount={expensesAmount}
           maxExpensesAmount={maxExpensesAmount}
           savingsTransferAmount={savingsTransferAmount}
-          maxSavingsTransferAmount={maxSavingsTransferAmount}
           onClose={this._edit(false)}
           onSave={this._save}
         />

@@ -36,7 +36,7 @@ class State {
   }
 
   @computed get availableIncome () {
-    return this.incomeAmount - this.expensesAmount - this.savingsTransferAmount - this.goalsAmount
+    return this.incomeAmount - this.expensesAmount - this.goalsAmount
   }
 
   getGoalById (id) {
@@ -45,10 +45,6 @@ class State {
 
   @action setExpensesAmount (amount) {
     this.expensesAmount = util.toTwoDecimals(amount)
-  }
-
-  @action setSavingsTransferAmount (amount) {
-    this.savingsTransferAmount = util.toTwoDecimals(amount)
   }
 
   @action updateData = (data) => {
