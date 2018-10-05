@@ -133,6 +133,21 @@ h2, h3 {
 
 .income,
 .goal {
+  header {
+    align-items: center;
+    display: flex;
+  }
+
+  p {
+    color: #777;
+    font-size: 0.8em;
+    margin: 0;
+    margin-left: 0.4em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
   &:hover .controls {
     display: flex;
   }
@@ -372,10 +387,6 @@ $bar-height: 0.6em;
       }
     }
 
-    &.savings-transfer {
-      background: darken($warning-color, 20%);
-    }
-
     &.planned {
       background: $secondary-color;
 
@@ -474,23 +485,8 @@ section.income {
 .goal {
   margin: 0.8em 0;
 
-  header {
-    align-items: center;
-    display: flex;
-  }
-
   &.sorting-helper .controls {
     display: flex;
-  }
-
-  p {
-    color: #777;
-    font-size: 0.8em;
-    margin: 0;
-    margin-left: 0.4em;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
   }
 }
 

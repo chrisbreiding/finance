@@ -50,7 +50,7 @@ const EditIncome = observer((props) => {
             defaultValue={props.savingsTransferAmount}
           />
           <div className='limits'>
-            <span className='value'>Min: {format$(0)}</span>
+            <span className='value'>Min: {format$(props.minSavingsTransferAmount)}</span>
           </div>
         </div>
         <div className='group'>
@@ -89,44 +89,38 @@ class Income extends Component {
 
     const totalIncomeAmount = savingsTransferAmount + incomeAmount
     const expensesPercent = expensesAmount / totalIncomeAmount * 100
-    const savingsTransferPercent = savingsTransferAmount / totalIncomeAmount * 100
     const goalsPercent = goalsAmount / totalIncomeAmount * 100
-    const leftoverPercent = 100 - expensesPercent - savingsTransferPercent - goalsPercent
-    const maxExpensesAmount = incomeAmount - goalsAmount
+    const leftoverPercent = 100 - expensesPercent - goalsPercent
+    const maxExpensesAmount = totalIncomeAmount - goalsAmount
 
     return (
       <section className='income'>
-        <h2>
-          Income
-          <div className='controls'>
-            <button onClick={this._edit(true)}>
-              <i className='fa fa-edit' />
-            </button>
-          </div>
-        </h2>
+        <header>
+          <h2>
+            Income
+            <div className='controls'>
+              <button onClick={this._edit(true)}>
+                <i className='fa fa-edit' />
+              </button>
+            </div>
+          </h2>
+          <p>{this._incomeInfo()}</p>
+        </header>
         <Bar total={totalIncomeAmount}>
           <BarPart
             id='income-expenses'
             label='expenses'
             type='expense'
             percent={expensesPercent}
-            value={rounded(expensesAmount, maxExpensesAmount, incomeAmount)}
+            value={rounded(expensesAmount, maxExpensesAmount, totalIncomeAmount)}
             onUpdatePercent={(percent) => {
               const amount = percentToAmount(totalIncomeAmount, percent)
               state.setExpensesAmount(amount > maxExpensesAmount ? maxExpensesAmount : amount)
             }}
             onFinishUpdatingPercent={() => {
-              state.setExpensesAmount(rounded(expensesAmount, maxExpensesAmount, incomeAmount))
+              state.setExpensesAmount(rounded(expensesAmount, maxExpensesAmount, totalIncomeAmount))
               this.props.onSave()
             }}
-          />
-          <BarPart
-            id='income-savings-transfer'
-            label='savings transfer'
-            type='savings-transfer'
-            draggable={false}
-            percent={savingsTransferPercent}
-            value={savingsTransferAmount}
           />
           <BarPart
             id='income-planned'
@@ -148,15 +142,27 @@ class Income extends Component {
         <EditIncome
           isEditing={this.isEditing}
           incomeAmount={incomeAmount}
-          minIncomeAmount={expensesAmount + goalsAmount}
+          minIncomeAmount={expensesAmount + goalsAmount - savingsTransferAmount}
           expensesAmount={expensesAmount}
           maxExpensesAmount={maxExpensesAmount}
           savingsTransferAmount={savingsTransferAmount}
+          minSavingsTransferAmount={expensesAmount + goalsAmount - incomeAmount}
           onClose={this._edit(false)}
           onSave={this._save}
         />
       </section>
     )
+  }
+
+  _incomeInfo () {
+    const {
+      incomeAmount,
+      savingsTransferAmount,
+    } = state
+
+    if (!savingsTransferAmount) return null
+
+    return `${format$(incomeAmount)} income + ${format$(savingsTransferAmount)} savings transfer`
   }
 
   @action _edit = (isEditing) => () => {

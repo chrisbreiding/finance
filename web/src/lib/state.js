@@ -36,7 +36,7 @@ class State {
   }
 
   @computed get availableIncome () {
-    return this.incomeAmount - this.expensesAmount - this.goalsAmount
+    return this.incomeAmount + this.savingsTransferAmount - this.expensesAmount - this.goalsAmount
   }
 
   getGoalById (id) {
