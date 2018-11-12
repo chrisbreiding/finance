@@ -59,8 +59,8 @@ class State {
   }
 
   @action addGoal = () => {
-    const id = util.newId(this.goals)
-    const order = util.newOrder(this.goals)
+    const id = util.nextNumber(this.goals, 'id')
+    const order = util.nextNumber(this.goals, 'order')
     this._goals.set(id, new Goal({ id, order }))
   }
 

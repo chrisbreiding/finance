@@ -12,12 +12,10 @@ function format$ (amount) {
   return format(amount, { code: 'USD' }).replace(/\.\d+$/, '')
 }
 
-function newId (itemsWithIds) {
-  return (_(itemsWithIds).map('id').sort().last() || 0) + 1
-}
+function nextNumber (items, property) {
+  if (!items.length) return 0
 
-function newOrder (itemsWithOrders) {
-  return (_(itemsWithOrders).map('order').sort().last() || 0) + 1
+  return Math.max(..._.map(items, property)) + 1
 }
 
 function percentToAmount (total, percent) {
@@ -43,8 +41,7 @@ function toTwoDecimals (amount) {
 export default {
   ensureNumber,
   format$,
-  newId,
-  newOrder,
+  nextNumber,
   percentToAmount,
   rounded,
   toTwoDecimals,
