@@ -4,6 +4,10 @@ const browser = require('./browser')
 const db = require('../db')
 const util = require('../util')
 
+browser.bus.on('debug:message', (event, message) => {
+  console.log(message) // eslint-disable-line no-console
+})
+
 module.exports = {
   scrape ({ prefix, suffix, url }) {
     return new Promise((resolve, reject) => {

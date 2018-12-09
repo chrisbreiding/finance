@@ -18,4 +18,8 @@ module.exports = {
     })
     .timeout(GET_EL_TIMEOUT)
   },
+
+  amountFromText (text) {
+    return Number(text.replace(/[\$ ,]+/g, ''))
+  },
 }

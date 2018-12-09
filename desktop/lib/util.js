@@ -13,8 +13,12 @@ const isDev = process.env.NODE_ENV === 'development'
 
 const config = new Config()
 
+function isBrowserDebug () {
+  return !!process.env.DEBUG_BROWSER || !!getSetting('debug:browser')
+}
+
 function isDebug () {
-  return !!process.env.DEBUG || !!getSetting('debug')
+  return !!process.env.DEBUG
 }
 
 function toColor (color, args) {
@@ -37,6 +41,15 @@ function formatBalances ({ savingsBalance, checkingBalance }) {
   return {
     'Savings': savingsBalance,
     'Checking': checkingBalance,
+  }
+}
+
+function formatRewards ({ amex, citiMc, citiVisa, discover }) {
+  return {
+    'Amex': amex,
+    'Citi MC': citiMc,
+    'Citi Visa': citiVisa,
+    'Discover': discover,
   }
 }
 
@@ -102,11 +115,13 @@ module.exports = {
   appName,
   timeout,
   isDev,
+  isBrowserDebug,
   isDebug,
   log,
   logInfo,
   logError,
   formatBalances,
+  formatRewards,
   sumMoney,
   getWindowSettings,
   updateWindowSettings,

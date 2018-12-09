@@ -15,39 +15,53 @@ window.addEventListener('load', () => {
     ipcRenderer.send('get:amex:credentials')
   }
 
-  function isAfterBillPaid () {
-    return !!$('h1:contains("Payment not required")').length
+  window.login = login
+
+  // function isAfterBillPaid () {
+  //   return !!$('h1:contains("Payment not required")').length
+  // }
+
+  // function getAmount () {
+  //   const amountText = $('.balance-container .summary-info span:contains("$"):first').text()
+  //   return driver.amountFromText(amountText)
+  // }
+
+  // function getDate () {
+  //   return $('.payments-container .data-value:first').text()
+  // }
+
+  function getRewardsAmount () {
+    const amountText = $('.loyalty-tile-title').parent().siblings('.data-value').text()
+    return driver.amountFromText(amountText)
   }
 
-  function getAmount () {
-    const amountText = $('.balance-container .summary-info span:contains("$"):first').text()
-    return Number(amountText.replace(/[\$ ,]+/g, ''))
-  }
-
-  function getDate () {
-    return $('.payments-container .data-value:first').text()
-  }
-
-  function sendBillingInfo () {
-    driver.ensure(() => $('.payments-container .header-container').length)
+  function sendInfo () {
+    // driver.ensure(() => $('.payments-container .header-container').length)
+    driver.ensure(() => $('.loyalty-tile-title').length)
     .then(() => {
-      const data = isAfterBillPaid() ? null : {
-        amount: getAmount(),
-        date: getDate(),
-      }
+      // const data = isAfterBillPaid() ? {} : {
+      //   amount: getAmount(),
+      //   date: getDate(),
+      // }
+      const data = {}
 
-      ipcRenderer.send('amex:billing', null, data)
+      data.rewardsAmount = getRewardsAmount()
+
+      ipcRenderer.send('amex:info', null, data)
     })
     .catch(() => {
-      ipcRenderer.send('amex:billing', { message: 'Failed trying to ensure payments container' })
+      ipcRenderer.send('amex:info', { message: 'Failed trying to ensure payments container' })
     })
   }
 
   const isLogin = !!$('#lilo_formLogon').length
+  const isMainPage = !!$('.balance-container .summary-info').length
 
   if (isLogin) {
     login()
+  } else if (isMainPage) {
+    sendInfo()
   } else {
-    sendBillingInfo()
+    ipcRenderer.send('amex:unexpected:page')
   }
 })

@@ -13,6 +13,7 @@ import Goals from './goals'
 import Income from './income'
 import Loader from './loader'
 import Refresh from './refresh'
+import Rewards from './rewards'
 import Savings from './savings'
 
 const saveData = () => {
@@ -66,6 +67,7 @@ class App extends Component {
         'is-sorting': state.isSorting,
       })}>
         <Refresh onSave={saveData} />
+        <Rewards />
         <Checking />
         <Savings />
         <Income onSave={saveData} />

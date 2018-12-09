@@ -50,8 +50,6 @@ window.addEventListener('load', () => {
   const isSecurityQuestion = !!$('#ctl00_pagePlaceholder_ucSecurityQuestion_txtAnswer').length
   const isBalances = !!$('#ctl00_ctl00_pagePlaceholder_sectionContent_tblAccountSummary').length
 
-  debugger
-
   if (isLogin) {
     login()
   } else if (isSecurityQuestion) {

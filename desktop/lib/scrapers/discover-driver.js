@@ -3,12 +3,13 @@
 window.addEventListener('load', () => {
   const { ipcRenderer } = require('electron')
   const $ = window.$ = require('jquery')
+  const driver = require('./driver')
 
   function login () {
     ipcRenderer.on('discover:credentials', (event, { username, password }) => {
-      $('.content-login-wrapper #userid').val(username)
-      $('.content-login-wrapper #password').val(password)
-      $('.content-login-wrapper #login-form-content').submit()
+      $('#login-form-content #userid-content').val(username)
+      $('#login-form-content #password-content').val(password)
+      $('#login-form-content').submit()
     })
 
     ipcRenderer.send('get:discover:credentials')
@@ -16,26 +17,35 @@ window.addEventListener('load', () => {
 
   window.login = login
 
-  function isAfterBillPaid () {
-    return Number($('.min-payment-due').text()) === 0
+  // function isAfterBillPaid () {
+  //   return Number($('.min-payment-due').text()) === 0
+  // }
+
+  // function getAmount () {
+  //   const amountText = $('.statement-balance').text()
+  //   return driver.amountFromText(amountText)
+  // }
+
+  // function getDate () {
+  //   return $('.payment-due-date').text()
+  // }
+
+  function getRewardsAmount () {
+    const amountText = $('.cashback-bonus-amount').text()
+    return driver.amountFromText(amountText)
   }
 
-  function getAmount () {
-    const amountText = $('.statement-balance').text()
-    return Number(amountText.replace(/[\$ ,]+/g, ''))
-  }
+  function sendInfo () {
+    // const data = isAfterBillPaid() ? null : {
+    //   amount: getAmount(),
+    //   date: getDate(),
+    // }
 
-  function getDate () {
-    return $('.payment-due-date').text()
-  }
+    const data = {}
 
-  function sendBillingInfo () {
-    const data = isAfterBillPaid() ? null : {
-      amount: getAmount(),
-      date: getDate(),
-    }
+    data.rewardsAmount = getRewardsAmount()
 
-    ipcRenderer.send('discover:billing', null, data)
+    ipcRenderer.send('discover:info', null, data)
   }
 
   const shouldIgnore = /signin/.test(window.location.href)
@@ -45,10 +55,13 @@ window.addEventListener('load', () => {
   }
 
   const isLogin = !!$('.content-login-wrapper #login-form-content').length
+  const isMain = !!$('.cashback-bonus-amount').length
 
   if (isLogin) {
     login()
+  } else if (isMain) {
+    sendInfo()
   } else {
-    sendBillingInfo()
+    ipcRenderer.send('discover:unexpected:page')
   }
 })

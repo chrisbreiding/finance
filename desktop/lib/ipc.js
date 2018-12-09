@@ -10,7 +10,7 @@ const send = (eventName, ...args) => {
 }
 
 const sendDebug = (message) => {
-  return send('debug', message)
+  return send('debug:message', message)
 }
 
 const sendInfo = (message, details) => {

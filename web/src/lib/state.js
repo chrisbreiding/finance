@@ -14,6 +14,7 @@ class State {
   @observable savingsTransferAmount = 0
   @observable _goals = observable.map()
   @observable isSorting = false
+  @observable rewards = observable.map()
 
   @computed get isGrabbing () {
     return !!this.draggingId
@@ -48,7 +49,7 @@ class State {
   }
 
   @action updateData = (data) => {
-    const props = 'checkingBalance savingsBalance lastUpdated incomeAmount expensesAmount savingsTransferAmount'.split(' ')
+    const props = 'checkingBalance savingsBalance lastUpdated incomeAmount expensesAmount savingsTransferAmount rewards'.split(' ')
     _.extend(this, _.pick(data, props))
 
     if (data.goals) {

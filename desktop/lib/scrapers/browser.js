@@ -2,7 +2,7 @@ const { BrowserWindow, ipcMain } = require('electron')
 const contextMenu = require('electron-context-menu')
 const path = require('path')
 const Promise = require('bluebird')
-const { isDebug } = require('../util')
+const { isBrowserDebug } = require('../util')
 
 ipcMain.on('log', (event, ...messages) => {
   console.log(...messages) // eslint-disable-line no-console
@@ -20,7 +20,7 @@ module.exports = {
 
   window ({ preload }) {
     const win = new BrowserWindow({
-      show: isDebug(),
+      show: isBrowserDebug(),
       width: 1024,
       height: 700,
       webPreferences: {
@@ -29,7 +29,7 @@ module.exports = {
       },
     })
 
-    if (isDebug()) {
+    if (isBrowserDebug()) {
       win.webContents.openDevTools()
     }
 

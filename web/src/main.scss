@@ -457,9 +457,52 @@ $bar-height: 0.6em;
 }
 
 section.checking,
+section.rewards,
 section.savings,
 section.income {
   margin-bottom: 1em;
+}
+
+.rewards {
+  h2 {
+    margin-bottom: 0.6em;
+  }
+  
+  ul {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  li {
+    text-align: center;
+  }
+
+  h3 {
+    margin-bottom: 0.6em;
+  }
+
+  .amex i { color: #0068d5; }
+  .citiMc i { color: #ff4600; }
+  .citiVisa i { color: #1e156a; }
+  .discover i { color: #f77400; }
+
+  div {
+    color: #666;
+  }
+
+  @media screen and (min-width: 650px) {
+    li {
+      display: flex;
+    }
+
+    h3 {
+      margin-right: 0.4em;
+
+      &:after {
+        content: ':';
+      }
+    }
+  }
 }
 
 .checking .bar main,

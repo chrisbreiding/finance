@@ -40,6 +40,6 @@ ipc.on('select:data:file', (event) => {
   })
 })
 
-ipc.on('set:debug', (event, onOrOff) => {
-  util.setSetting('debug', onOrOff)
+ipc.on('set:debug:browser', (event, onOrOff) => {
+  util.setSetting('debug:browser', onOrOff)
 })
