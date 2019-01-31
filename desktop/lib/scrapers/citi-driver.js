@@ -6,6 +6,12 @@ module.exports = (type) => {
     const $ = window.$ = require('jquery')
     const driver = require('./driver')
 
+    if (window.debug) {
+      debugger
+    }
+
+    window.ipcRenderer = ipcRenderer
+
     function login () {
       ipcRenderer.on(`citi-${type}:credentials`, (event, { username, password }) => {
         $('#username').val(username)
@@ -37,10 +43,18 @@ module.exports = (type) => {
     //   return dueDateText.replace(/Due\s+/, '')
     // }
 
+    const rewardsValueSelector = '.cA-mrc-rewardsvalue'
+
     function getRewardsAmount () {
-      const amountText = $('.cA-spf-rewardsValue').text()
+      const amountText = $(rewardsValueSelector).text()
       return driver.amountFromText(amountText)
     }
+
+    function sendRewardsAmount (rewardsAmount) {
+      ipcRenderer.send(`citi-${type}:info`, null, { rewardsAmount })
+    }
+
+    window.sendRewardsAmount = sendRewardsAmount
 
     function sendInfo () {
       // const data = isAfterBillPaid() ? null : {
@@ -48,16 +62,12 @@ module.exports = (type) => {
       //   date: getDate(),
       // }
 
-      const data = {}
-
-      data.rewardsAmount = getRewardsAmount()
-
-      ipcRenderer.send(`citi-${type}:info`, null, data)
+      sendRewardsAmount(getRewardsAmount())
     }
 
     const isLogin = /login/.test(window.location.href)
     const isLoggedOut = /signoff/.test(window.location.href)
-    const isMain = !!$('.cA-spf-rewardsValue').length
+    const isMain = !!$(rewardsValueSelector).length
 
     if (isLogin) {
       const $signOffButton = $('.signOffBtn')
