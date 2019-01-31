@@ -2,7 +2,7 @@
 
 const _ = require('lodash')
 const chalk = require('chalk')
-const Config = require('electron-config')
+const Store = require('electron-store')
 const homedir = require('homedir')()
 const moment = require('moment')
 
@@ -11,7 +11,7 @@ const appName = require('../package').productName
 const timeout = 30000 // 30 seconds
 const isDev = process.env.NODE_ENV === 'development'
 
-const config = new Config()
+const store = new Store()
 
 function isBrowserDebug () {
   return !!process.env.DEBUG_BROWSER || !!getSetting('debug:browser')
@@ -59,22 +59,22 @@ function sumMoney (...amounts) {
 }
 
 function getWindowSettings () {
-  return config.get('window') || {
+  return store.get('window') || {
     width: 600,
     height: (isDev ? 700 : 400),
   }
 }
 
 function updateWindowSettings (newSettings) {
-  config.set('window', _.extend(getWindowSettings(), newSettings))
+  store.set('window', _.extend(getWindowSettings(), newSettings))
 }
 
 function getSetting (key) {
-  return config.get(key)
+  return store.get(key)
 }
 
 function setSetting (key, value) {
-  config.set(key, value)
+  store.set(key, value)
 }
 
 const tildeify = (path) => {
