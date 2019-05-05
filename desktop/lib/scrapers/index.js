@@ -7,14 +7,12 @@ function getRewards () {
   return Promise.map([
     require('./amex-scraper'),
     require('./citi-scraper').bind(null, 'mc'),
-    require('./citi-scraper').bind(null, 'visa'),
     require('./discover-scraper'),
   ], invoke, { concurrency: 1 })
-  .spread((amex, citiMc, citiVisa, discover) => {
+  .spread((amex, citiMc, discover) => {
     return {
       amex: amex.rewardsAmount,
       citiMc: citiMc.rewardsAmount,
-      citiVisa: citiVisa.rewardsAmount,
       discover: discover.rewardsAmount,
     }
   })

@@ -50,24 +50,34 @@ module.exports = (type) => {
       return driver.amountFromText(amountText)
     }
 
-    function sendRewardsAmount (rewardsAmount) {
-      ipcRenderer.send(`citi-${type}:info`, null, { rewardsAmount })
+    function sendData (error, data) {
+      ipcRenderer.send(`citi-${type}:info`, error, data)
     }
 
-    window.sendRewardsAmount = sendRewardsAmount
+    window.sendData = sendData
 
     function sendInfo () {
-      // const data = isAfterBillPaid() ? null : {
-      //   amount: getAmount(),
-      //   date: getDate(),
-      // }
+      driver.ensure(() => $(rewardsValueSelector).length)
+      .then(() => {
+        // const data = isAfterBillPaid() ? {} : {
+        //   amount: getAmount(),
+        //   date: getDate(),
+        // }
 
-      sendRewardsAmount(getRewardsAmount())
+        sendData(null, {
+          rewardsAmount: getRewardsAmount(),
+        })
+      })
+      .catch(() => {
+        sendData({ message: 'Failed trying to ensure rewards amount container' })
+      })
     }
 
     const isLogin = /login/.test(window.location.href)
     const isLoggedOut = /signoff/.test(window.location.href)
-    const isMain = !!$(rewardsValueSelector).length
+    const isMain = /dashboard/.test(window.location.href)
+
+    const localStorageKey = `__finance__numRetriesCiti${type}`
 
     if (isLogin) {
       const $signOffButton = $('.signOffBtn')
@@ -81,9 +91,14 @@ module.exports = (type) => {
     } else if (isMain) {
       sendInfo()
     } else {
-      setTimeout(() => {
+      const numRetries = window.localStorage[localStorageKey] || 0
+      if (numRetries > 5) {
+        window.localStorage[localStorageKey] = 0
         ipcRenderer.send(`citi-${type}:unexpected:page`)
-      }, 5000)
+      } else {
+        window.localStorage[localStorageKey] = numRetries + 1
+        window.location.reload()
+      }
     }
   })
 }

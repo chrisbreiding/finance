@@ -6,7 +6,6 @@ import util from '../lib/util'
 const rewards = [
   { label: 'Amex', key: 'amex', icon: 'cc-amex' },
   { label: 'Citi MC', key: 'citiMc', icon: 'cc-mastercard' },
-  { label: 'Citi Visa', key: 'citiVisa', icon: 'cc-visa' },
   { label: 'Discover', key: 'discover', icon: 'cc-discover' },
 ]
 
