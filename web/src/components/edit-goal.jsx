@@ -5,7 +5,7 @@ import { ensureNumber, format$ } from '../lib/util'
 import Modal from './modal'
 
 const EditGoal = observer((props) => {
-  let label, description, savedAmount, plannedAmount, totalAmount // eslint-disable-line one-var
+  let label, description, savedAmount, plannedAmount, totalAmount, showProjection // eslint-disable-line one-var
 
   const { goal } = props
 
@@ -18,6 +18,7 @@ const EditGoal = observer((props) => {
       savedAmount: ensureNumber(savedAmount.value),
       plannedAmount: ensureNumber(plannedAmount.value),
       totalAmount: ensureNumber(totalAmount.value),
+      showProjection: showProjection.checked,
     })
   }
 
@@ -81,6 +82,14 @@ const EditGoal = observer((props) => {
           <div className='limits'>
             <span className='value'>Min: {format$(goal.minTotalAmount)}</span>
           </div>
+        </div>
+        <div className='group'>
+          <label>Estimate</label>
+          <input
+            ref={(node) => showProjection = node}
+            type='checkbox'
+            defaultChecked={goal.showProjection}
+          />
         </div>
         <div className='group controls'>
           <a className='button delete' onClick={deleteGoal} href='#'>

@@ -1,4 +1,5 @@
 import { action, computed, observable } from 'mobx'
+import moment from 'moment'
 import util from './util'
 
 class Goal {
@@ -9,6 +10,7 @@ class Goal {
   @observable plannedAmount = 0
   @observable totalAmount = 100
   @observable order = 0
+  @observable showProjection = false
 
   constructor (props) {
     this.setProps(props)
@@ -22,6 +24,15 @@ class Goal {
     return this.totalAmount - this.savedAmount - this.plannedAmount
   }
 
+  @computed get projection () {
+    if (!this.showProjection || this.totalAmount <= 0 || this.plannedAmount <= 0) {
+      return null
+    }
+
+    const numMonths = Math.ceil((this.totalAmount - this.savedAmount) / this.plannedAmount)
+    return moment().add(numMonths, 'months').format("MMM YYYY")
+  }
+
   @action setProps = (props = {}) => {
     if (props.id != null) this.id = props.id
     if (props.label != null) this.label = props.label
@@ -30,6 +41,7 @@ class Goal {
     if (props.plannedAmount != null) this.plannedAmount = util.toTwoDecimals(props.plannedAmount)
     if (props.totalAmount != null) this.totalAmount = util.toTwoDecimals(props.totalAmount)
     if (props.order != null) this.order = props.order
+    if (props.showProjection != null) this.showProjection = props.showProjection
   }
 
   serialize () {
@@ -41,6 +53,7 @@ class Goal {
       plannedAmount: this.plannedAmount,
       totalAmount: this.totalAmount,
       order: this.order,
+      showProjection: this.showProjection,
     }
   }
 }

@@ -148,6 +148,18 @@ h2, h3 {
     white-space: nowrap;
   }
 
+  .spacer {
+    flex-grow: 2;
+  }
+
+  .projection {
+    flex-shrink: 0;
+
+    i {
+      margin-right: 0.5em;
+    }
+  }
+
   &:hover .controls {
     display: flex;
   }
@@ -183,6 +195,10 @@ form {
   textarea {
     flex-shrink: 0;
     width: 14em;
+  }
+
+  input[type=checkbox] {
+    width: auto;
   }
 
   .limits {
@@ -467,7 +483,7 @@ section.income {
   h2 {
     margin-bottom: 0.6em;
   }
-  
+
   ul {
     display: flex;
     justify-content: space-between;
@@ -558,7 +574,7 @@ section.income {
   form label {
     width: 7.5em;
   }
-  
+
   .controls {
     justify-content: flex-end;
   }

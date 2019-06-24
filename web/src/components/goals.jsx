@@ -35,7 +35,12 @@ class Goal extends Component {
               <SortHandle />
             </div>
           </h3>
-          {goal.description && <p>{goal.description}</p>}
+          {goal.description && <p className='description'>{goal.description}</p>}
+          {goal.projection && <p className='spacer' />}
+          {goal.projection && <p className='projection'>
+            <i className='fa fa-calendar' />
+            {goal.projection}
+          </p>}
         </header>
         <Bar total={goal.totalAmount}>
           <BarPart
