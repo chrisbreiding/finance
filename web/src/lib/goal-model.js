@@ -30,7 +30,7 @@ class Goal {
     }
 
     const numMonths = Math.ceil((this.totalAmount - this.savedAmount) / this.plannedAmount)
-    return moment().add(numMonths, 'months').format("MMM YYYY")
+    return moment().add(numMonths, 'months').format('MMM YYYY')
   }
 
   @action setProps = (props = {}) => {

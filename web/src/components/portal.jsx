@@ -43,20 +43,24 @@ class Portal extends Component {
   }
 
   _enter () {
-    setTimeout(this._withElement(() => {
-      this.element.className = 'has-entered'
-    }, 50))
+    this._withElement(() => {
+      setTimeout(() => {
+        this.element.className = 'has-entered'
+      }, 50)
+    })
   }
 
   _removeContainer () {
     if (!this.element) return
 
     this.element.className = ''
-    setTimeout(this._withElement(() => {
-      unmountComponentAtNode(this.element)
-      document.body.removeChild(this.element)
-      this.element = null
-    }, 350))
+    this._withElement(() => {
+      setTimeout(() => {
+        unmountComponentAtNode(this.element)
+        document.body.removeChild(this.element)
+        this.element = null
+      }, 350)
+    })
   }
 
   _withElement (fn) {

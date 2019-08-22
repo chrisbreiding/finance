@@ -132,6 +132,7 @@ h2, h3 {
 }
 
 .income,
+.rewards,
 .goal {
   header {
     align-items: center;
@@ -570,6 +571,7 @@ section.income {
   }
 }
 
+.edit-rewards,
 .edit-income {
   form label {
     width: 7.5em;

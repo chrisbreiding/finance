@@ -1,0 +1,118 @@
+{
+  "checkingBalance": 8000.00,
+  "expensesAmount": 8600,
+  "goals": [
+    {
+      "description": "Some really long description that's going to run into the projection",
+      "id": 1,
+      "label": "The Fund",
+      "order": 2,
+      "plannedAmount": 50,
+      "savedAmount": 2000,
+      "showProjection": true,
+      "totalAmount": 20000
+    },
+    {
+      "description": "power tools: 5k, staples: 1k, chairs: 4k",
+      "id": 2,
+      "label": "House Stuff",
+      "order": 0,
+      "plannedAmount": 2000,
+      "savedAmount": 1000,
+      "showProjection": true,
+      "totalAmount": 10000
+    },
+    {
+      "description": "",
+      "id": 4,
+      "label": "Some Trip",
+      "order": 3,
+      "plannedAmount": 0,
+      "savedAmount": 0,
+      "showProjection": false,
+      "totalAmount": 600
+    },
+    {
+      "description": "",
+      "id": 5,
+      "label": "Haircuts",
+      "order": 0,
+      "plannedAmount": 500,
+      "savedAmount": 0,
+      "showProjection": true,
+      "totalAmount": 1100
+    },
+    {
+      "description": "one for each room in the house",
+      "id": 6,
+      "label": "Dog Beds",
+      "order": 4,
+      "plannedAmount": 500,
+      "savedAmount": 500,
+      "showProjection": false,
+      "totalAmount": 1500
+    },
+    {
+      "description": "",
+      "id": 7,
+      "label": "7",
+      "order": 5,
+      "plannedAmount": 0,
+      "savedAmount": 0,
+      "showProjection": false,
+      "totalAmount": 0
+    },
+    {
+      "description": "",
+      "id": 8,
+      "label": "8",
+      "order": 6,
+      "plannedAmount": 0,
+      "savedAmount": 0,
+      "showProjection": false,
+      "totalAmount": 100
+    },
+    {
+      "description": "",
+      "id": 9,
+      "label": "9",
+      "order": 7,
+      "plannedAmount": 0,
+      "savedAmount": 0,
+      "showProjection": false,
+      "totalAmount": 100
+    },
+    {
+      "description": "",
+      "id": 10,
+      "label": "10",
+      "order": 9,
+      "plannedAmount": 0,
+      "savedAmount": 0,
+      "showProjection": false,
+      "totalAmount": 100
+    }
+  ],
+  "incomeAmount": 10000,
+  "lastUpdated": "2019-02-01T14:51:58.712Z",
+  "rewards": {
+    "amex": {
+      "amount": 123.45,
+      "lastUpdated": "2019-02-02T14:51:58.712Z"
+    },
+    "citiMc": {
+      "amount": 456.78,
+      "lastUpdated": "2019-02-03T14:51:58.712Z"
+    },
+    "amazonVisa": {
+      "amount": 789.01,
+      "lastUpdated": "2019-02-03T14:51:58.712Z"
+    },
+    "discover": {
+      "amount": 543.21,
+      "lastUpdated": "2019-02-04T14:51:58.712Z"
+    }
+  },
+  "savingsBalance": 20000.00,
+  "savingsTransferAmount": 2000
+}

@@ -28,7 +28,7 @@ const EditGoal = observer((props) => {
   }
 
   return (
-    <Modal className='editor edit-goal' isShowing={props.isEditing}>
+    <Modal className='editor' isShowing={props.isEditing}>
       <button className='close' onClick={props.onClose}>
         <i className='fa fa-remove' />
       </button>

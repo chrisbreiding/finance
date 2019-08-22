@@ -53,7 +53,7 @@ const refreshBalances = () => {
   })
 }
 
-export default {
+const api = {
   authenticate,
   pollData,
   pollAlerts,
@@ -61,3 +61,9 @@ export default {
   pingDesktop,
   refreshBalances,
 }
+
+if (window.Cypress) {
+  window.api = api
+}
+
+export default api

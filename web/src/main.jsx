@@ -37,4 +37,12 @@ class Main extends Component {
   }
 }
 
-render(<Main />, document.getElementById('app'))
+const start = () => {
+  render(<Main />, document.getElementById('app'))
+}
+
+if (window.Cypress) {
+  window.start = start
+} else {
+  start()
+}

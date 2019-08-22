@@ -49,12 +49,20 @@ class State {
   }
 
   @action updateData = (data) => {
-    const props = 'checkingBalance savingsBalance lastUpdated incomeAmount expensesAmount savingsTransferAmount rewards'.split(' ')
+    const props = 'checkingBalance savingsBalance lastUpdated incomeAmount expensesAmount savingsTransferAmount'.split(' ')
+
     _.extend(this, _.pick(data, props))
 
+    // TODO: if goal exists, use goal.setProps instead of creating new goal
     if (data.goals) {
-      _.map(data.goals, (goal) => {
+      _.each(data.goals, (goal) => {
         this._goals.set(goal.id, new Goal(goal))
+      })
+    }
+
+    if (data.rewards) {
+      _.each(data.rewards, (value, key) => {
+        this.rewards.set(key, value)
       })
     }
   }
@@ -82,6 +90,7 @@ class State {
       savingsTransferAmount: this.savingsTransferAmount,
       lastUpdated: this.lastUpdated,
       goals: _.map(this._goals.values(), (goal) => goal.serialize()),
+      rewards: this.rewards.toJS(),
     }
   }
 }

@@ -67,7 +67,7 @@ class App extends Component {
         'is-sorting': state.isSorting,
       })}>
         <Refresh onSave={saveData} />
-        <Rewards />
+        <Rewards onSave={saveData} />
         <Checking />
         <Savings />
         <Income onSave={saveData} />
