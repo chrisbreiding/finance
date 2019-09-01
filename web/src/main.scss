@@ -131,6 +131,8 @@ h2, h3 {
   }
 }
 
+.savings,
+.checking,
 .income,
 .rewards,
 .goal {
@@ -166,6 +168,9 @@ h2, h3 {
   }
 }
 
+.rewards,
+.savings,
+.checking,
 .income {
   .controls {
     top: 3px;
@@ -576,8 +581,31 @@ section.income {
   form label {
     width: 7.5em;
   }
+}
 
+.edit-accounts,
+.edit-rewards,
+.edit-income {
   .controls {
     justify-content: flex-end;
+  }
+}
+
+.edit-projection {
+  label:nth-of-type(2) {
+    visibility: hidden;
+    width: 4.5em;
+  }
+
+  input[type=number] {
+    visibility: hidden;
+    width: 8.2em;
+  }
+
+  &.show-projection-amount {
+    label,
+    input {
+      visibility: visible;
+    }
   }
 }

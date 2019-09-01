@@ -11,6 +11,7 @@ class Goal {
   @observable totalAmount = 100
   @observable order = 0
   @observable showProjection = false
+  @observable projectionAmount = 0
 
   constructor (props) {
     this.setProps(props)
@@ -29,7 +30,8 @@ class Goal {
       return null
     }
 
-    const numMonths = Math.ceil((this.totalAmount - this.savedAmount) / this.plannedAmount)
+    const projectionAmount = this.projectionAmount || this.plannedAmount
+    const numMonths = Math.ceil((this.totalAmount - this.savedAmount) / projectionAmount)
     return moment().add(numMonths, 'months').format('MMM YYYY')
   }
 
@@ -42,6 +44,7 @@ class Goal {
     if (props.totalAmount != null) this.totalAmount = util.toTwoDecimals(props.totalAmount)
     if (props.order != null) this.order = props.order
     if (props.showProjection != null) this.showProjection = props.showProjection
+    if (props.projectionAmount != null) this.projectionAmount = props.projectionAmount
   }
 
   serialize () {
@@ -54,6 +57,7 @@ class Goal {
       totalAmount: this.totalAmount,
       order: this.order,
       showProjection: this.showProjection,
+      projectionAmount: this.projectionAmount,
     }
   }
 }

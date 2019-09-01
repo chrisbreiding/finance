@@ -1,5 +1,6 @@
 import _ from 'lodash'
 import { action, computed, observable } from 'mobx'
+import moment from 'moment'
 
 import Goal from './goal-model'
 import util from './util'
@@ -62,6 +63,12 @@ class State {
 
     if (data.rewards) {
       _.each(data.rewards, (value, key) => {
+        if (_.isNumber(value)) {
+          value = {
+            amount: value,
+            lastUpdated: moment().toISOString(),
+          }
+        }
         this.rewards.set(key, value)
       })
     }

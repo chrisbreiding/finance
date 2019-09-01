@@ -10,7 +10,8 @@
       "plannedAmount": 50,
       "savedAmount": 2000,
       "showProjection": true,
-      "totalAmount": 20000
+      "totalAmount": 20000,
+      "projectionAmount": 2000
     },
     {
       "description": "power tools: 5k, staples: 1k, chairs: 4k",

@@ -9,11 +9,15 @@ import { ensureNumber, format$ } from '../lib/util'
 import Modal from './modal'
 
 const rewards = [
+  { label: 'Amazon Visa', key: 'amazonVisa', icon: 'cc-visa' },
   { label: 'Amex', key: 'amex', icon: 'cc-amex' },
   { label: 'Citi MC', key: 'citiMc', icon: 'cc-mastercard' },
-  { label: 'Amazon Visa', key: 'amazonVisa', icon: 'cc-visa' },
   { label: 'Discover', key: 'discover', icon: 'cc-discover' },
 ]
+
+const renderableRewards = () => rewards.filter(({ key }) => {
+  return state.rewards.has(key)
+})
 
 const EditRewards = observer((props) => {
   let nodes = {}
@@ -35,7 +39,7 @@ const EditRewards = observer((props) => {
       </button>
 
       <form onSubmit={save} noValidate>
-        {rewards.map(({ label, key, icon }) => (
+        {renderableRewards().map(({ label, key, icon }) => (
           <div className={`group edit-${key}`} key={key}>
             <label><i className={`fa fa-${icon}`} /> {label}</label>
             <input
@@ -70,7 +74,7 @@ class Rewards extends Component {
           </div>
         </h2>
         <ul>
-          {rewards.map(({ label, key, icon }) => (
+          {renderableRewards().map(({ label, key, icon }) => (
             <li key={key} className={key}>
               <h3><i className={`fa fa-${icon}`} /> {label}</h3>
               <div className='amount'>{format$(state.rewards.get(key).amount)}</div>

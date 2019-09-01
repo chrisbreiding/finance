@@ -24,9 +24,9 @@ const pollData = (cb) => {
 const pollAlerts = (cb) => {
   const intervalId = setInterval(() => {
     request(`${desktopBaseUrl}/alerts`)
-      .then((response) => response.json())
-      .catch(() => ({ alerts: 0 }))
-      .then(({ alerts }) => cb(alerts))
+    .then((response) => response.json())
+    .catch(() => ({ alerts: 0 }))
+    .then(({ alerts }) => cb(alerts))
   }, 1000)
 
   return () => {
