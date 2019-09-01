@@ -1,9 +1,11 @@
 import _ from 'lodash'
 import { format } from 'currency-formatter'
 
-function ensureNumber (numberString) {
+function ensureNumber (numberString = '') {
   if (typeof numberString === 'number') return numberString
+  if (typeof numberString !== 'string') return 0
 
+  numberString = numberString.replace(/[^0-9\.]/g, '')
   const maybeNumber = Number(numberString)
   return isNaN(maybeNumber) ? 0 : maybeNumber
 }
@@ -27,8 +29,8 @@ function rounded (amount, max = Infinity, barMax = 0) {
 
   const roundToNearest = (
     barMax > 20000 ? 100 :
-    barMax > 5000 ? 50 :
-    10
+      barMax > 5000 ? 50 :
+        10
   )
   const roundedAmount = Math.round(amount / roundToNearest) * roundToNearest
   return roundedAmount > max ? max : roundedAmount
