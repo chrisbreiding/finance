@@ -8,13 +8,12 @@ import { arrayMove } from 'react-sortable-hoc'
 import api from '../lib/api'
 import state from '../lib/state'
 
-import Checking from './checking'
+import Accounts from './accounts'
 import Goals from './goals'
 import Income from './income'
 import Loader from './loader'
 import Refresh from './refresh'
 import Rewards from './rewards'
-import Savings from './savings'
 
 const saveData = () => {
   api.saveData(state.serialize())
@@ -68,8 +67,7 @@ class App extends Component {
       })}>
         <Refresh onSave={saveData} />
         <Rewards onSave={saveData} />
-        <Checking />
-        <Savings />
+        <Accounts onSave={saveData} />
         <Income onSave={saveData} />
         <Goals
           goals={state.goals}

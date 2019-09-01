@@ -114,6 +114,50 @@ describe('app', () => {
       })
     })
   })
-})
 
-// TODO: fix broken cypress tooltips
+  describe('accounts', () => {
+    beforeEach(() => {
+      win.start()
+    })
+
+    it('displays balances for savings and checking', () => {
+      cy.get('.savings .total').should('have.text', '$20,000')
+      cy.get('.checking .total').should('have.text', '$8,000')
+    })
+
+    it('allows editing values through savings button', () => {
+      cy.get('.savings h2 button').click({ force: true })
+      cy.get('.edit-accounts').should('be.visible')
+    })
+
+    it('allows editing values through checking button', () => {
+      cy.get('.checking h2 button').click({ force: true })
+      cy.get('.edit-accounts').should('be.visible')
+    })
+
+    it('allows editing values', () => {
+      cy.get('.savings h2 button').click({ force: true })
+      cy.get('.edit-savings input').clear().type(30000)
+      cy.get('.edit-checking input').clear().type(18000)
+
+      cy.get('.edit-accounts .save').click()
+      .should(() => {
+        expect(win.api.saveData).to.be.called
+        expect(win.api.saveData.lastCall.args[0].savingsBalance).to.equal(30000)
+        expect(win.api.saveData.lastCall.args[0].checkingBalance).to.equal(18000)
+      })
+      cy.get('.edit-accounts').should('not.exist')
+    })
+
+    it('updates display values', () => {
+      cy.get('.savings h2 button').click({ force: true })
+      cy.get('.edit-savings input').clear().type(30000)
+      cy.get('.edit-checking input').clear().type(18000)
+      cy.get('.edit-accounts .save').click()
+
+      cy.get('.savings .total').should('have.text', '$30,000')
+      cy.get('.checking .total').should('have.text', '$18,000')
+    })
+  })
+
+})
