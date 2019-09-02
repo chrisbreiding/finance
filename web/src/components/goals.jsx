@@ -153,6 +153,7 @@ const SortableGoalsContainer = (props) => (
     useDragHandle={true}
     onSortStart={props.onSortStart}
     onSortEnd={props.onSortEnd}
+    useWindowAsScrollContainer={true}
   />
 )
 

@@ -3,7 +3,7 @@ import cs from 'classnames'
 import { action, observable } from 'mobx'
 import { observer } from 'mobx-react'
 import React, { Component } from 'react'
-import { arrayMove } from 'react-sortable-hoc'
+import arrayMove from 'array-move'
 
 import api from '../lib/api'
 import state from '../lib/state'

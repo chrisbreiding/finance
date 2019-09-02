@@ -1,5 +1,5 @@
 import _ from 'lodash'
-import { action, computed, observable } from 'mobx'
+import { action, computed, observable, values } from 'mobx'
 import moment from 'moment'
 
 import Goal from './goal-model'
@@ -22,7 +22,7 @@ class State {
   }
 
   @computed get allocatedSavingsAmount () {
-    return _.sum(_.map(this._goals.values(), 'savedAmount'))
+    return _.sum(_.map(values(this._goals), 'savedAmount'))
   }
 
   @computed get unallocatedSavingsAmount () {
@@ -30,7 +30,7 @@ class State {
   }
 
   @computed get goals () {
-    return _.sortBy(this._goals.values(), 'order')
+    return _.sortBy(values(this._goals), 'order')
   }
 
   @computed get goalsAmount () {
@@ -96,8 +96,8 @@ class State {
       expensesAmount: this.expensesAmount,
       savingsTransferAmount: this.savingsTransferAmount,
       lastUpdated: this.lastUpdated,
-      goals: _.map(this._goals.values(), (goal) => goal.serialize()),
-      rewards: this.rewards.toJS(),
+      goals: _.map(values(this._goals), (goal) => goal.serialize()),
+      rewards: this.rewards.toPOJO(),
     }
   }
 }
