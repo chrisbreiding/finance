@@ -163,7 +163,7 @@ describe('app', () => {
 
   describe('goals', () => {
     beforeEach(() => {
-      const time = new Date(2019, 1, 1).valueOf()
+      const time = new Date(2019, 0, 1).valueOf()
 
       cy.clock(time).then(() => {
         win.start()
@@ -174,19 +174,19 @@ describe('app', () => {
       it('shows projected date when enabled', () => {
         cy.get('.goal').eq(0).find('.projection')
           .should('be.visible')
-          .should('have.text', 'Jul 2019')
+          .should('have.text', 'May 2019')
       })
 
       it('uses planned amount by default', () => {
         cy.get('.goal').eq(1).find('.projection')
           .should('be.visible')
-          .should('have.text', 'May 2019')
+          .should('have.text', 'Mar 2019')
       })
 
       it('uses projection amount when set', () => {
         cy.get('.goal').eq(2).find('.projection')
           .should('be.visible')
-          .should('have.text', 'Nov 2019')
+          .should('have.text', 'Sep 2019')
       })
 
       it('does not show projected date when disabled', () => {
@@ -204,7 +204,7 @@ describe('app', () => {
           cy.get('.edit-goal .edit-projection input[type=number]').should('be.visible')
         })
 
-        it('does not projection amount when show projection is not checked', () => {
+        it('does not show projection amount when show projection is not checked', () => {
           cy.get('.goal h3 button').eq(0).click({ force: true })
           cy.tick(50)
           cy.get('.edit-goal').should('be.visible')

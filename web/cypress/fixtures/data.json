@@ -7,11 +7,11 @@
       "id": 1,
       "label": "The Fund",
       "order": 2,
-      "plannedAmount": 50,
-      "savedAmount": 2000,
+      "plannedAmount": 200,
+      "savedAmount": 1000,
       "showProjection": true,
-      "totalAmount": 20000,
-      "projectionAmount": 2000
+      "totalAmount": 2000,
+      "projectionAmount": 100
     },
     {
       "description": "power tools: 5k, staples: 1k, chairs: 4k",

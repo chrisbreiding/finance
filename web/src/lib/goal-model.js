@@ -31,7 +31,7 @@ class Goal {
     }
 
     const projectionAmount = this.projectionAmount || this.plannedAmount
-    const numMonths = Math.ceil((this.totalAmount - this.savedAmount) / projectionAmount)
+    const numMonths = Math.ceil((this.totalAmount - this.savedAmount - this.plannedAmount) / projectionAmount)
     return moment().add(numMonths, 'months').format('MMM YYYY')
   }
 
