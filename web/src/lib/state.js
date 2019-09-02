@@ -54,10 +54,15 @@ class State {
 
     _.extend(this, _.pick(data, props))
 
-    // TODO: if goal exists, use goal.setProps instead of creating new goal
     if (data.goals) {
-      _.each(data.goals, (goal) => {
-        this._goals.set(goal.id, new Goal(goal))
+      _.each(data.goals, (props) => {
+        const existing = this._goals.get(props.id)
+
+        if (existing) {
+          existing.setProps(props)
+        } else {
+          this._goals.set(props.id, new Goal(props))
+        }
       })
     }
 
