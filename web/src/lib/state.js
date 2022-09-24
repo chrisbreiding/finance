@@ -8,6 +8,8 @@ import util from './util'
 class State {
   @observable draggingId = null
   @observable checkingBalance = 0
+  @observable iBondsAvailableBalance = 0
+  @observable iBondsUnavailableBalance = 0
   @observable savingsBalance = 0
   @observable lastUpdated = null
   @observable incomeAmount = 0
@@ -27,6 +29,14 @@ class State {
 
   @computed get unallocatedSavingsAmount () {
     return this.savingsBalance - this.allocatedSavingsAmount
+  }
+
+  @computed get allocatedIBondsAmount () {
+    return _.sum(_.map(values(this._goals), 'iBondsAmount'))
+  }
+
+  @computed get unallocatedIBondsAmount () {
+    return this.iBondsAvailableBalance - this.allocatedIBondsAmount
   }
 
   @computed get goals () {
@@ -50,7 +60,16 @@ class State {
   }
 
   @action updateData = (data) => {
-    const props = 'checkingBalance savingsBalance lastUpdated incomeAmount expensesAmount savingsTransferAmount'.split(' ')
+    const props = [
+      'checkingBalance',
+      'savingsBalance',
+      'iBondsAvailableBalance',
+      'iBondsUnavailableBalance',
+      'lastUpdated',
+      'incomeAmount',
+      'expensesAmount',
+      'savingsTransferAmount',
+    ]
 
     _.extend(this, _.pick(data, props))
 
@@ -97,6 +116,8 @@ class State {
     return {
       checkingBalance: this.checkingBalance,
       savingsBalance: this.savingsBalance,
+      iBondsAvailableBalance: this.iBondsAvailableBalance,
+      iBondsUnavailableBalance: this.iBondsUnavailableBalance,
       incomeAmount: this.incomeAmount,
       expensesAmount: this.expensesAmount,
       savingsTransferAmount: this.savingsTransferAmount,

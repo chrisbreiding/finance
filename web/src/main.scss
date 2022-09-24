@@ -1,8 +1,9 @@
 body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,button,textarea,p,blockquote,th,td{margin:0;padding:0;}table{border-collapse:collapse;border-spacing:0;}fieldset,img,a img{border:none;}address,caption,cite,code,dfn,em,strong,th,var,optgroup{font-style:inherit;font-weight:inherit;}del,ins{text-decoration:none;}li{list-style:none;}caption,th{text-align:left;}h1,h2,h3,h4,h5,h6{font-size:100%;font-weight:normal;}q:before,q:after{content:'';}abbr,acronym{border:0;font-variant:normal;}sup{vertical-align:baseline;}sub{vertical-align:baseline;}legend{color:#000;}
 
-$primary-color: #6ee663;
-$secondary-color: #5efcff;
-$tertiary-color: #f053ff;
+$primary-color: #63e686;
+$primary-color-alt: #a9e663;
+$secondary-color: #6de9eb;
+$tertiary-color: #d456e0;
 
 $warning-color: #ffbf3f;
 $error-color: #ff4a4a;
@@ -132,6 +133,7 @@ h2, h3 {
 }
 
 .savings,
+.i-bonds,
 .checking,
 .income,
 .rewards,
@@ -170,6 +172,7 @@ h2, h3 {
 
 .rewards,
 .savings,
+.i-bonds,
 .checking,
 .income {
   .controls {
@@ -409,6 +412,20 @@ $bar-height: 0.6em;
       }
     }
 
+    &.i-bonds-unavailable {
+      background: lighten($dark-color, 40%);
+    }
+
+    &.i-bonds-allocated {
+      background: $primary-color-alt;
+
+      &:hover .drag-handle,
+      &.is-dragging .drag-handle,
+      .drag-handle:hover {
+        background: darken($primary-color-alt, 20%);
+      }
+    }
+
     &.planned {
       background: $secondary-color;
 
@@ -531,6 +548,11 @@ section.income {
 .savings .bar-part.savings,
 .income .bar-part.planned {
   background-image: repeating-linear-gradient(120deg, transparent, transparent 1em, rgba(0, 0, 0, 0.1) 1em, rgba(0, 0, 0, 0.1) 2em);
+}
+
+.i-bonds .bar-part.i-bonds-unavailable,
+.i-bonds .bar-part.i-bonds-allocated {
+  background-image: repeating-linear-gradient(120deg, transparent, transparent 1em, rgba(0, 0, 0, 0.2) 1em, rgba(0, 0, 0, 0.2) 2em);
 }
 
 .add-goal {

@@ -21,6 +21,7 @@ class Goal extends Component {
   render () {
     const { goal } = this.props
     const maxSavedAmount = Math.min(this.props.unallocatedSavingsAmount + goal.savedAmount, goal.totalAmount - goal.plannedAmount)
+    const maxIBondsAmount = Math.min(this.props.unallocatedIBondsAmount + goal.iBondsAmount, goal.totalAmount - goal.plannedAmount)
     const maxPlannedAmount = Math.min(this.props.availableIncome + goal.plannedAmount, goal.totalAmount - goal.savedAmount)
 
     return (
@@ -44,9 +45,29 @@ class Goal extends Component {
         </header>
         <Bar total={goal.totalAmount}>
           <BarPart
+            id={`goal-${goal.id}-i-bonds`}
+            label='i-bonds'
+            type='i-bonds-allocated'
+            percent={goal.iBondsAmount / goal.totalAmount * 100}
+            value={rounded(goal.iBondsAmount, maxIBondsAmount, goal.totalAmount)}
+            onUpdatePercent={(percent) => {
+              const amount = percentToAmount(goal.totalAmount, percent)
+              goal.setProps({
+                iBondsAmount: amount > maxIBondsAmount ? maxIBondsAmount : amount,
+              })
+            }}
+            onFinishUpdatingPercent={() => {
+              goal.setProps({
+                iBondsAmount: rounded(goal.iBondsAmount, maxIBondsAmount, goal.totalAmount),
+              })
+              this.props.onSave()
+            }}
+          />
+          <BarPart
             id={`goal-${goal.id}-saved`}
-            label='saved'
+            label='savings'
             type='savings'
+            prevPercents={goal.iBondsAmount / goal.totalAmount * 100}
             percent={goal.savedAmount / goal.totalAmount * 100}
             value={rounded(goal.savedAmount, maxSavedAmount, goal.totalAmount)}
             onUpdatePercent={(percent) => {
@@ -66,7 +87,7 @@ class Goal extends Component {
             id={`goal-${goal.id}-planned`}
             label='this month'
             type='planned'
-            prevPercents={goal.savedAmount / goal.totalAmount * 100}
+            prevPercents={(goal.iBondsAmount + goal.savedAmount) / goal.totalAmount * 100}
             percent={goal.plannedAmount / goal.totalAmount * 100}
             value={rounded(goal.plannedAmount, maxPlannedAmount, goal.totalAmount)}
             onUpdatePercent={(percent) => {

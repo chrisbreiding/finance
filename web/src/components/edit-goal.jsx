@@ -51,6 +51,18 @@ class EditGoal extends Component {
             </div>
           </div>
           <div className='group'>
+            <label>Saved (I-Bonds)</label>
+            <input
+              ref='iBondsAmount'
+              type='number'
+              defaultValue={goal.iBondsAmount}
+            />
+            <div className='limits'>
+              <span className='value'>Min: {format$(0)}</span>
+              <span className='value'>Max: {format$(this.props.maxIBondsAmount)}</span>
+            </div>
+          </div>
+          <div className='group'>
             <label>This Month</label>
             <input
               ref='plannedAmount'
@@ -114,6 +126,7 @@ class EditGoal extends Component {
       label: this.refs.label.value,
       description: (this.refs.description.value || '').replace('\n', ' '),
       savedAmount: ensureNumber(this.refs.savedAmount.value),
+      iBondsAmount: ensureNumber(this.refs.iBondsAmount.value),
       plannedAmount: ensureNumber(this.refs.plannedAmount.value),
       totalAmount: ensureNumber(this.refs.totalAmount.value),
       showProjection: this.refs.showProjection.checked,

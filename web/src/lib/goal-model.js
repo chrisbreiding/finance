@@ -7,6 +7,7 @@ class Goal {
   @observable label = 'Untitled'
   @observable description = ''
   @observable savedAmount = 0
+  @observable iBondsAmount = 0
   @observable plannedAmount = 0
   @observable totalAmount = 100
   @observable order = 0
@@ -18,11 +19,11 @@ class Goal {
   }
 
   @computed get minTotalAmount () {
-    return this.savedAmount + this.plannedAmount
+    return this.savedAmount + this.iBondsAmount + this.plannedAmount
   }
 
   @computed get amountLeft () {
-    return this.totalAmount - this.savedAmount - this.plannedAmount
+    return this.totalAmount - this.savedAmount - this.iBondsAmount - this.plannedAmount
   }
 
   @computed get projection () {
@@ -31,7 +32,7 @@ class Goal {
     }
 
     const projectionAmount = this.projectionAmount || this.plannedAmount
-    const numMonths = Math.ceil((this.totalAmount - this.savedAmount - this.plannedAmount) / projectionAmount)
+    const numMonths = Math.ceil(this.amountLeft / projectionAmount)
     return moment().add(numMonths, 'months').format('MMM YYYY')
   }
 
@@ -40,6 +41,7 @@ class Goal {
     if (props.label != null) this.label = props.label
     if (props.description != null) this.description = props.description
     if (props.savedAmount != null) this.savedAmount = util.toTwoDecimals(props.savedAmount)
+    if (props.iBondsAmount != null) this.iBondsAmount = util.toTwoDecimals(props.iBondsAmount)
     if (props.plannedAmount != null) this.plannedAmount = util.toTwoDecimals(props.plannedAmount)
     if (props.totalAmount != null) this.totalAmount = util.toTwoDecimals(props.totalAmount)
     if (props.order != null) this.order = props.order
@@ -53,6 +55,7 @@ class Goal {
       label: this.label,
       description: this.description,
       savedAmount: this.savedAmount,
+      iBondsAmount: this.iBondsAmount,
       plannedAmount: this.plannedAmount,
       totalAmount: this.totalAmount,
       order: this.order,

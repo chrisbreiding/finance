@@ -8,13 +8,16 @@ import state from '../lib/state'
 import { ensureNumber } from '../lib/util'
 
 const EditAccounts = observer((props) => {
-  let savingsNode, checkingNode // eslint-disable-line one-var
+  // eslint-disable-next-line one-var
+  let savingsNode, iBondsAvailableNode, iBondsUnavailableNode, checkingNode
 
   const save = (e) => {
     e.preventDefault()
 
     props.onSave({
       savingsBalance: ensureNumber(savingsNode.value),
+      iBondsAvailableBalance: ensureNumber(iBondsAvailableNode.value),
+      iBondsUnavailableBalance: ensureNumber(iBondsUnavailableNode.value),
       checkingBalance: ensureNumber(checkingNode.value),
     })
   }
@@ -31,6 +34,20 @@ const EditAccounts = observer((props) => {
           <input
             ref={(node) => savingsNode = node}
             defaultValue={state.savingsBalance}
+          />
+        </div>
+        <div className={'group edit-savings'}>
+          <label>I-Bonds (Available)</label>
+          <input
+            ref={(node) => iBondsAvailableNode = node}
+            defaultValue={state.iBondsAvailableBalance}
+          />
+        </div>
+        <div className={'group edit-savings'}>
+          <label>I-Bonds (Unavailable)</label>
+          <input
+            ref={(node) => iBondsUnavailableNode = node}
+            defaultValue={state.iBondsUnavailableBalance}
           />
         </div>
         <div className={'group edit-checking'}>
@@ -81,20 +98,71 @@ export const Savings = observer(({ onEdit }) => (
   </section>
 ))
 
-export const Checking = observer(({ onEdit }) => (
-  <section className='checking'>
-    <h2>
-      Checking
-      <div className='controls'>
-        <button onClick={onEdit}>
-          <i className='fa fa-edit' />
-        </button>
-      </div>
+export const IBonds = observer(({ onEdit }) => {
+  if (
+    state.iBondsAvailableBalance === 0
+    || state.iBondsUnavailableBalance === 0
+  ) return null
 
-    </h2>
-    <Bar total={state.checkingBalance} />
-  </section>
-))
+  const totalIbondsBalance = state.iBondsAvailableBalance + state.iBondsUnavailableBalance
+
+  return (
+    <section className='i-bonds'>
+      <h2>
+        I-Bonds
+        <div className='controls'>
+          <button onClick={onEdit}>
+            <i className='fa fa-edit' />
+          </button>
+        </div>
+      </h2>
+      <Bar total={totalIbondsBalance}>
+        <BarPart
+          id='i-bonds-unavailable'
+          label='unavailable'
+          type='i-bonds-unavailable'
+          draggable={false}
+          percent={state.iBondsUnavailableBalance / totalIbondsBalance * 100}
+          value={state.iBondsUnavailableBalance}
+        />
+        <BarPart
+          id='i-bonds-allocated'
+          label='allocated'
+          type='i-bonds-allocated'
+          draggable={false}
+          percent={state.allocatedIBondsAmount / totalIbondsBalance * 100}
+          value={state.allocatedIBondsAmount}
+        />
+        <BarPart
+          id='i-bonds-left'
+          label='left'
+          type='left'
+          draggable={false}
+          percent={(state.iBondsAvailableBalance - state.allocatedIBondsAmount) / totalIbondsBalance * 100}
+          value={state.iBondsAvailableBalance - state.allocatedIBondsAmount}
+        />
+      </Bar>
+    </section>
+  )
+})
+
+export const Checking = observer(({ onEdit }) => {
+  if (state.checkingBalance === 0) return null
+
+  return (
+    <section className='checking'>
+      <h2>
+        Checking
+        <div className='controls'>
+          <button onClick={onEdit}>
+            <i className='fa fa-edit' />
+          </button>
+        </div>
+      </h2>
+      <Bar total={state.checkingBalance} />
+    </section>
+  )
+})
 
 @observer
 class Accounts extends Component {
@@ -104,6 +172,7 @@ class Accounts extends Component {
     return (
       <>
         <Savings onEdit={this._edit(true)} />
+        <IBonds onEdit={this._edit(true)} />
         <Checking onEdit={this._edit(true)} />
         <EditAccounts
           isEditing={this.isEditing}
