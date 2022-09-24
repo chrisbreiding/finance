@@ -101,7 +101,7 @@ export const Savings = observer(({ onEdit }) => (
 export const IBonds = observer(({ onEdit }) => {
   if (
     state.iBondsAvailableBalance === 0
-    || state.iBondsUnavailableBalance === 0
+    && state.iBondsUnavailableBalance === 0
   ) return null
 
   const totalIbondsBalance = state.iBondsAvailableBalance + state.iBondsUnavailableBalance
