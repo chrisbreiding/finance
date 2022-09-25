@@ -55,6 +55,12 @@ class State {
     return this._goals.get(id)
   }
 
+  getReward (id) {
+    const reward = this.rewards.get(id)
+
+    return reward || { amount: 0 }
+  }
+
   @action setExpensesAmount (amount) {
     this.expensesAmount = util.toTwoDecimals(amount)
   }

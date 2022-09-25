@@ -20,7 +20,7 @@ class EditGoal extends Component {
     return (
       <Modal className='editor edit-goal' isShowing={this.props.isEditing}>
         <button className='close' onClick={this.props.onClose}>
-          <i className='fa fa-remove' />
+          <i className='fa fa-fw fa-remove' />
         </button>
 
         <form onSubmit={this._saveGoal} noValidate>

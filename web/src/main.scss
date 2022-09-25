@@ -1,21 +1,23 @@
 body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,button,textarea,p,blockquote,th,td{margin:0;padding:0;}table{border-collapse:collapse;border-spacing:0;}fieldset,img,a img{border:none;}address,caption,cite,code,dfn,em,strong,th,var,optgroup{font-style:inherit;font-weight:inherit;}del,ins{text-decoration:none;}li{list-style:none;}caption,th{text-align:left;}h1,h2,h3,h4,h5,h6{font-size:100%;font-weight:normal;}q:before,q:after{content:'';}abbr,acronym{border:0;font-variant:normal;}sup{vertical-align:baseline;}sub{vertical-align:baseline;}legend{color:#000;}
 
-$primary-color: #63e686;
-$primary-color-alt: #a9e663;
-$secondary-color: #6de9eb;
-$tertiary-color: #d456e0;
+$primary-color: #6fcc04;
+$primary-color-alt: #3e9f58;
+$secondary-color: #94cdec;
+$tertiary-color: #e1b253;
 
-$warning-color: #ffbf3f;
-$error-color: #ff4a4a;
+$error-color: #ca3939;
 
-$light-color: #fff;
+$light-color: #f8f8f8;
 $dark-color: #333;
+
+$light-stripe: repeating-linear-gradient(120deg, transparent, transparent 1em, rgba(255, 255, 255, 0.2) 1em, rgba(255, 255, 255, 0.2) 2em);
+$dark-stripe: repeating-linear-gradient(120deg, transparent, transparent 1em, rgba(0, 0, 0, 0.1) 1em, rgba(0, 0, 0, 0.1) 2em);
 
 $fa-font-path: 'fonts';
 @import '../node_modules/font-awesome/scss/font-awesome';
 
-$cy-tooltip-background-color: darken($tertiary-color, 20%);
-$cy-tooltip-border-color: darken($tertiary-color, 20%);
+$cy-tooltip-background-color: $dark-color;
+$cy-tooltip-border-color: $dark-color;
 @import '../node_modules/@cypress/react-tooltip/dist/tooltip.scss';
 
 * {
@@ -24,6 +26,7 @@ $cy-tooltip-border-color: darken($tertiary-color, 20%);
 
 html,
 body {
+  background: #e6e6e6;
   width: 100%;
   height: 100%;
 }
@@ -59,7 +62,7 @@ p {
 
 input,
 textarea {
-  border: solid 1px #bfbfbf;
+  border: solid 1px darken($light-color, 20%);
   border-radius: 3px;
   font-size: 1em;
   padding: 0.2em 0.4em;
@@ -68,9 +71,9 @@ textarea {
 button,
 .button {
   border: none;
-  background: $tertiary-color;
+  background: $primary-color-alt;
   border-radius: 3px;
-  color: #fff;
+  color: $light-color;
   cursor: pointer;
   font-size: 0.8em;
   outline: none;
@@ -78,12 +81,12 @@ button,
   text-decoration: none;
 
   &:hover {
-    background: darken($tertiary-color, 20%);
+    background: darken($primary-color-alt, 10%);
   }
 
   &[disabled],
   &[disabled]:hover {
-    background: $tertiary-color !important;
+    background: $primary-color-alt !important;
     cursor: default !important;
     opacity: 0.6 !important;
   }
@@ -95,11 +98,11 @@ button,
 
 .inverse {
   background: none;
-  color: #bfbfbf;
+  color: darken($light-color, 20%);
 
   &:hover {
     background: none;
-    color: $tertiary-color;
+    color: darken($light-color, 40%);
   }
 }
 
@@ -130,6 +133,15 @@ h2, h3 {
       margin-left: 3px;
     }
   }
+}
+
+section {
+  background: $light-color;
+  border-right: solid 1px #d2d2d2;
+  border-bottom: solid 1px #d2d2d2;
+  border-radius: 5px;
+  margin-bottom: 0.8em;
+  padding: 1.2em 2em;
 }
 
 .savings,
@@ -265,6 +277,7 @@ form {
 
   .modal-container {
     background: $light-color;
+    border-radius: 5px;
     flex-basis: 0;
     padding: 1em 1.5em;
   }
@@ -323,7 +336,7 @@ form {
 
 .auth {
   @include full-screen;
-  background: #f8f8f8;
+  background: $light-color;
   align-items: center;
   display: flex;
   justify-content: center;
@@ -333,10 +346,10 @@ form {
   }
 
   h2 {
-    background: $primary-color;
-    color: #fff;
+    background: $primary-color-alt;
+    color: $light-color;
     margin: 0;
-    padding: 0.3em 0.6em;
+    padding: 0.5em 0.8em;
   }
 
   input {
@@ -437,13 +450,17 @@ $bar-height: 0.6em;
     }
 
     &.expense {
-      background: $warning-color;
+      background: $tertiary-color;
 
       &:hover .drag-handle,
       &.is-dragging .drag-handle,
       .drag-handle:hover {
-        background: darken($warning-color, 20%);
+        background: darken($tertiary-color, 20%);
       }
+    }
+
+    &.left {
+      box-shadow: 0 0 3px rgba(0, 0, 0, 0.2) inset;
     }
 
     .tooltip-target {
@@ -491,14 +508,15 @@ $bar-height: 0.6em;
 }
 
 .tooltip label span {
-  color: #edc3f1;
+  color: darken($light-color, 10%);
   margin-left: 0.2em;
 }
 
-section.checking,
-section.rewards,
-section.savings,
-section.income {
+article.checking,
+article.rewards,
+article.savings,
+article.i-bonds,
+article.income {
   margin-bottom: 1em;
 }
 
@@ -544,24 +562,18 @@ section.income {
   }
 }
 
-.checking .bar main,
-.savings .bar-part.savings,
-.income .bar-part.planned {
-  background-image: repeating-linear-gradient(120deg, transparent, transparent 1em, rgba(0, 0, 0, 0.1) 1em, rgba(0, 0, 0, 0.1) 2em);
-}
-
 .i-bonds .bar-part.i-bonds-unavailable,
 .i-bonds .bar-part.i-bonds-allocated {
-  background-image: repeating-linear-gradient(120deg, transparent, transparent 1em, rgba(0, 0, 0, 0.2) 1em, rgba(0, 0, 0, 0.2) 2em);
+  background-image: $light-stripe;
+}
+
+.checking .bar main,
+.income .bar-part.planned,
+.savings .bar-part.savings {
+  background-image: $dark-stripe;
 }
 
 .add-goal {
-  background: $primary-color;
-
-  &:hover {
-    background: darken($primary-color, 20%);
-  }
-
   margin-top: 1em;
 }
 
@@ -570,7 +582,7 @@ section.income {
 }
 
 .goal {
-  margin: 0.8em 0;
+  margin: 1em 0;
 
   &.sorting-helper .controls {
     display: flex;
@@ -580,13 +592,12 @@ section.income {
 .editor {
   .modal-container {
     position: relative;
-    padding-top: 1.2em;
-    padding-bottom: 0.5em;
+    padding: 3em 3em 0.8em;
   }
 
   .close {
     @extend .inverse;
-    font-size: 1em;
+    font-size: 1.4em;
     padding: 0.5em;
     position: absolute;
     right: 0;

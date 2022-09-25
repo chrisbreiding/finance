@@ -26,7 +26,7 @@ const EditIncome = observer((props) => {
   return (
     <Modal className='editor edit-income' isShowing={props.isEditing}>
       <button className='close' onClick={props.onClose}>
-        <i className='fa fa-remove' />
+        <i className='fa fa-fw fa-remove' />
       </button>
 
       <form onSubmit={saveGoal} noValidate>

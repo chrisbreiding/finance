@@ -25,7 +25,7 @@ const EditAccounts = observer((props) => {
   return (
     <Modal className='editor edit-accounts' isShowing={props.isEditing}>
       <button className='close' onClick={props.onClose}>
-        <i className='fa fa-remove' />
+        <i className='fa fa-fw fa-remove' />
       </button>
 
       <form onSubmit={save} noValidate>
@@ -68,7 +68,7 @@ const EditAccounts = observer((props) => {
 })
 
 export const Savings = observer(({ onEdit }) => (
-  <section className='savings'>
+  <article className='savings'>
     <h2>
       Savings
       <div className='controls'>
@@ -95,7 +95,7 @@ export const Savings = observer(({ onEdit }) => (
         value={state.savingsBalance - state.allocatedSavingsAmount}
       />
     </Bar>
-  </section>
+  </article>
 ))
 
 export const IBonds = observer(({ onEdit }) => {
@@ -107,7 +107,7 @@ export const IBonds = observer(({ onEdit }) => {
   const totalIbondsBalance = state.iBondsAvailableBalance + state.iBondsUnavailableBalance
 
   return (
-    <section className='i-bonds'>
+    <article className='i-bonds'>
       <h2>
         I-Bonds
         <div className='controls'>
@@ -142,7 +142,7 @@ export const IBonds = observer(({ onEdit }) => {
           value={state.iBondsAvailableBalance - state.allocatedIBondsAmount}
         />
       </Bar>
-    </section>
+    </article>
   )
 })
 
@@ -150,7 +150,7 @@ export const Checking = observer(({ onEdit }) => {
   if (state.checkingBalance === 0) return null
 
   return (
-    <section className='checking'>
+    <article className='checking'>
       <h2>
         Checking
         <div className='controls'>
@@ -160,7 +160,7 @@ export const Checking = observer(({ onEdit }) => {
         </div>
       </h2>
       <Bar total={state.checkingBalance} />
-    </section>
+    </article>
   )
 })
 
@@ -170,7 +170,7 @@ class Accounts extends Component {
 
   render () {
     return (
-      <>
+      <section className='accounts'>
         <Savings onEdit={this._edit(true)} />
         <IBonds onEdit={this._edit(true)} />
         <Checking onEdit={this._edit(true)} />
@@ -179,7 +179,7 @@ class Accounts extends Component {
           onClose={this._edit(false)}
           onSave={this._save}
         />
-      </>
+      </section>
     )
   }
 

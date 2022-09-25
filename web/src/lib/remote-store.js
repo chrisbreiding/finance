@@ -4,6 +4,25 @@ import 'firebase/auth'
 import 'firebase/database'
 import Promise from 'bluebird'
 
+const getAppName = () => {
+  if (localStorage.appName) {
+    return localStorage.appName
+  }
+
+  const urlParams = new URLSearchParams(window.location.search)
+  const urlAppName = urlParams.get('appName')
+
+  if (urlAppName) {
+    return urlAppName
+  }
+
+  if (window.location.href.includes('local')) {
+    return 'finance-dev-8fd51'
+  }
+
+  return 'finance-c9d71'
+}
+
 class RemoteStore {
   auth (apiKey) {
     if (this._app) {
@@ -14,7 +33,7 @@ class RemoteStore {
   }
 
   _signIn = (apiKey) => {
-    const appName = localStorage.appName || 'finance-c9d71'
+    const appName = getAppName()
 
     this._app = firebase.initializeApp({
       apiKey,

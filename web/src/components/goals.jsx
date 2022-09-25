@@ -143,7 +143,7 @@ class Goal extends Component {
 const SortableGoal = SortableElement(Goal)
 
 const Goals = observer((props) => (
-  <div className='goals'>
+  <section className='goals'>
     <h2>Goals</h2>
     {!props.goals.length && <p>No goals yet</p>}
     <ul>
@@ -162,7 +162,7 @@ const Goals = observer((props) => (
     <button className='add-goal' onClick={props.onAdd}>
       <i className='fa fa-plus' /> Add Goal
     </button>
-  </div>
+  </section>
 ))
 
 const SortableGoals = SortableContainer(Goals)

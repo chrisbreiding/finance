@@ -19,7 +19,7 @@ const Auth = ({ onAuth }) => {
   return (
     <div className='auth'>
       <form onSubmit={submit}>
-        <h2>Enter Firebase API Key</h2>
+        <h2>Firebase API Key</h2>
         <input placeholder='api key...' onChange={updateApiKey} />
       </form>
     </div>

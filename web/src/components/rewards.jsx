@@ -15,10 +15,6 @@ const rewards = [
   { label: 'Discover', key: 'discover', icon: 'cc-discover' },
 ]
 
-const renderableRewards = () => rewards.filter(({ key }) => {
-  return state.rewards.has(key)
-})
-
 const EditRewards = observer((props) => {
   let nodes = {}
 
@@ -35,16 +31,16 @@ const EditRewards = observer((props) => {
   return (
     <Modal className='editor edit-rewards' isShowing={props.isEditing}>
       <button className='close' onClick={props.onClose}>
-        <i className='fa fa-remove' />
+        <i className='fa fa-fw fa-remove' />
       </button>
 
       <form onSubmit={save} noValidate>
-        {renderableRewards().map(({ label, key, icon }) => (
+        {rewards.map(({ label, key, icon }) => (
           <div className={`group edit-${key}`} key={key}>
             <label><i className={`fa fa-${icon}`} /> {label}</label>
             <input
               ref={(node) => nodes[key] = node}
-              defaultValue={state.rewards.get(key).amount}
+              defaultValue={state.getReward(key).amount}
             />
           </div>
         ))}
@@ -74,10 +70,10 @@ class Rewards extends Component {
           </div>
         </h2>
         <ul>
-          {renderableRewards().map(({ label, key, icon }) => (
+          {rewards.map(({ label, key, icon }) => (
             <li key={key} className={key}>
               <h3><i className={`fa fa-${icon}`} /> {label}</h3>
-              <div className='amount'>{format$(state.rewards.get(key).amount)}</div>
+              <div className='amount'>{format$(state.getReward(key).amount)}</div>
             </li>
           ))}
         </ul>
@@ -98,7 +94,7 @@ class Rewards extends Component {
     this._edit(false)()
 
     const rewards = _.transform(values, (memo, amount, key) => {
-      if (amount !== state.rewards.get(key).amount) {
+      if (amount !== state.getReward(key).amount) {
         memo[key] = {
           amount,
           lastUpdated: moment().toISOString(),
