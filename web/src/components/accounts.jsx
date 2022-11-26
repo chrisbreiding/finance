@@ -104,7 +104,7 @@ export const IBonds = observer(({ onEdit }) => {
     && state.iBondsUnavailableBalance === 0
   ) return null
 
-  const totalIbondsBalance = state.iBondsAvailableBalance + state.iBondsUnavailableBalance
+  const totalIBondsBalance = state.iBondsAvailableBalance + state.iBondsUnavailableBalance
 
   return (
     <article className='i-bonds'>
@@ -116,13 +116,13 @@ export const IBonds = observer(({ onEdit }) => {
           </button>
         </div>
       </h2>
-      <Bar total={totalIbondsBalance}>
+      <Bar total={totalIBondsBalance}>
         <BarPart
           id='i-bonds-unavailable'
           label='unavailable'
           type='i-bonds-unavailable'
           draggable={false}
-          percent={state.iBondsUnavailableBalance / totalIbondsBalance * 100}
+          percent={state.iBondsUnavailableBalance / totalIBondsBalance * 100}
           value={state.iBondsUnavailableBalance}
         />
         <BarPart
@@ -130,7 +130,7 @@ export const IBonds = observer(({ onEdit }) => {
           label='allocated'
           type='i-bonds-allocated'
           draggable={false}
-          percent={state.allocatedIBondsAmount / totalIbondsBalance * 100}
+          percent={state.allocatedIBondsAmount / totalIBondsBalance * 100}
           value={state.allocatedIBondsAmount}
         />
         <BarPart
@@ -138,7 +138,7 @@ export const IBonds = observer(({ onEdit }) => {
           label='left'
           type='left'
           draggable={false}
-          percent={(state.iBondsAvailableBalance - state.allocatedIBondsAmount) / totalIbondsBalance * 100}
+          percent={(state.iBondsAvailableBalance - state.allocatedIBondsAmount) / totalIBondsBalance * 100}
           value={state.iBondsAvailableBalance - state.allocatedIBondsAmount}
         />
       </Bar>

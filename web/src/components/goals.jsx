@@ -25,9 +25,18 @@ class Goal extends Component {
 
   render () {
     const { goal } = this.props
-    const maxSavedAmount = Math.min(this.props.unallocatedSavingsAmount + goal.savedAmount, goal.totalAmount - goal.plannedAmount)
-    const maxIBondsAmount = Math.min(this.props.unallocatedIBondsAmount + goal.iBondsAmount, goal.totalAmount - goal.plannedAmount)
-    const maxPlannedAmount = Math.min(this.props.availableIncome + goal.plannedAmount, goal.totalAmount - goal.savedAmount)
+    const maxSavedAmount = Math.min(
+      this.props.unallocatedSavingsAmount + goal.savedAmount,
+      goal.totalAmount - goal.plannedAmount - goal.iBondsAmount,
+    )
+    const maxIBondsAmount = Math.min(
+      this.props.unallocatedIBondsAmount + goal.iBondsAmount,
+      goal.totalAmount - goal.plannedAmount - goal.savedAmount,
+    )
+    const maxPlannedAmount = Math.min(
+      this.props.availableIncome + goal.plannedAmount,
+      goal.totalAmount - goal.savedAmount - goal.iBondsAmount,
+    )
 
     return (
       <li className='goal'>
@@ -157,6 +166,7 @@ const Goals = observer((props) => (
           key={goal.id}
           index={index}
           goal={goal}
+          unallocatedIBondsAmount={props.unallocatedIBondsAmount}
           unallocatedSavingsAmount={props.unallocatedSavingsAmount}
           availableIncome={props.availableIncome}
           onSave={props.onSave}

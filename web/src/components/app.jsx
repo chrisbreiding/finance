@@ -77,7 +77,7 @@ class App extends Component {
         <Goals
           goals={state.goals}
           unallocatedSavingsAmount={state.unallocatedSavingsAmount}
-          unallocatedIbondsAmount={state.unallocatedIbondsAmount}
+          unallocatedIBondsAmount={state.unallocatedIBondsAmount}
           availableIncome={state.availableIncome}
           onAdd={addGoal}
           onDelete={deleteGoal}
