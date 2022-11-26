@@ -8,6 +8,7 @@
     "lint-fix": "npm run lint -- --fix",
     "lint": "eslint 'src/*.+(js|jsx)' 'src/**/*.+(js|jsx)'",
     "postinstall": "patch-package",
+    "preview": "vite preview --port 8000",
     "start": "vite"
   },
   "dependencies": {
