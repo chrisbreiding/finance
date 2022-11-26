@@ -59,7 +59,7 @@ class RemoteStore {
       _.extend(this._data, data)
       return this._save()
     })
-    .return(data)
+    .then(() => data)
   }
 
   _ref () {
