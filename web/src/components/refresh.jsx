@@ -35,6 +35,8 @@ class Refresh extends Component {
   }
 
   _pingDesktop () {
+    if (localStorage.noDesktop) return
+
     api.pingDesktop().then(action((isConnected) => {
       this.isConnected = isConnected
     }))
