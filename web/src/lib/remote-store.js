@@ -1,8 +1,7 @@
 import _ from 'lodash'
-import * as firebase from 'firebase/app'
-import 'firebase/auth'
-import 'firebase/database'
-import Promise from 'bluebird'
+import firebase from 'firebase/compat/app'
+import 'firebase/compat/auth'
+import 'firebase/compat/database'
 
 const getAppName = () => {
   if (localStorage.appName) {

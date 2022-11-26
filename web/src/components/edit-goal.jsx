@@ -1,18 +1,23 @@
 import cs from 'classnames'
-import { action, observable } from 'mobx'
+import { action, extendObservable } from 'mobx'
 import { observer } from 'mobx-react'
 import React, { Component } from 'react'
 
 import { ensureNumber, format$ } from '../lib/util'
 import Modal from './modal'
 
-@observer
 class EditGoal extends Component {
-  @observable showProjectionAmount
+  constructor (props) {
+    super(props)
 
-  @action componentDidMount () {
-    this.showProjectionAmount = this.props.goal.showProjection
+    extendObservable(this, {
+      showProjectionAmount: false,
+    })
   }
+
+  componentDidMount = action(() => {
+    this.showProjectionAmount = this.props.goal.showProjection
+  })
 
   render () {
     const { goal } = this.props
@@ -115,9 +120,9 @@ class EditGoal extends Component {
     )
   }
 
-  @action _onChangeShowProjection = (e) => {
+  _onChangeShowProjection = action((e) => {
     this.showProjectionAmount = e.currentTarget.checked
-  }
+  })
 
   _saveGoal = (e) => {
     e.preventDefault()
@@ -140,4 +145,4 @@ class EditGoal extends Component {
   }
 }
 
-export default EditGoal
+export default observer(EditGoal)

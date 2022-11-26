@@ -1,6 +1,6 @@
 import _ from 'lodash'
 import React, { Component } from 'react'
-import { action, observable } from 'mobx'
+import { action, extendObservable } from 'mobx'
 import { observer } from 'mobx-react'
 import moment from 'moment'
 
@@ -54,9 +54,14 @@ const EditRewards = observer((props) => {
   )
 })
 
-@observer
 class Rewards extends Component {
-  @observable isEditing = false
+  constructor (props) {
+    super(props)
+
+    extendObservable(this, {
+      isEditing: false,
+    })
+  }
 
   render () {
     return (
@@ -86,11 +91,11 @@ class Rewards extends Component {
     )
   }
 
-  @action _edit = (isEditing) => () => {
+  _edit = action((isEditing) => () => {
     this.isEditing = isEditing
-  }
+  })
 
-  @action _save = (values) => {
+  _save = action((values) => {
     this._edit(false)()
 
     const rewards = _.transform(values, (memo, amount, key) => {
@@ -104,7 +109,7 @@ class Rewards extends Component {
 
     state.updateData({ rewards })
     this.props.onSave()
-  }
+  })
 }
 
-export default Rewards
+export default observer(Rewards)

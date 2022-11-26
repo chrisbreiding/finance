@@ -8,4 +8,3 @@ dist-prod
 build
 desktop/lib/data.dmg
 desktop/lib/data.json
-jsconfig.json

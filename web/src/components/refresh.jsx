@@ -1,22 +1,27 @@
 import cs from 'classnames'
 import moment from 'moment'
-import { action, computed, observable } from 'mobx'
+import { action, extendObservable } from 'mobx'
 import { observer } from 'mobx-react'
 import React, { Component } from 'react'
 
 import api from '../lib/api'
 import state from '../lib/state'
 
-@observer
 class Refresh extends Component {
-  @observable isConnected = false
-  @observable isRefreshing = false
-  @observable lastUpdatedTrigger = true
-  @observable hasAlerts = false
+  constructor (props) {
+    super(props)
 
-  @computed get lastUpdatedFormatted () {
-    this.lastUpdatedTrigger // hack to get this to update
-    return state.lastUpdated ? moment(state.lastUpdated).fromNow() : '---'
+    extendObservable(this, {
+      isConnected: false,
+      isRefreshing: false,
+      lastUpdatedTrigger: true,
+      hasAlerts: false,
+
+      get lastUpdatedFormatted () {
+        this.lastUpdatedTrigger // hack to get this to update
+        return state.lastUpdated ? moment(state.lastUpdated).fromNow() : '---'
+      },
+    })
   }
 
   componentDidMount () {
@@ -75,4 +80,4 @@ class Refresh extends Component {
   }
 }
 
-export default Refresh
+export default observer(Refresh)

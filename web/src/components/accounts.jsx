@@ -1,4 +1,4 @@
-import { action, observable } from 'mobx'
+import { action, extendObservable } from 'mobx'
 import { observer } from 'mobx-react'
 import React, { Component } from 'react'
 
@@ -36,14 +36,14 @@ const EditAccounts = observer((props) => {
             defaultValue={state.savingsBalance}
           />
         </div>
-        <div className={'group edit-savings'}>
+        <div className={'group edit-ibonds-available'}>
           <label>I-Bonds (Available)</label>
           <input
             ref={(node) => iBondsAvailableNode = node}
             defaultValue={state.iBondsAvailableBalance}
           />
         </div>
-        <div className={'group edit-savings'}>
+        <div className={'group edit-ibonds-unavailable'}>
           <label>I-Bonds (Unavailable)</label>
           <input
             ref={(node) => iBondsUnavailableNode = node}
@@ -164,9 +164,14 @@ export const Checking = observer(({ onEdit }) => {
   )
 })
 
-@observer
 class Accounts extends Component {
-  @observable isEditing = false
+  constructor (props) {
+    super(props)
+
+    extendObservable(this, {
+      isEditing: false,
+    })
+  }
 
   render () {
     return (
@@ -183,16 +188,16 @@ class Accounts extends Component {
     )
   }
 
-  @action _edit = (isEditing) => () => {
+  _edit = action((isEditing) => () => {
     this.isEditing = isEditing
-  }
+  })
 
-  @action _save = (values) => {
+  _save = action((values) => {
     this._edit(false)()
 
     state.updateData(values)
     this.props.onSave()
-  }
+  })
 }
 
-export default Accounts
+export default observer(Accounts)

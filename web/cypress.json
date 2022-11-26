@@ -2,5 +2,6 @@
   "baseUrl": "http://localhost:8000",
   "pluginsFile": false,
   "supportFile": false,
-  "viewportWidth": 520
+  "viewportWidth": 520,
+  "video": false
 }

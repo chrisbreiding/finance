@@ -1,42 +1,44 @@
-import { action, computed, observable } from 'mobx'
+import { action, extendObservable } from 'mobx'
 import moment from 'moment'
-import util from './util'
+import * as util from './util'
 
 class Goal {
-  @observable id
-  @observable label = 'Untitled'
-  @observable description = ''
-  @observable savedAmount = 0
-  @observable iBondsAmount = 0
-  @observable plannedAmount = 0
-  @observable totalAmount = 100
-  @observable order = 0
-  @observable showProjection = false
-  @observable projectionAmount = 0
-
   constructor (props) {
+    extendObservable(this, {
+      id: undefined,
+      label: 'Untitled',
+      description: '',
+      savedAmount: 0,
+      iBondsAmount: 0,
+      plannedAmount: 0,
+      totalAmount: 100,
+      order: 0,
+      showProjection: false,
+      projectionAmount: 0,
+
+      get minTotalAmount () {
+        return this.savedAmount + this.iBondsAmount + this.plannedAmount
+      },
+
+      get amountLeft () {
+        return this.totalAmount - this.savedAmount - this.iBondsAmount - this.plannedAmount
+      },
+
+      get projection () {
+        if (!this.showProjection || this.totalAmount <= 0 || this.plannedAmount <= 0) {
+          return null
+        }
+
+        const projectionAmount = this.projectionAmount || this.plannedAmount
+        const numMonths = Math.ceil(this.amountLeft / projectionAmount)
+        return moment().add(numMonths, 'months').format('MMM YYYY')
+      },
+    })
+
     this.setProps(props)
   }
 
-  @computed get minTotalAmount () {
-    return this.savedAmount + this.iBondsAmount + this.plannedAmount
-  }
-
-  @computed get amountLeft () {
-    return this.totalAmount - this.savedAmount - this.iBondsAmount - this.plannedAmount
-  }
-
-  @computed get projection () {
-    if (!this.showProjection || this.totalAmount <= 0 || this.plannedAmount <= 0) {
-      return null
-    }
-
-    const projectionAmount = this.projectionAmount || this.plannedAmount
-    const numMonths = Math.ceil(this.amountLeft / projectionAmount)
-    return moment().add(numMonths, 'months').format('MMM YYYY')
-  }
-
-  @action setProps = (props = {}) => {
+  setProps = action((props = {}) => {
     if (props.id != null) this.id = props.id
     if (props.label != null) this.label = props.label
     if (props.description != null) this.description = props.description
@@ -47,7 +49,7 @@ class Goal {
     if (props.order != null) this.order = props.order
     if (props.showProjection != null) this.showProjection = props.showProjection
     if (props.projectionAmount != null) this.projectionAmount = props.projectionAmount
-  }
+  })
 
   serialize () {
     return {

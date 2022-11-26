@@ -1,4 +1,4 @@
-import { action, observable } from 'mobx'
+import { action, extendObservable } from 'mobx'
 import { observer } from 'mobx-react'
 import React, { Component } from 'react'
 
@@ -74,9 +74,14 @@ const EditIncome = observer((props) => {
   )
 })
 
-@observer
 class Income extends Component {
-  @observable isEditing = false
+  constructor (props) {
+    super(props)
+
+    extendObservable(this, {
+      isEditing: false,
+    })
+  }
 
   render () {
     const {
@@ -165,15 +170,15 @@ class Income extends Component {
     return `${format$(incomeAmount)} income + ${format$(savingsTransferAmount)} savings transfer`
   }
 
-  @action _edit = (isEditing) => () => {
+  _edit = action((isEditing) => () => {
     this.isEditing = isEditing
-  }
+  })
 
-  @action _save = (props) => {
+  _save = action((props) => {
     this._edit(false)()
     state.updateData(props)
     this.props.onSave()
-  }
+  })
 }
 
-export default Income
+export default observer(Income)

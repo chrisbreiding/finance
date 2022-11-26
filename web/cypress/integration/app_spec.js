@@ -139,12 +139,16 @@ describe('app', () => {
     it('allows editing values', () => {
       cy.get('.savings h2 button').click({ force: true })
       cy.get('.edit-savings input').clear().type(30000)
+      cy.get('.edit-ibonds-available input').clear().type(10000)
+      cy.get('.edit-ibonds-unavailable input').clear().type(20000)
       cy.get('.edit-checking input').clear().type(18000)
 
       cy.get('.edit-accounts .save').click()
       .should(() => {
         expect(win.api.saveData).to.be.called
         expect(win.api.saveData.lastCall.args[0].savingsBalance).to.equal(30000)
+        expect(win.api.saveData.lastCall.args[0].iBondsAvailableBalance).to.equal(10000)
+        expect(win.api.saveData.lastCall.args[0].iBondsUnavailableBalance).to.equal(20000)
         expect(win.api.saveData.lastCall.args[0].checkingBalance).to.equal(18000)
       })
       cy.get('.edit-accounts').should('not.exist')
@@ -153,10 +157,13 @@ describe('app', () => {
     it('updates display values', () => {
       cy.get('.savings h2 button').click({ force: true })
       cy.get('.edit-savings input').clear().type(30000)
+      cy.get('.edit-ibonds-available input').clear().type(10000)
+      cy.get('.edit-ibonds-unavailable input').clear().type(20000)
       cy.get('.edit-checking input').clear().type(18000)
       cy.get('.edit-accounts .save').click()
 
       cy.get('.savings .total').should('have.text', '$30,000')
+      cy.get('.i-bonds .total').should('have.text', '$30,000')
       cy.get('.checking .total').should('have.text', '$18,000')
     })
   })
@@ -191,7 +198,7 @@ describe('app', () => {
 
       it('does not show projected date when disabled', () => {
         cy.get('.goal').eq(3).find('.projection')
-          .should('not.be.visible')
+          .should('not.exist')
       })
 
       describe('editing', () => {

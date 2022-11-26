@@ -1,24 +1,23 @@
 body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,button,textarea,p,blockquote,th,td{margin:0;padding:0;}table{border-collapse:collapse;border-spacing:0;}fieldset,img,a img{border:none;}address,caption,cite,code,dfn,em,strong,th,var,optgroup{font-style:inherit;font-weight:inherit;}del,ins{text-decoration:none;}li{list-style:none;}caption,th{text-align:left;}h1,h2,h3,h4,h5,h6{font-size:100%;font-weight:normal;}q:before,q:after{content:'';}abbr,acronym{border:0;font-variant:normal;}sup{vertical-align:baseline;}sub{vertical-align:baseline;}legend{color:#000;}
 
-$primary-color: #6fcc04;
-$primary-color-alt: #3e9f58;
-$secondary-color: #94cdec;
-$tertiary-color: #e1b253;
+primary-color = #6fcc04;
+primary-color-alt = #3e9f58;
+secondary-color = #94cdec;
+tertiary-color = #e1b253;
 
-$error-color: #ca3939;
+error-color = #ca3939;
 
-$light-color: #f8f8f8;
-$dark-color: #333;
+light-color = #f8f8f8;
+dark-color = #333;
 
-$light-stripe: repeating-linear-gradient(120deg, transparent, transparent 1em, rgba(255, 255, 255, 0.2) 1em, rgba(255, 255, 255, 0.2) 2em);
-$dark-stripe: repeating-linear-gradient(120deg, transparent, transparent 1em, rgba(0, 0, 0, 0.1) 1em, rgba(0, 0, 0, 0.1) 2em);
+light-stripe = repeating-linear-gradient(120deg, transparent, transparent 1em, rgba(255, 255, 255, 0.2) 1em, rgba(255, 255, 255, 0.2) 2em);
+dark-stripe = repeating-linear-gradient(120deg, transparent, transparent 1em, rgba(0, 0, 0, 0.1) 1em, rgba(0, 0, 0, 0.1) 2em);
 
-$fa-font-path: 'fonts';
-@import '../node_modules/font-awesome/scss/font-awesome';
+@require '../node_modules/font-awesome/css/font-awesome.css';
 
-$cy-tooltip-background-color: $dark-color;
-$cy-tooltip-border-color: $dark-color;
-@import '../node_modules/@cypress/react-tooltip/dist/tooltip.scss';
+cy-tooltip-background-color = dark-color;
+cy-tooltip-border-color = dark-color;
+@require '../node_modules/@cypress/react-tooltip/dist/tooltip';
 
 * {
   box-sizing: border-box;
@@ -62,7 +61,7 @@ p {
 
 input,
 textarea {
-  border: solid 1px darken($light-color, 20%);
+  border: solid 1px darken(light-color, 20%);
   border-radius: 3px;
   font-size: 1em;
   padding: 0.2em 0.4em;
@@ -71,9 +70,9 @@ textarea {
 button,
 .button {
   border: none;
-  background: $primary-color-alt;
+  background: primary-color-alt;
   border-radius: 3px;
-  color: $light-color;
+  color: light-color;
   cursor: pointer;
   font-size: 0.8em;
   outline: none;
@@ -81,12 +80,12 @@ button,
   text-decoration: none;
 
   &:hover {
-    background: darken($primary-color-alt, 10%);
+    background: darken(primary-color-alt, 10%);
   }
 
   &[disabled],
   &[disabled]:hover {
-    background: $primary-color-alt !important;
+    background: primary-color-alt !important;
     cursor: default !important;
     opacity: 0.6 !important;
   }
@@ -98,11 +97,11 @@ button,
 
 .inverse {
   background: none;
-  color: darken($light-color, 20%);
+  color: darken(light-color, 20%);
 
   &:hover {
     background: none;
-    color: darken($light-color, 40%);
+    color: darken(light-color, 40%);
   }
 }
 
@@ -136,7 +135,7 @@ h2, h3 {
 }
 
 section {
-  background: $light-color;
+  background: light-color;
   border-right: solid 1px #d2d2d2;
   border-bottom: solid 1px #d2d2d2;
   border-radius: 5px;
@@ -242,15 +241,15 @@ form {
   }
 
   .delete {
-    background: $error-color;
+    background: error-color;
 
     &:hover {
-      background: darken($error-color, 20%);
+      background: darken(error-color, 20%);
     }
   }
 }
 
-@mixin full-screen {
+full-screen() {
   bottom: 0;
   left: 0;
   position: fixed;
@@ -259,7 +258,7 @@ form {
 }
 
 .modal {
-  @include full-screen;
+  full-screen();
   align-items: center;
   background: rgba(0, 0, 0, 0.8);
   display: flex;
@@ -276,7 +275,7 @@ form {
   }
 
   .modal-container {
-    background: $light-color;
+    background: light-color;
     border-radius: 5px;
     flex-basis: 0;
     padding: 1em 1.5em;
@@ -284,7 +283,7 @@ form {
 }
 
 .loader {
-  @include full-screen;
+  full-screen();
   align-items: center;
   display: flex;
   justify-content: center;
@@ -295,11 +294,11 @@ form {
   }
 }
 
-@mixin spinner-color($color) {
-  border-top: 0.2em solid rgba($color, 0.2);
-  border-right: 0.2em solid rgba($color, 0.2);
-  border-bottom: 0.2em solid rgba($color, 0.2);
-  border-left: 0.2em solid rgba($color, 0.8);
+spinner-color(color) {
+  border-top: 0.2em solid rgba(color, 0.2);
+  border-right: 0.2em solid rgba(color, 0.2);
+  border-bottom: 0.2em solid rgba(color, 0.2);
+  border-left: 0.2em solid rgba(color, 0.8);
 }
 
 /* Credit: https://projects.lukehaas.me/css-loaders/ */
@@ -316,13 +315,13 @@ form {
   font-size: 10px;
   position: relative;
   text-indent: -9999em;
-  @include spinner-color($dark-color);
+  spinner-color(dark-color);
   transform: translateZ(0);
   animation: spin 1.5s infinite linear;
 }
 
 .theme-dark .spinner {
-  @include spinner-color($light-color);
+  spinner-color(light-color);
 }
 
 @keyframes spin {
@@ -335,8 +334,8 @@ form {
 }
 
 .auth {
-  @include full-screen;
-  background: $light-color;
+  full-screen();
+  background: light-color;
   align-items: center;
   display: flex;
   justify-content: center;
@@ -346,8 +345,8 @@ form {
   }
 
   h2 {
-    background: $primary-color-alt;
-    color: $light-color;
+    background: primary-color-alt;
+    color: light-color;
     margin: 0;
     padding: 0.5em 0.8em;
   }
@@ -396,7 +395,7 @@ form {
   }
 }
 
-$bar-height: 0.6em;
+bar-height = 0.6em;
 
 .bar {
   align-items: flex-end;
@@ -407,7 +406,7 @@ $bar-height: 0.6em;
     background: #ebebeb;
     display: flex;
     flex-grow: 2;
-    height: $bar-height;
+    height: bar-height;
   }
 
   .bar-part {
@@ -416,46 +415,46 @@ $bar-height: 0.6em;
     text-align: right;
 
     &.savings {
-      background: $primary-color;
+      background: primary-color;
 
       &:hover .drag-handle,
       &.is-dragging .drag-handle,
       .drag-handle:hover {
-        background: darken($primary-color, 20%);
+        background: darken(primary-color, 20%);
       }
     }
 
     &.i-bonds-unavailable {
-      background: lighten($dark-color, 40%);
+      background: lighten(dark-color, 40%);
     }
 
     &.i-bonds-allocated {
-      background: $primary-color-alt;
+      background: primary-color-alt;
 
       &:hover .drag-handle,
       &.is-dragging .drag-handle,
       .drag-handle:hover {
-        background: darken($primary-color-alt, 20%);
+        background: darken(primary-color-alt, 20%);
       }
     }
 
     &.planned {
-      background: $secondary-color;
+      background: secondary-color;
 
       &:hover .drag-handle,
       &.is-dragging .drag-handle,
       .drag-handle:hover {
-        background: darken($secondary-color, 20%);
+        background: darken(secondary-color, 20%);
       }
     }
 
     &.expense {
-      background: $tertiary-color;
+      background: tertiary-color;
 
       &:hover .drag-handle,
       &.is-dragging .drag-handle,
       .drag-handle:hover {
-        background: darken($tertiary-color, 20%);
+        background: darken(tertiary-color, 20%);
       }
     }
 
@@ -477,7 +476,7 @@ $bar-height: 0.6em;
       position: absolute;
       right: 0;
       width: 5px;
-      height: $bar-height;
+      height: bar-height;
       z-index: 1;
     }
 
@@ -487,7 +486,7 @@ $bar-height: 0.6em;
 
     &:hover .drag-handle,
     &.is-dragging .drag-handle {
-      height: $bar-height + 0.6em;
+      height: bar-height + 0.6em;
       top: -0.3em;
     }
   }
@@ -508,7 +507,7 @@ $bar-height: 0.6em;
 }
 
 .tooltip label span {
-  color: darken($light-color, 10%);
+  color: darken(light-color, 10%);
   margin-left: 0.2em;
 }
 
@@ -564,13 +563,13 @@ article.income {
 
 .i-bonds .bar-part.i-bonds-unavailable,
 .i-bonds .bar-part.i-bonds-allocated {
-  background-image: $light-stripe;
+  background-image: light-stripe;
 }
 
 .checking .bar main,
 .income .bar-part.planned,
 .savings .bar-part.savings {
-  background-image: $dark-stripe;
+  background-image: dark-stripe;
 }
 
 .add-goal {

@@ -1,6 +1,6 @@
 import _ from 'lodash'
 import cs from 'classnames'
-import { action, observable } from 'mobx'
+import { action, extendObservable } from 'mobx'
 import { observer } from 'mobx-react'
 import React, { Component } from 'react'
 import arrayMove from 'array-move'
@@ -46,9 +46,14 @@ const onSortEnd = ({ oldIndex, newIndex }) => {
   saveData()
 }
 
-@observer
 class App extends Component {
-  @observable isLoading = true
+  constructor (props) {
+    super(props)
+
+    extendObservable(this, {
+      isLoading: true,
+    })
+  }
 
   componentDidMount () {
     api.pollData(action((data) => {
@@ -85,4 +90,4 @@ class App extends Component {
   }
 }
 
-export default App
+export default observer(App)

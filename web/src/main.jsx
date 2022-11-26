@@ -1,4 +1,4 @@
-import { action, observable } from 'mobx'
+import { action, extendObservable } from 'mobx'
 import { observer } from 'mobx-react'
 import React, { Component } from 'react'
 import { render } from 'react-dom'
@@ -9,10 +9,16 @@ import App from './components/app'
 import Auth from './components/auth'
 import Loader from './components/loader'
 
-@observer
 class Main extends Component {
-  @observable isAuthenticating = true
-  @observable isAuthenticated = false
+
+  constructor (props) {
+    super(props)
+
+    extendObservable(this, {
+      isAuthenticating: true,
+      isAuthenticated: false,
+    })
+  }
 
   componentDidMount () {
     api.authenticate()
@@ -37,8 +43,10 @@ class Main extends Component {
   }
 }
 
+const ObserverMain = observer(Main)
+
 const start = () => {
-  render(<Main />, document.getElementById('app'))
+  render(<ObserverMain />, document.getElementById('app'))
 }
 
 if (window.Cypress) {

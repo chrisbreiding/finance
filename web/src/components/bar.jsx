@@ -1,5 +1,5 @@
 import cs from 'classnames'
-import { action, observable } from 'mobx'
+import { action, extendObservable } from 'mobx'
 import { observer } from 'mobx-react'
 import React, { Children, Component } from 'react'
 import Tooltip from '@cypress/react-tooltip'
@@ -8,10 +8,15 @@ import DragHandle from './drag-handle'
 import { format$ } from '../lib/util'
 import state from '../lib/state'
 
-@observer
-export class BarPart extends Component {
-  @observable isHovering = false
-  @observable isDragging = false
+class _BarPart extends Component {
+  constructor (props) {
+    super(props)
+
+    extendObservable(this, {
+      isHovering: false,
+      isDragging: false,
+    })
+  }
 
   render () {
     const props = this.props
@@ -67,14 +72,21 @@ export class BarPart extends Component {
   }
 }
 
+export const BarPart = observer(_BarPart)
+
 BarPart.defaultProps = {
   draggable: true,
   prevPercents: 0,
 }
 
-@observer
-export class Bar extends Component {
-  @observable parent = { width: 1, x: 0 }
+class _Bar extends Component {
+  constructor (props) {
+    super(props)
+
+    extendObservable(this, {
+      parent: { width: 1, x: 0 },
+    })
+  }
 
   componentDidMount () {
     this._updateParentProps()
@@ -85,10 +97,10 @@ export class Bar extends Component {
     this._updateParentProps()
   }
 
-  @action _updateParentProps = () => {
+  _updateParentProps = action(() => {
     this.parent.width = this.refs.main.clientWidth
     this.parent.x = this.refs.main.offsetLeft
-  }
+  })
 
   render () {
     return (
@@ -107,3 +119,5 @@ export class Bar extends Component {
     document.removeEventListener('resize', this._updateParentProps)
   }
 }
+
+export const Bar = observer(_Bar)

@@ -1,54 +1,58 @@
 import _ from 'lodash'
-import { action, computed, observable, values } from 'mobx'
+import { action, extendObservable, observable, values } from 'mobx'
 import moment from 'moment'
 
 import Goal from './goal-model'
-import util from './util'
+import * as util from './util'
 
 class State {
-  @observable draggingId = null
-  @observable checkingBalance = 0
-  @observable iBondsAvailableBalance = 0
-  @observable iBondsUnavailableBalance = 0
-  @observable savingsBalance = 0
-  @observable lastUpdated = null
-  @observable incomeAmount = 0
-  @observable expensesAmount = 0
-  @observable savingsTransferAmount = 0
-  @observable _goals = observable.map()
-  @observable isSorting = false
-  @observable rewards = observable.map()
+  constructor () {
+    extendObservable(this, {
+      draggingId: null,
+      checkingBalance: 0,
+      iBondsAvailableBalance: 0,
+      iBondsUnavailableBalance: 0,
+      savingsBalance: 0,
+      lastUpdated: null,
+      incomeAmount: 0,
+      expensesAmount: 0,
+      savingsTransferAmount: 0,
+      _goals: observable.map(),
+      isSorting: false,
+      rewards: observable.map(),
 
-  @computed get isGrabbing () {
-    return !!this.draggingId
-  }
+      get isGrabbing () {
+        return !!this.draggingId
+      },
 
-  @computed get allocatedSavingsAmount () {
-    return _.sum(_.map(values(this._goals), 'savedAmount'))
-  }
+      get allocatedSavingsAmount () {
+        return _.sum(_.map(values(this._goals), 'savedAmount'))
+      },
 
-  @computed get unallocatedSavingsAmount () {
-    return this.savingsBalance - this.allocatedSavingsAmount
-  }
+      get unallocatedSavingsAmount () {
+        return this.savingsBalance - this.allocatedSavingsAmount
+      },
 
-  @computed get allocatedIBondsAmount () {
-    return _.sum(_.map(values(this._goals), 'iBondsAmount'))
-  }
+      get allocatedIBondsAmount () {
+        return _.sum(_.map(values(this._goals), 'iBondsAmount'))
+      },
 
-  @computed get unallocatedIBondsAmount () {
-    return this.iBondsAvailableBalance - this.allocatedIBondsAmount
-  }
+      get unallocatedIBondsAmount () {
+        return this.iBondsAvailableBalance - this.allocatedIBondsAmount
+      },
 
-  @computed get goals () {
-    return _.sortBy(values(this._goals), 'order')
-  }
+      get goals () {
+        return _.sortBy(values(this._goals), 'order')
+      },
 
-  @computed get goalsAmount () {
-    return _.sum(_.map(this.goals, 'plannedAmount'))
-  }
+      get goalsAmount () {
+        return _.sum(_.map(this.goals, 'plannedAmount'))
+      },
 
-  @computed get availableIncome () {
-    return this.incomeAmount + this.savingsTransferAmount - this.expensesAmount - this.goalsAmount
+      get availableIncome () {
+        return this.incomeAmount + this.savingsTransferAmount - this.expensesAmount - this.goalsAmount
+      },
+    })
   }
 
   getGoalById (id) {
@@ -61,11 +65,11 @@ class State {
     return reward || { amount: 0 }
   }
 
-  @action setExpensesAmount (amount) {
+  setExpensesAmount = action((amount) => {
     this.expensesAmount = util.toTwoDecimals(amount)
-  }
+  })
 
-  @action updateData = (data) => {
+  updateData = action((data) => {
     const props = [
       'checkingBalance',
       'savingsBalance',
@@ -102,21 +106,21 @@ class State {
         this.rewards.set(key, value)
       })
     }
-  }
+  })
 
-  @action addGoal = () => {
+  addGoal = action(() => {
     const id = util.nextNumber(this.goals, 'id')
     const order = util.nextNumber(this.goals, 'order')
     this._goals.set(id, new Goal({ id, order }))
-  }
+  })
 
-  @action deleteGoal = (goal) => {
+  deleteGoal = action((goal) => {
     this._goals.delete(goal.id)
-  }
+  })
 
-  @action setSorting (isSorting) {
+  setSorting = action((isSorting) => {
     this.isSorting = isSorting
-  }
+  })
 
   serialize () {
     return {

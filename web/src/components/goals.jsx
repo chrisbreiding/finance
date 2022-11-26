@@ -1,4 +1,4 @@
-import { action, observable } from 'mobx'
+import { action, extendObservable } from 'mobx'
 import { observer } from 'mobx-react'
 import React, { Component } from 'react'
 import { SortableContainer, SortableElement, SortableHandle } from 'react-sortable-hoc'
@@ -14,9 +14,14 @@ const SortHandle = SortableHandle(() => (
   </span>
 ))
 
-@observer
 class Goal extends Component {
-  @observable isEditing = false
+  constructor (props) {
+    super(props)
+
+    extendObservable(this, {
+      isEditing: false,
+    })
+  }
 
   render () {
     const { goal } = this.props
@@ -125,22 +130,22 @@ class Goal extends Component {
     )
   }
 
-  @action _edit = (isEditing) => () => {
+  _edit = action((isEditing) => () => {
     this.isEditing = isEditing
-  }
+  })
 
-  @action _save = (props) => {
+  _save = action((props) => {
     this._edit(false)()
     this.props.goal.setProps(props)
     this.props.onSave()
-  }
+  })
 
-  @action _delete = () => {
+  _delete = action(() => {
     this.props.onDelete(this.props.goal)
-  }
+  })
 }
 
-const SortableGoal = SortableElement(Goal)
+const SortableGoal = SortableElement(observer(Goal))
 
 const Goals = observer((props) => (
   <section className='goals'>

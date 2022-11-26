@@ -2,8 +2,5 @@
   "extends": [
     "plugin:crb/general",
     "plugin:crb/react"
-  ],
-  "rules": {
-    "padding-line-between-statements": "off"
-  }
+  ]
 }
