@@ -77,6 +77,7 @@ class App extends Component {
         <Goals
           goals={state.goals}
           unallocatedSavingsAmount={state.unallocatedSavingsAmount}
+          unallocatedMoneyMarketAmount={state.unallocatedMoneyMarketAmount}
           unallocatedIBondsAmount={state.unallocatedIBondsAmount}
           availableIncome={state.availableIncome}
           onAdd={addGoal}

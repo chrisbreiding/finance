@@ -12,6 +12,7 @@ class State {
       checkingBalance: 0,
       iBondsAvailableBalance: 0,
       iBondsUnavailableBalance: 0,
+      moneyMarketBalance: 0,
       savingsBalance: 0,
       lastUpdated: null,
       incomeAmount: 0,
@@ -31,6 +32,14 @@ class State {
 
       get unallocatedSavingsAmount () {
         return this.savingsBalance - this.allocatedSavingsAmount
+      },
+
+      get allocatedMoneyMarketAmount () {
+        return _.sum(_.map(values(this._goals), 'moneyMarketAmount'))
+      },
+
+      get unallocatedMoneyMarketAmount () {
+        return this.moneyMarketBalance - this.allocatedMoneyMarketAmount
       },
 
       get allocatedIBondsAmount () {
@@ -73,6 +82,7 @@ class State {
     const props = [
       'checkingBalance',
       'savingsBalance',
+      'moneyMarketBalance',
       'iBondsAvailableBalance',
       'iBondsUnavailableBalance',
       'lastUpdated',
@@ -126,6 +136,7 @@ class State {
     return {
       checkingBalance: this.checkingBalance,
       savingsBalance: this.savingsBalance,
+      moneyMarketBalance: this.moneyMarketBalance,
       iBondsAvailableBalance: this.iBondsAvailableBalance,
       iBondsUnavailableBalance: this.iBondsUnavailableBalance,
       incomeAmount: this.incomeAmount,

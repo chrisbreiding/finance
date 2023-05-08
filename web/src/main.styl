@@ -144,6 +144,7 @@ section {
 }
 
 .savings,
+.money-market,
 .i-bonds,
 .checking,
 .income,
@@ -183,6 +184,7 @@ section {
 
 .rewards,
 .savings,
+.money-market,
 .i-bonds,
 .checking,
 .income {
@@ -424,17 +426,27 @@ bar-height = 0.6em;
       }
     }
 
+    &.money-market {
+      background: #f739bb;
+
+      &:hover .drag-handle,
+      &.is-dragging .drag-handle,
+      .drag-handle:hover {
+        background: darken(#ec47b8, 20%);
+      }
+    }
+
     &.i-bonds-unavailable {
       background: lighten(dark-color, 40%);
     }
 
     &.i-bonds-allocated {
-      background: primary-color-alt;
+      background: #a31ac5;
 
       &:hover .drag-handle,
       &.is-dragging .drag-handle,
       .drag-handle:hover {
-        background: darken(primary-color-alt, 20%);
+        background: darken(#c120ea, 20%);
       }
     }
 
@@ -514,6 +526,7 @@ bar-height = 0.6em;
 article.checking,
 article.rewards,
 article.savings,
+article.money-market,
 article.i-bonds,
 article.income {
   margin-bottom: 1em;
@@ -561,6 +574,7 @@ article.income {
   }
 }
 
+.money-market .bar-part.money-market,
 .i-bonds .bar-part.i-bonds-unavailable,
 .i-bonds .bar-part.i-bonds-allocated {
   background-image: light-stripe;

@@ -9,13 +9,14 @@ import { ensureNumber } from '../lib/util'
 
 const EditAccounts = observer((props) => {
   // eslint-disable-next-line one-var
-  let savingsNode, iBondsAvailableNode, iBondsUnavailableNode, checkingNode
+  let savingsNode, moneyMarketNode, iBondsAvailableNode, iBondsUnavailableNode, checkingNode
 
   const save = (e) => {
     e.preventDefault()
 
     props.onSave({
       savingsBalance: ensureNumber(savingsNode.value),
+      moneyMarketBalance: ensureNumber(moneyMarketNode.value),
       iBondsAvailableBalance: ensureNumber(iBondsAvailableNode.value),
       iBondsUnavailableBalance: ensureNumber(iBondsUnavailableNode.value),
       checkingBalance: ensureNumber(checkingNode.value),
@@ -34,6 +35,13 @@ const EditAccounts = observer((props) => {
           <input
             ref={(node) => savingsNode = node}
             defaultValue={state.savingsBalance}
+          />
+        </div>
+        <div className={'group edit-money-market'}>
+          <label>Money Market</label>
+          <input
+            ref={(node) => moneyMarketNode = node}
+            defaultValue={state.moneyMarketBalance}
           />
         </div>
         <div className={'group edit-ibonds-available'}>
@@ -93,6 +101,37 @@ export const Savings = observer(({ onEdit }) => (
         draggable={false}
         percent={(state.savingsBalance - state.allocatedSavingsAmount) / state.savingsBalance * 100}
         value={state.savingsBalance - state.allocatedSavingsAmount}
+      />
+    </Bar>
+  </article>
+))
+
+export const MoneyMarket = observer(({ onEdit }) => (
+  <article className='money-market'>
+    <h2>
+      Money Market
+      <div className='controls'>
+        <button onClick={onEdit}>
+          <i className='fa fa-edit' />
+        </button>
+      </div>
+    </h2>
+    <Bar total={state.moneyMarketBalance}>
+      <BarPart
+        id='money-market'
+        label='allocated'
+        type='money-market'
+        draggable={false}
+        percent={state.allocatedMoneyMarketAmount / state.moneyMarketBalance * 100}
+        value={state.allocatedMoneyMarketAmount}
+      />
+      <BarPart
+        id='money-market-left'
+        label='left'
+        type='left'
+        draggable={false}
+        percent={(state.moneyMarketBalance - state.allocatedMoneyMarketAmount) / state.moneyMarketBalance * 100}
+        value={state.moneyMarketBalance - state.allocatedMoneyMarketAmount}
       />
     </Bar>
   </article>
@@ -177,6 +216,7 @@ class Accounts extends Component {
     return (
       <section className='accounts'>
         <Savings onEdit={this._edit(true)} />
+        <MoneyMarket onEdit={this._edit(true)} />
         <IBonds onEdit={this._edit(true)} />
         <Checking onEdit={this._edit(true)} />
         <EditAccounts

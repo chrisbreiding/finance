@@ -56,6 +56,18 @@ class EditGoal extends Component {
             </div>
           </div>
           <div className='group'>
+            <label>Money Market</label>
+            <input
+              ref='moneyMarketAmount'
+              type='number'
+              defaultValue={goal.moneyMarketAmount}
+            />
+            <div className='limits'>
+              <span className='value'>Min: {format$(0)}</span>
+              <span className='value'>Max: {format$(this.props.maxMoneyMarketAmount)}</span>
+            </div>
+          </div>
+          <div className='group'>
             <label>Saved (I-Bonds)</label>
             <input
               ref='iBondsAmount'
@@ -131,6 +143,7 @@ class EditGoal extends Component {
       label: this.refs.label.value,
       description: (this.refs.description.value || '').replace('\n', ' '),
       savedAmount: ensureNumber(this.refs.savedAmount.value),
+      moneyMarketAmount: ensureNumber(this.refs.moneyMarketAmount.value),
       iBondsAmount: ensureNumber(this.refs.iBondsAmount.value),
       plannedAmount: ensureNumber(this.refs.plannedAmount.value),
       totalAmount: ensureNumber(this.refs.totalAmount.value),

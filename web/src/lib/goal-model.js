@@ -9,6 +9,7 @@ class Goal {
       label: 'Untitled',
       description: '',
       savedAmount: 0,
+      moneyMarketAmount: 0,
       iBondsAmount: 0,
       plannedAmount: 0,
       totalAmount: 100,
@@ -17,11 +18,11 @@ class Goal {
       projectionAmount: 0,
 
       get minTotalAmount () {
-        return this.savedAmount + this.iBondsAmount + this.plannedAmount
+        return this.savedAmount + this.moneyMarketAmount + this.iBondsAmount + this.plannedAmount
       },
 
       get amountLeft () {
-        return this.totalAmount - this.savedAmount - this.iBondsAmount - this.plannedAmount
+        return this.totalAmount - this.savedAmount - this.moneyMarketAmount - this.iBondsAmount - this.plannedAmount
       },
 
       get projection () {
@@ -43,6 +44,7 @@ class Goal {
     if (props.label != null) this.label = props.label
     if (props.description != null) this.description = props.description
     if (props.savedAmount != null) this.savedAmount = util.toTwoDecimals(props.savedAmount)
+    if (props.moneyMarketAmount != null) this.moneyMarketAmount = util.toTwoDecimals(props.moneyMarketAmount)
     if (props.iBondsAmount != null) this.iBondsAmount = util.toTwoDecimals(props.iBondsAmount)
     if (props.plannedAmount != null) this.plannedAmount = util.toTwoDecimals(props.plannedAmount)
     if (props.totalAmount != null) this.totalAmount = util.toTwoDecimals(props.totalAmount)
@@ -57,6 +59,7 @@ class Goal {
       label: this.label,
       description: this.description,
       savedAmount: this.savedAmount,
+      moneyMarketAmount: this.moneyMarketAmount,
       iBondsAmount: this.iBondsAmount,
       plannedAmount: this.plannedAmount,
       totalAmount: this.totalAmount,

@@ -27,15 +27,19 @@ class Goal extends Component {
     const { goal } = this.props
     const maxSavedAmount = Math.min(
       this.props.unallocatedSavingsAmount + goal.savedAmount,
-      goal.totalAmount - goal.plannedAmount - goal.iBondsAmount,
+      goal.totalAmount - goal.plannedAmount - goal.moneyMarketAmount - goal.iBondsAmount,
+    )
+    const maxMoneyMarketAmount = Math.min(
+      this.props.unallocatedMoneyMarketAmount + goal.moneyMarketAmount,
+      goal.totalAmount - goal.plannedAmount - goal.savedAmount - goal.iBondsAmount,
     )
     const maxIBondsAmount = Math.min(
       this.props.unallocatedIBondsAmount + goal.iBondsAmount,
-      goal.totalAmount - goal.plannedAmount - goal.savedAmount,
+      goal.totalAmount - goal.plannedAmount - goal.savedAmount - goal.moneyMarketAmount,
     )
     const maxPlannedAmount = Math.min(
       this.props.availableIncome + goal.plannedAmount,
-      goal.totalAmount - goal.savedAmount - goal.iBondsAmount,
+      goal.totalAmount - goal.savedAmount - goal.iBondsAmount - goal.moneyMarketAmount,
     )
 
     return (
@@ -78,10 +82,30 @@ class Goal extends Component {
             }}
           />
           <BarPart
+            id={`goal-${goal.id}-money-market`}
+            label='money-market'
+            type='money-market'
+            prevPercents={goal.iBondsAmount / goal.totalAmount * 100}
+            percent={goal.moneyMarketAmount / goal.totalAmount * 100}
+            value={rounded(goal.moneyMarketAmount, maxMoneyMarketAmount, goal.totalAmount)}
+            onUpdatePercent={(percent) => {
+              const amount = percentToAmount(goal.totalAmount, percent)
+              goal.setProps({
+                moneyMarketAmount: amount > maxMoneyMarketAmount ? maxMoneyMarketAmount : amount,
+              })
+            }}
+            onFinishUpdatingPercent={() => {
+              goal.setProps({
+                moneyMarketAmount: rounded(goal.moneyMarketAmount, maxMoneyMarketAmount, goal.totalAmount),
+              })
+              this.props.onSave()
+            }}
+          />
+          <BarPart
             id={`goal-${goal.id}-saved`}
             label='savings'
             type='savings'
-            prevPercents={goal.iBondsAmount / goal.totalAmount * 100}
+            prevPercents={(goal.iBondsAmount + goal.moneyMarketAmount) / goal.totalAmount * 100}
             percent={goal.savedAmount / goal.totalAmount * 100}
             value={rounded(goal.savedAmount, maxSavedAmount, goal.totalAmount)}
             onUpdatePercent={(percent) => {
@@ -168,6 +192,7 @@ const Goals = observer((props) => (
           goal={goal}
           unallocatedIBondsAmount={props.unallocatedIBondsAmount}
           unallocatedSavingsAmount={props.unallocatedSavingsAmount}
+          unallocatedMoneyMarketAmount={props.unallocatedMoneyMarketAmount}
           availableIncome={props.availableIncome}
           onSave={props.onSave}
           onDelete={props.onDelete}
