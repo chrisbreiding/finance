@@ -125,7 +125,7 @@ class Goal extends Component {
             id={`goal-${goal.id}-planned`}
             label='this month'
             type='planned'
-            prevPercents={(goal.iBondsAmount + goal.savedAmount) / goal.totalAmount * 100}
+            prevPercents={(goal.iBondsAmount + goal.savedAmount + goal.moneyMarketAmount) / goal.totalAmount * 100}
             percent={goal.plannedAmount / goal.totalAmount * 100}
             value={rounded(goal.plannedAmount, maxPlannedAmount, goal.totalAmount)}
             onUpdatePercent={(percent) => {
