@@ -141,7 +141,7 @@ index f36b1fa..0000000
 -}
 diff --git a/node_modules/@cypress/react-tooltip/dist/tooltip.styl b/node_modules/@cypress/react-tooltip/dist/tooltip.styl
 new file mode 100644
-index 0000000..97bbb32
+index 0000000..92dae03
 --- /dev/null
 +++ b/node_modules/@cypress/react-tooltip/dist/tooltip.styl
 @@ -0,0 +1,135 @@
@@ -191,12 +191,12 @@ index 0000000..97bbb32
 +
 +  .{cy-tooltip-class}-arrow {
 +    top: auto;
-+    bottom: -arrow-size - cy-tooltip-border-width;
++    bottom: (arrow-size * -1) - cy-tooltip-border-width;
 +    height: arrow-size + cy-tooltip-border-width;
 +    width: arrow-size * 2 + cy-tooltip-border-width * 2;
 +
 +    svg {
-+      top: -arrow-size;
++      top: (arrow-size * -1);
 +    }
 +  }
 +}
@@ -211,7 +211,7 @@ index 0000000..97bbb32
 +
 +  .{cy-tooltip-class}-arrow {
 +    right: auto;
-+    left: -arrow-size - cy-tooltip-border-width;
++    left: (arrow-size * -1) - cy-tooltip-border-width;
 +    height: arrow-size * 2 + cy-tooltip-border-width * 2;
 +    width: arrow-size + cy-tooltip-border-width;
 +  }
@@ -231,12 +231,12 @@ index 0000000..97bbb32
 +
 +  .{cy-tooltip-class}-arrow {
 +    left: auto;
-+    right: -arrow-size - cy-tooltip-border-width;
++    right: (arrow-size * -1) - cy-tooltip-border-width;
 +    height: arrow-size * 2 + cy-tooltip-border-width * 2;
 +    width: arrow-size + cy-tooltip-border-width;
 +
 +    svg {
-+      left: -arrow-size;
++      left: (arrow-size * -1);
 +    }
 +  }
 +}
@@ -252,7 +252,7 @@ index 0000000..97bbb32
 +  .{cy-tooltip-class}-arrow {
 +    bottom: auto;
 +    height: arrow-size + cy-tooltip-border-width;
-+    top: -arrow-size - cy-tooltip-border-width;
++    top: (arrow-size * -1) - cy-tooltip-border-width;
 +    width: arrow-size * 2 + cy-tooltip-border-width * 2;
 +  }
 +
