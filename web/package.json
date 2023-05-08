@@ -3,6 +3,7 @@
   "private": true,
   "scripts": {
     "build": "rm -rf dist && vite build",
+    "deploy": "echo 'Deploying via netlify' && git push origin $(git rev-parse --abbrev-ref HEAD):production",
     "cypress:open": "cypress open",
     "cypress:run": "cypress run",
     "lint-fix": "npm run lint -- --fix",
