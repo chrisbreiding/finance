@@ -1,9 +1,11 @@
 body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,button,textarea,p,blockquote,th,td{margin:0;padding:0;}table{border-collapse:collapse;border-spacing:0;}fieldset,img,a img{border:none;}address,caption,cite,code,dfn,em,strong,th,var,optgroup{font-style:inherit;font-weight:inherit;}del,ins{text-decoration:none;}li{list-style:none;}caption,th{text-align:left;}h1,h2,h3,h4,h5,h6{font-size:100%;font-weight:normal;}q:before,q:after{content:'';}abbr,acronym{border:0;font-variant:normal;}sup{vertical-align:baseline;}sub{vertical-align:baseline;}legend{color:#000;}
 
-primary-color = #6fcc04;
-primary-color-alt = #3e9f58;
-secondary-color = #94cdec;
-tertiary-color = #e1b253;
+action-color = #3e9f58;
+savings-color = #6fcc04;
+money-market-color = #74aecd;
+i-bonds-color = #a31ac5;
+planned-color = #f0da50;
+expense-color = #f05f5f;
 
 error-color = #ca3939;
 
@@ -70,7 +72,7 @@ textarea {
 button,
 .button {
   border: none;
-  background: primary-color-alt;
+  background: action-color;
   border-radius: 3px;
   color: light-color;
   cursor: pointer;
@@ -80,12 +82,12 @@ button,
   text-decoration: none;
 
   &:hover {
-    background: darken(primary-color-alt, 10%);
+    background: darken(action-color, 10%);
   }
 
   &[disabled],
   &[disabled]:hover {
-    background: primary-color-alt !important;
+    background: action-color !important;
     cursor: default !important;
     opacity: 0.6 !important;
   }
@@ -347,7 +349,7 @@ spinner-color(color) {
   }
 
   h2 {
-    background: primary-color-alt;
+    background: action-color;
     color: light-color;
     margin: 0;
     padding: 0.5em 0.8em;
@@ -417,56 +419,56 @@ bar-height = 0.6em;
     text-align: right;
 
     &.savings {
-      background: primary-color;
+      background: savings-color;
 
       &:hover .drag-handle,
       &.is-dragging .drag-handle,
       .drag-handle:hover {
-        background: darken(primary-color, 20%);
+        background: darken(savings-color, 20%);
       }
     }
 
     &.money-market {
-      background: #f739bb;
+      background: money-market-color;
 
       &:hover .drag-handle,
       &.is-dragging .drag-handle,
       .drag-handle:hover {
-        background: darken(#ec47b8, 20%);
+        background: darken(money-market-color, 20%);
       }
     }
 
     &.i-bonds-unavailable {
-      background: lighten(dark-color, 40%);
+      background: lighten(desaturate(i-bonds-color, 50%), 30%);
     }
 
     &.i-bonds-allocated {
-      background: #a31ac5;
+      background: i-bonds-color;
 
       &:hover .drag-handle,
       &.is-dragging .drag-handle,
       .drag-handle:hover {
-        background: darken(#c120ea, 20%);
+        background: darken(i-bonds-color, 20%);
       }
     }
 
     &.planned {
-      background: secondary-color;
+      background: planned-color;
 
       &:hover .drag-handle,
       &.is-dragging .drag-handle,
       .drag-handle:hover {
-        background: darken(secondary-color, 20%);
+        background: darken(planned-color, 20%);
       }
     }
 
     &.expense {
-      background: tertiary-color;
+      background: expense-color;
 
       &:hover .drag-handle,
       &.is-dragging .drag-handle,
       .drag-handle:hover {
-        background: darken(tertiary-color, 20%);
+        background: darken(expense-color, 20%);
       }
     }
 
