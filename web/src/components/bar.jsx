@@ -98,19 +98,16 @@ class _Bar extends Component {
   }
 
   _updateParentProps = action(() => {
-    this.parent.width = this.refs.main.clientWidth
-    this.parent.x = this.refs.main.offsetLeft
+    this.parent.width = this.refs.bar.clientWidth
+    this.parent.x = this.refs.bar.offsetLeft
   })
 
   render () {
     return (
-      <div className='bar'>
-        <main ref='main'>
-          {Children.map(this.props.children, (child) => (
-            React.cloneElement(child, { parent: this.parent })
-          ))}
-        </main>
-        <div className='total'>{format$(this.props.total)}</div>
+      <div className='bar' ref='bar'>
+        {Children.map(this.props.children, (child) => (
+          React.cloneElement(child, { parent: this.parent })
+        ))}
       </div>
     )
   }

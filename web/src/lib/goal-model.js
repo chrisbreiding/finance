@@ -16,6 +16,7 @@ class Goal {
       order: 0,
       showProjection: false,
       projectionAmount: 0,
+      showTotalBanked: false,
 
       get minTotalAmount () {
         return this.savedAmount + this.moneyMarketAmount + this.iBondsAmount + this.plannedAmount
@@ -51,6 +52,7 @@ class Goal {
     if (props.order != null) this.order = props.order
     if (props.showProjection != null) this.showProjection = props.showProjection
     if (props.projectionAmount != null) this.projectionAmount = props.projectionAmount
+    if (props.showTotalBanked != null) this.showTotalBanked = props.showTotalBanked
   })
 
   serialize () {
@@ -66,6 +68,7 @@ class Goal {
       order: this.order,
       showProjection: this.showProjection,
       projectionAmount: this.projectionAmount,
+      showTotalBanked: this.showTotalBanked,
     }
   }
 }

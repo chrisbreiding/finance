@@ -3,7 +3,7 @@ import { observer } from 'mobx-react'
 import React, { Component } from 'react'
 import { SortableContainer, SortableElement, SortableHandle } from 'react-sortable-hoc'
 
-import { rounded, percentToAmount } from '../lib/util'
+import { rounded, percentToAmount, format$ } from '../lib/util'
 import { Bar, BarPart } from './bar'
 import EditGoal from './edit-goal'
 
@@ -41,6 +41,7 @@ class Goal extends Component {
       this.props.availableIncome + goal.plannedAmount,
       goal.totalAmount - goal.savedAmount - goal.iBondsAmount - goal.moneyMarketAmount,
     )
+    const totalBanked = goal.totalAmount - goal.amountLeft
 
     return (
       <li className='goal'>
@@ -55,13 +56,20 @@ class Goal extends Component {
             </div>
           </h3>
           {goal.description && <p className='description'>{goal.description}</p>}
-          {goal.projection && <p className='spacer' />}
+          <p className='spacer' />
           {goal.projection && <p className='projection'>
             <i className='fa fa-calendar' />
             {goal.projection}
           </p>}
+          <div className='total'>
+            {goal.showTotalBanked && (<>
+              <span className='total-banked-amount'>{format$(totalBanked)}</span>
+              <span className='total-of'>of</span>
+            </>)}
+            <span className='total-amount'>{format$(goal.totalAmount)}</span>
+          </div>
         </header>
-        <Bar total={goal.totalAmount}>
+        <Bar>
           <BarPart
             id={`goal-${goal.id}-i-bonds`}
             label='i-bonds'

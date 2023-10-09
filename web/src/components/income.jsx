@@ -110,8 +110,12 @@ class Income extends Component {
             </div>
           </h2>
           <p>{this._incomeInfo()}</p>
+          <div className='spacer' />
+          <div className='total'>
+            <span className='total-amount'>{format$(totalIncomeAmount)}</span>
+          </div>
         </header>
-        <Bar total={totalIncomeAmount}>
+        <Bar>
           <BarPart
             id='income-expenses'
             label='expenses'

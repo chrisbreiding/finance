@@ -5,7 +5,7 @@ import React, { Component } from 'react'
 import { Bar, BarPart } from './bar'
 import Modal from './modal'
 import state from '../lib/state'
-import { ensureNumber } from '../lib/util'
+import { ensureNumber, format$ } from '../lib/util'
 
 const EditAccounts = observer((props) => {
   // eslint-disable-next-line one-var
@@ -77,15 +77,21 @@ const EditAccounts = observer((props) => {
 
 export const Savings = observer(({ onEdit }) => (
   <article className='savings'>
-    <h2>
+    <header>
+      <h2>
       Savings
-      <div className='controls'>
-        <button onClick={onEdit}>
-          <i className='fa fa-edit' />
-        </button>
+        <div className='controls'>
+          <button onClick={onEdit}>
+            <i className='fa fa-edit' />
+          </button>
+        </div>
+      </h2>
+      <div className='spacer' />
+      <div className='total'>
+        <span className='total-amount'>{format$(state.savingsBalance)}</span>
       </div>
-    </h2>
-    <Bar total={state.savingsBalance}>
+    </header>
+    <Bar>
       <BarPart
         id='savings'
         label='allocated'
@@ -108,15 +114,21 @@ export const Savings = observer(({ onEdit }) => (
 
 export const MoneyMarket = observer(({ onEdit }) => (
   <article className='money-market'>
-    <h2>
+    <header>
+      <h2>
       Money Market
-      <div className='controls'>
-        <button onClick={onEdit}>
-          <i className='fa fa-edit' />
-        </button>
+        <div className='controls'>
+          <button onClick={onEdit}>
+            <i className='fa fa-edit' />
+          </button>
+        </div>
+      </h2>
+      <div className='spacer' />
+      <div className='total'>
+        <span className='total-amount'>{format$(state.moneyMarketBalance)}</span>
       </div>
-    </h2>
-    <Bar total={state.moneyMarketBalance}>
+    </header>
+    <Bar>
       <BarPart
         id='money-market'
         label='allocated'
@@ -147,15 +159,21 @@ export const IBonds = observer(({ onEdit }) => {
 
   return (
     <article className='i-bonds'>
-      <h2>
+      <header>
+        <h2>
         I-Bonds
-        <div className='controls'>
-          <button onClick={onEdit}>
-            <i className='fa fa-edit' />
-          </button>
+          <div className='controls'>
+            <button onClick={onEdit}>
+              <i className='fa fa-edit' />
+            </button>
+          </div>
+        </h2>
+        <div className='spacer' />
+        <div className='total'>
+          <span className='total-amount'>{format$(totalIBondsBalance)}</span>
         </div>
-      </h2>
-      <Bar total={totalIBondsBalance}>
+      </header>
+      <Bar>
         <BarPart
           id='i-bonds-unavailable'
           label='unavailable'
@@ -190,15 +208,21 @@ export const Checking = observer(({ onEdit }) => {
 
   return (
     <article className='checking'>
-      <h2>
+      <header>
+        <h2>
         Checking
-        <div className='controls'>
-          <button onClick={onEdit}>
-            <i className='fa fa-edit' />
-          </button>
+          <div className='controls'>
+            <button onClick={onEdit}>
+              <i className='fa fa-edit' />
+            </button>
+          </div>
+        </h2>
+        <div className='spacer' />
+        <div className='total'>
+          <span className='total-amount'>{format$(state.checkingBalance)}</span>
         </div>
-      </h2>
-      <Bar total={state.checkingBalance} />
+      </header>
+      <Bar />
     </article>
   )
 })

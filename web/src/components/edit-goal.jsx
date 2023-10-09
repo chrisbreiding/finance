@@ -119,6 +119,15 @@ class EditGoal extends Component {
               defaultValue={goal.projectionAmount}
             />
           </div>
+          <div className='group'>
+            <label>Show Total Banked</label>
+            <input
+              ref='showTotalBanked'
+              type='checkbox'
+              defaultChecked={goal.showTotalBanked}
+              onChange={this._onChangeShowTotalBanked}
+            />
+          </div>
           <div className='group controls'>
             <a className='button delete' onClick={this._deleteGoal} href='#'>
               <i className='fa fa-ban' /> Delete
@@ -136,6 +145,10 @@ class EditGoal extends Component {
     this.showProjectionAmount = e.currentTarget.checked
   })
 
+  _onChangeShowTotalBanked = action((e) => {
+    this.showTotalBanked = e.currentTarget.checked
+  })
+
   _saveGoal = (e) => {
     e.preventDefault()
 
@@ -149,6 +162,7 @@ class EditGoal extends Component {
       totalAmount: ensureNumber(this.refs.totalAmount.value),
       showProjection: this.refs.showProjection.checked,
       projectionAmount: ensureNumber(this.refs.projectionAmount.value),
+      showTotalBanked: this.refs.showTotalBanked.checked,
     })
   }
 

@@ -10,7 +10,6 @@ import Auth from './components/auth'
 import Loader from './components/loader'
 
 class Main extends Component {
-
   constructor (props) {
     super(props)
 
