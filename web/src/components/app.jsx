@@ -12,7 +12,6 @@ import Accounts from './accounts'
 import Goals from './goals'
 import Income from './income'
 import Loader from './loader'
-import Refresh from './refresh'
 import Rewards from './rewards'
 
 const saveData = () => {
@@ -70,7 +69,6 @@ class App extends Component {
         'is-grabbing': state.isGrabbing,
         'is-sorting': state.isSorting,
       })}>
-        <Refresh onSave={saveData} />
         <Rewards onSave={saveData} />
         <Accounts onSave={saveData} />
         <Income onSave={saveData} />

@@ -19,18 +19,6 @@ describe('app', () => {
     })
   })
 
-  it('shows refresh button when ping is available', () => {
-    win.fetch.withArgs('https://finance.crbapps.dev:4193/ping').resolves({ ok: true })
-    win.start()
-    cy.get('.refresh button').should('be.visible')
-  })
-
-  it('does not show refresh button when ping is not available', () => {
-    win.fetch.withArgs('https://finance.crbapps.dev:4193/ping').resolves({ ok: false })
-    win.start()
-    cy.get('.refresh button').should('not.be.visible')
-  })
-
   describe('rewards', () => {
     beforeEach(() => {
       win.start()
