@@ -8,6 +8,11 @@ import state from '../lib/state'
 
 import Modal from './modal'
 
+// round tiny value like -7.105427357601002e-15 to 0 because CSS can't handle it
+const roundNearZeroValue = (num) => {
+  return `${num}`.includes('e') ? 0 : num
+}
+
 const EditIncome = observer((props) => {
   let expensesAmount
   let incomeAmount
@@ -95,7 +100,7 @@ class Income extends Component {
     const totalIncomeAmount = savingsTransferAmount + incomeAmount
     const expensesPercent = expensesAmount / totalIncomeAmount * 100
     const goalsPercent = goalsAmount / totalIncomeAmount * 100
-    const leftoverPercent = 100 - expensesPercent - goalsPercent
+    const leftoverPercent = roundNearZeroValue(100 - expensesPercent - goalsPercent)
     const maxExpensesAmount = totalIncomeAmount - goalsAmount
 
     return (
